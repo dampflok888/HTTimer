@@ -1,0 +1,22 @@
+easy select of timer.relayCommand
+Draw scramble: 2x2, 3x3, Pyraminx, Skewb
+Best/ao5/12/50/100/custom of todays solves
+Best/ao5/12/50/100/custom of last x/60000 msecs
+option for custom big ao oder mo
+Best/ao5/12/50/100/custom of selected solves (Bereich=selected)
+Skewb scrambler
+Vergleich Current/Best
+Nachricht wenn PB
+zu 9.: Dafür setzbare PBs
+Nachricht wenn Ziel erreicht
+Mögliche Ziele: n subx-solves oder averages oder means haben
+tool time distribution
+Abschaltbarer draw scramble-bereich
+Export vom ColorScheme und Puzzles
+Option von Erweiterung der Puzzle-Liste wenn import von älterer Version
+Sessions zusammenführen
+aktuelles tool speichern
+uwr averages
+verhältnis single/avg5/ao12/ao50/ao100
+verhältnis 2x2/3x3/4x4/5x5/...
+selbst wählbares verhältnis

@@ -1,0 +1,971 @@
+<!doctype html>
+<html>
+<head>
+<title>Hutitimer 2.1.6</title>
+<link rel="stylesheet" type="text/css" href="timercss.css"/>
+<link type="text/css" href="scroll.css" rel="stylesheet" media="all" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://jscrollpane.kelvinluck.com/script/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="http://jscrollpane.kelvinluck.com/script/jquery.jscrollpane.min.js"></script>
+<script src="display.js"></script>
+<script src="nxnPosition.js"></script>
+<script>
+function generateScramble(r,a){var e,n,t,o="",f="",h=[];for(h.U="D",h.D="U",h.L="R",h.R="L",h.F="B",h.B="F",t=0;a>t;t++)e=o,o=r[Math.floor(Math.random()*r.length)],e==o||e[0]==o[0]||h[e[0]]==o[0]?t--:n=o,f+=n+" ",n="";return f}
+
+function genScrambleSq1(seqlen){
+	var i,j,ls,n,f;
+	var seq = new Array();
+	posit = new Array(0,0,1,2,2,3,4,4,5,6,6,7,8,9,9,10,11,11,12,13,13,14,15,15);
+	ls = -1;
+	f = 0;
+	for(i = 0; i < seqlen; i++){
+		do{
+			if(ls==0){
+				j=Math.floor(Math.random()*22)-11;
+				if(j>=0) j++;
+			}else if(ls==1){
+				j=Math.floor(Math.random()*12)-11;
+			}else if(ls==2){
+				j=0;
+			}else{
+				j=Math.floor(Math.random()*23)-11;
+			}
+		}while( (f>1 && j>=-6 && j<0) || domoveSq1(j) );
+		if(j>0) ls=1;
+		else if(j<0) ls=2;
+		else { ls=0; f++; }
+		seq[i] = j;
+	}
+	
+	var s="",i,k,l=-1;
+	for(i = 0; i < seq.length; i++){
+		k=seq[i];
+		if(k==0){
+			if(l==-1) s+="(0,0)  ";
+			if(l==1) s+="0)  ";
+			if(l==2) s+=")  ";
+			l=0;
+		}else if(k>0){
+			s+= "(" + (k>6?k-12:k)+",";
+			l=1;
+		}else if(k<0){
+			if(l<=0) s+="(0,";
+			s+=(k<=-6?k+12:k);
+			l=2;
+		}
+	}
+	if(l==1) s+="0";
+	if(l!=0) s+=")";
+	return s;
+}
+
+function genScramblePyra(seqlen){
+	var i, j, n, ls, t;
+	var seq = new Array();
+
+	i = 0;
+
+	var f2e=[[],[3,2,1,2,3,1,1,2,0,1,1,2,0,2],[3,2,1,2,0,2,1,1,0,2,3,1,0,2],[0,1,2,2,0,2,2,1,0,2,1,1,0,1,1,2],[1,1,0,2,3,2,0,1,3,1,1,2],[1,2,3,1,1,1,3,2],[0,2,3,2,1,1,0,2,3,1,0,2,1,2],[0,1,3,2,2,2,0,2,3,2,2,1,3,2],[1,1,0,1,1,2,0,2],[1,2,3,2,1,1,3,1],[0,2,3,2,1,1,0,2,3,1,1,2,0,2],[1,2,3,2,0,2,1,1,0,2,3,1,0,2],[3,1,1,2,3,2,1,1],[3,1,1,1,0,1,1,2,0,2,3,2],[0,1,3,2,0,1,1,2,3,1,0,1,1,1],[1,2,0,2,3,2,1,1,0,2,3,1,0,2],[0,1,1,1,0,2,1,2],[1,1,0,2,3,1,0,1,3,2,1,2],[3,2,0,2,1,1,0,2,3,1,0,2,1,2],[3,1,2,2,0,1,3,2,2,1,0,2],[0,1,3,1,0,1,1,1,3,2,0,1,1,2],[0,2,1,1,3,1,0,1,3,2,1,2],[3,1,1,1,0,2,3,2,1,2,0,1],[3,2,0,1,1,2,3,2,1,1,3,2,0,2],[0,2,1,1,3,2,0,1,3,1,1,2],[3,1,1,2,0,2,1,2,0,1,3,2,1,2],[2,2,1,1,0,2,2,1,0,1,1,2],[0,1,1,2,3,1,1,1,0,2,3,2],[0,2,1,1,0,2,1,2,0,2],[3,2,1,2,0,2,1,2,0,1,3,1,1,2],[0,1,1,1,3,2,1,1,3,1,1,1,0,2],[1,2,0,1,3,1,0,2,3,2,1,1],[1,2,0,2,1,2,0,1,1,2],[0,2,3,1,1,1,0,1,3,2,1,2],[0,1,3,2,1,2,3,1,1,1,0,2],[0,1,1,2,3,1,0,2,3,2,1,1],[0,2,1,1,0,1,1,2],[1,1,0,2,3,1,0,2,3,2,0,2,1,2],[0,1,3,2,1,2,3,1,1,2,0,2,1,2],[0,1,1,2,3,1,0,1,3,2,0,1,1,1],[0,1,1,1,3,2,0,1,3,1,0,1,1,2],[0,1,1,2,3,2,1,1,0,2,3,1],[1,1,3,1,0,2,1,2,0,1,3,2],[2,1,1,1,0,2,2,2,0,1,1,2],[0,1,3,2,0,2,3,1],[0,1,2,2,0,1,1,1,2,1,0,1,1,2],[3,2,0,1,1,1,3,1,1,2,0,2],[0,2,1,2,3,1,1,2,0,1,3,2,1,2],[1,1,0,1,3,2,1,2,0,2,3,1],[0,1,3,2,1,1,0,1,3,1,0,1,1,2],[1,2,3,1,0,2,1,2,3,2,0,1,1,2],[1,2,3,2,0,1,1,1,3,1,0,2],[0,1,3,2,0,2,1,2,3,1,1,1],[3,1,1,1,0,1,3,1,1,2,3,1,0,2],[3,1,0,2,1,2,0,1,3,2,1,1],[1,1,3,1,1,1,0,2,3,2,1,1,0,1],[0,1,1,1,3,2,0,2,3,1,1,2],[3,1,1,1,3,1,0,1,1,2,3,1,0,2],[3,2,0,1,1,1,3,1,0,2,1,2],[3,1,0,2,1,2,3,2,0,1,1,1],[0,1,1,1,0,1,1,2,0,1],[3,1,0,1,1,2,3,2,1,1,0,2],[1,1,3,2,0,2,1,2,3,1,0,1],[1,2,0,1,3,2,1,1,3,1,0,2],[3,1,0,1,3,2,0,2],[1,2,3,1,1,2,0,1,3,2,1,2,0,2],[0,1,3,2,1,1,3,1,1,2,0,2],[0,1,1,1,3,1,0,2,1,1,3,2,1,1],[1,1,3,2,0,1,3,1,1,2,0,2],[1,2,3,1,0,1,1,1,3,2,0,2],[0,2,3,2,0,2,1,1,3,1,0,2,1,2],[1,1,0,1,1,1,3,1,1,1,0,2,3,2],[1,2,3,1,0,1,3,2,1,2,0,2,1,2],[3,1,1,1,0,1,3,2,1,2,0,2],[3,2,0,2,1,2,3,1,0,1,1,1],[1,2,0,2,3,2,0,2,1,1,3,1,0,2],[3,1,0,1,1,1,3,2,0,2,1,2],[1,1,3,1,0,1,3,2,1,2,0,2],[0,1,3,2,1,1,3,1,0,2,1,2],[1,2,3,2,0,2,1,2,3,1,0,1,1,2],[1,1,0,2,1,1,0,1,1,1],[1,2,0,2,3,1,0,2,3,2,1,1,0,2],[0,1,3,1,1,1,0,1,3,2,0,1,1,2],[0,1,1,2,3,2,1,1,3,1,0,2],[0,2,1,2,0,1,1,1],[3,2,0,2,1,2,3,1,1,2,0,1,1,2],[0,1,3,1,0,2,3,2],[0,1,3,1,1,1,0,2,1,1,3,2,1,1],[0,1,3,2,1,1,0,1,3,1,1,2,0,1],[0,2,1,2,3,1,0,1,1,1,3,2],[1,1,3,2,0,1,1,2,3,1,0,2],[0,1,3,2,1,2,3,2,1,1,0,2,3,2],[0,2,1,2,0,1,1,2,0,1,1,2,0,2],[0,2,1,2,3,1,0,1,3,2,1,1],[1,1,0,1,3,2,1,2,3,1,0,2],[1,2,3,2,1,1,0,1,3,1,0,2],[0,2,1,2,0,2,1,2,0,2,1,2],[0,2,1,2,3,2,0,1,1,1,3,1],[0,1,3,1,1,1,0,2,3,2,1,2],[1,2,0,2,3,2,1,2,3,1,0,1,1,2],[1,1,0,2,1,2,0,1],[0,2,1,1,3,1,0,2,3,2,0,2,1,2],[1,1,0,1,3,1,0,1,3,2,0,1,1,2],[0,2,1,2,3,2,1,2,3,1,0,1,1,2],[1,2,0,2,1,1,0,1],[3,1,1,1,0,2,1,1,3,2,1,1,0,1],[3,2,1,1,0,1,3,1,0,2,1,2],[2,1,1,2,3,1,2,2,1,1,3,2],[3,1,1,2,0,2,3,2,1,1,0,1],[1,2,3,1,0,2,1,1,0,1,3,2],[3,2,1,1,0,1,3,1,1,2,0,2],[0,2,3,2,1,2,3,2,0,1,1,1,3,2],[1,1,0,1,1,1,0,1,1,1,0,1],[1,2,3,2,0,2,1,1,3,1,0,1],[1,1,0,1,3,1,1,2,0,2,3,2],[3,2,1,2,0,1,1,2,3,1,0,2,1,2],[3,1,1,2,3,2,0,2,1,1,0,1],[1,2,3,1,0,2,3,2,1,1,0,1],[0,2,3,2,1,2,3,1,0,1,1,1],[3,2,1,1,3,2,0,1,3,2,1,2,0,2]];
+	
+	var l4e=[[],[1,1,3,2,1,2,3,2,1,1,3,2,1,2],[1,1,3,1,1,2,3,1,1,1,3,1,1,2],[3,1,0,1,3,2,1,1,3,2,1,2,3,1,0,2],[1,2,3,1,0,2,3,1,0,1,3,2,1,1,3,2],[0,1,3,2,1,1,3,2,1,2,3,1,0,2,3,1],[0,1,3,1,1,1,3,2,1,2,0,2],[1,2,0,2,3,2,0,1,3,1,1,1],[2,2,1,2,3,2,1,1,3,1,2,1],[0,1,1,1,3,1,1,2,3,2,0,2],[1,2,3,2,0,2,3,1,0,1,1,1],[2,2,3,2,1,2,3,1,1,1,2,1],[1,1,0,2,3,1,0,1,3,2,0,1,1,2,0,2],[3,2,1,1,3,2,1,2,3,1,0,2,3,1,0,1],[0,2,1,1,3,2,1,2,3,1,1,2,0,1,1,1],[3,1,0,2,3,1,0,1,1,1,3,2,2,1,3,2,2,2,1,2],[3,2,0,2,2,2,3,1,2,2,0,2,2,2,0,2],[3,1,0,1,2,1,0,1,2,1,3,2,2,1,0,1],[1,1,3,2,1,2,0,2,3,2,0,1,3,2],[3,2,1,1,3,2,1,2,0,2,3,2,0,1],[3,1,1,1,3,2,1,2,0,2,3,2,0,1,3,1],[3,2,0,2,3,1,0,1,1,1,3,1,1,2,3,2],[3,1,0,2,3,1,0,1,1,1,3,1,1,2],[0,2,3,1,0,1,1,1,3,1,1,2,3,1],[3,2,0,2,2,2,3,1,2,1,0,1],[0,1,1,2,2,1,0,1,2,2,0,1,1,1],[3,1,1,2,0,1,1,1,0,1,3,2,0,1],[3,1,0,1,1,1,0,1,3,2,0,2,1,2,0,2],[3,1,0,2,3,2,0,1],[1,1,3,1,1,2,3,1,0,2,3,1,0,1],[0,1,1,2,0,2,1,1],[3,1,0,2,2,2,3,2,2,1,3,2,0,1,3,1],[3,2,0,2,3,1,0,1],[0,2,2,1,0,2,2,2,0,2],[3,1,1,1,3,2,1,2,3,1,0,2,3,2,0,1],[3,1,0,2,3,1,2,2,3,1,2,1,0,1],[0,2,3,1,0,1,1,1,3,2,1,2],[3,2,1,1,3,1,2,2,1,1,2,1,1,1],[3,2,1,1,3,1,1,2,3,1,1,1,3,2,1,2],[0,1,1,1,0,1,3,1,0,2,1,2,0,2,3,2],[1,1,3,2,1,2,3,1],[3,1,0,2,3,1,0,1,3,2,1,1,3,1,1,2,3,1],[3,1,0,1,2,1,0,1,2,2,0,1,3,2],[3,1,1,1,3,2,2,1,3,2,2,2,1,2,3,1],[3,1,1,1,3,1,1,2,3,1],[3,2,1,2,0,1,1,1,0,2,3,1],[1,2,2,2,1,2,2,2,3,2,2,2,1,2,3,1],[3,1,1,1,2,1,3,1,2,2,3,1,1,2],[3,2,1,1,3,1,1,2],[1,2,0,1,1,1,0,2],[0,2,3,2,0,1,3,2,1,1,3,2,1,2],[3,2,1,1,2,1,3,1,2,2,3,1,1,2,3,2],[3,1,1,1,2,1,3,2,2,2,1,2],[3,2,0,1,1,2,0,2,1,2,3,1,1,2],[1,2,0,1,2,2,1,2,2,1,1,2,0,2],[3,2,1,2,0,2,1,2,3,1,1,1,0,1,1,1],[3,1,1,1,3,2,1,2],[3,2,0,2,3,1,0,1,3,2,1,1,3,1,1,2],[1,1,2,2,1,1,2,1,1,1],[3,2,1,1,3,2,2,1,3,2,2,2,1,2],[0,2,3,1,0,1,3,2],[3,2,1,2,2,2,1,2,2,1,1,2,3,1],[3,2,1,1,3,2,1,2,3,1,0,2,3,2,0,1,3,2],[3,2,0,2,3,1,2,2,3,1,2,1,0,1,3,2],[1,1,3,2,1,2,0,2,3,1,0,1],[3,1,0,2,3,2,0,1,3,2,0,2,3,1,0,1],[3,1,0,2,3,2,2,1,0,2,2,2,0,2],[1,2,0,2,1,2,3,2,1,1,0,1,1,1,3,1],[3,2,0,2,3,2,0,1,3,2],[0,1,2,1,0,1,2,1,3,1,2,1,0,1,3,2],[3,1,0,1,1,2,0,2,1,1,3,2],[3,2,0,2,2,2,3,2,2,1,3,2,0,1],[3,2,1,1,3,2,1,2,3,2],[0,1,2,1,0,1,2,2,0,1],[0,1,1,1,2,2,1,1,0,1,2,1,0,1,1,1],[1,1,3,2,2,1,3,2,2,2,1,2,3,2],[1,1,3,1,1,2,3,2],[3,1,0,2,2,2,3,2,2,2,0,2,2,2,0,2],[3,1,1,2,0,1,1,1,0,2,3,2],[1,1,2,1,3,1,2,2,3,1,1,2,3,1],[3,1,1,1,3,2,1,1,0,1,1,1,0,2],[3,2,0,1,1,1,0,1,3,1,0,2,1,2,0,2],[3,2,0,2,2,2,3,2,2,1,0,1,3,2],[3,1,1,1,3,2,1,2,3,2,1,1,3,1,1,2],[0,2,3,2,0,1,3,1],[3,2,0,1,1,2,0,2,1,1,3,1],[3,2,1,1,2,1,3,1,2,1,1,1,2,1,1,1],[0,2,2,2,3,2,2,1,3,2,0,1,3,2],[3,1,0,2,3,1,0,1,3,1],[1,2,0,2,2,1,0,2,1,2,2,2,1,2,0,2],[1,2,2,2,1,2,2,1,1,2],[0,2,3,1,2,2,3,1,2,1,0,1,3,1],[3,2,0,2,3,1,0,2,1,2,0,2,1,1],[3,1,1,1,2,1,3,1,2,2,1,2,3,1],[3,1,1,2,0,2,1,2,3,2,1,1,0,1,1,1],[3,2,0,2,3,1,0,1,3,1,0,2,3,2,0,1]];
+
+	var AUFs=[3,1,0,2,7,5,4,6];
+	seq=f2e[Math.floor(Math.random()*120)].concat(l4e[Math.floor(Math.random()*96)]);
+	for(var i=0;i<8;i++){
+		var dir=Math.floor(Math.random()*3);
+		if(dir>0)
+		seq=seq.concat([AUFs[i],dir]);
+	}
+
+	var s = "", i;
+	for(i = 0; i < seq.length; i += 2) {
+		s += "LRBUlrbu".charAt(seq[i]);
+		if( seq[i + 1] == 2 )
+			s += "'";
+		s += " ";
+	}
+	do {} while (s != (s=s.replace(/(.) \1 /g,"$1' ").replace(/(.)' \1' /g,"$1 ").replace(/(.)' \1 /g,"").replace(/(.) \1' /g,"")));
+	return s;
+
+}
+
+function domoveSq1(m){
+	var i,c,t,f=m;
+	if( f==0 ){
+		for(i=0; i<6; i++){
+			c=posit[i+12];
+			posit[i+12]=posit[i+6];
+			posit[i+6]=c;
+		}
+	}else if(f>0){
+		f=12-f;
+		if( posit[f]==posit[f-1] ) return true;
+		if( f<6 && posit[f+6]==posit[f+5] ) return true;
+		if( f>6 && posit[f-6]==posit[f-7] ) return true;
+		if( f==6 && posit[0]==posit[11] ) return true;
+		t=new Array();
+		for(i=0;i<12;i++) t[i]=posit[i];
+		c=f;
+		for(i=0;i<12;i++){
+			posit[i]=t[c];
+			if(c==11)c=0; else c++;
+		}
+	}else if(f<0){
+		f=-f;
+		if( posit[f+12]==posit[f+11] ) return true;
+		if( f<6 && posit[f+18]==posit[f+17] ) return true;
+		if( f>6 && posit[f+6]==posit[f+5] ) return true;
+		if( f==6 && posit[12]==posit[23] ) return true;
+		t=new Array();
+		for(i=0;i<12;i++) t[i]=posit[i+12];
+		c=f;
+		for(i=0;i<12;i++){
+			posit[i+12]=t[c];
+			if(c==11)c=0; else c++;
+		}
+	}
+	return false;
+}
+
+function relayScramble(command){
+	for(var i=0,out="";i<command.split(" ").length;i++){
+		out+=getScrambles(command.split(" ")[i],0)+"<br>";
+	}
+	return out;
+}
+
+rotationReducer={
+	keys:[["x y x'","z"],["x' y x","z'"],["y x y'","z'"],["y x' y'","z"]],
+	reduce:function(rots){
+		rots=rots.toLowerCase();
+		for(var i=0;i<rotationReducer.keys.length;i++){
+			if(rotationReducer.keys[i][0]==rots){
+				rots=rotationReducer.keys[i][1];
+			}
+		}
+		return rots;
+	}
+}
+
+function getScrambles(type,relay){
+	var scramble='',scrambler=[];
+	var state1=["R2","B2","U","D'"];
+	var state2=["U","R2","F2","D","U'","D'","U2","D2"];
+	var state3=["U1+","U2+","U3+","U4+","U5+","U6+","U1-","U2-","U3-","U4-","U5-","U6-","D1+","D2+","D3+","D4+","D5+","D6+","D1-","D2-","D3-","D4-","D5-","D6-","R2","F2"];
+	var state4=["R","R'","R2","U'","U","U2","F","F'","F2","B","B'","B2","L'","L","L2","D","D'","D2","UFR+","UFR-","UFL+","UFL-","UDR+","UDR-","UDL+","UDL-","UBR+","UBR-","UBL+","UBL-","BDR+","BDR-","BDL+","BDL-"];
+	var state5=["UFR+","UFR-","UFL+","UFL-","UDR+","UDR-","UDL+","UDL-","UBR+","UBR-","UBL+","UBL-","BDR+","BDR-","BDL+","BDL-"];
+	var zwei=["R","R'","R2","U'","U","U2","F","F'","F2"];
+	var drei=["R","R'","R2","U'","U","U2","F","F'","F2","B","B'","B2","L'","L","L2","D","D'","D2"];
+	var vier=["R","R'","R2","U'","U","U2","F","F'","F2","B","B'","B2","L'","L","L2","D","D'","D2","r","r'","r2","u'","u","u2","f","f'","f2","b","b'","b2","l'","l","l2","d","d'","d2"];
+	var pyramix=["R","R'","U","U'","L","L'","B","B'"];
+	var pyramixTip=["r","r'","u","u'","l","l'","b","b'"];
+	var mpyramix=["R","R'","U","U'","L","L'","B","B'","r","r'","u","u'","l","l'","b","b'"]
+	var megaAll=["r++","r--","u++","u--","R++","R--","U--","R++"];
+	var gigaBetween=["U","U'","U2","u","u'","u2"];
+	var mega=["R++","R--","U++","U--"];
+	var eins=["x","x'","x2","y","y'","y2","z","z2","z'"];
+	var rouxlse=["M","M'","M2","U","U'","U2"];
+	var ru=["R","R'","R2","U","U'","U2"];
+	var bld=["Uw","Uw'","Uw'2","Uw2","Rw","Rw'","Rw'2","Rw2","Fw","Fw'","Fw'2","Fw2"];
+	var floppy=["R2","U2","F2","L2","U","U'","D","D'","U2","D2"];
+	var nplus=["R2","U2"];
+	var nplusplus=["R2","U2","D2"];
+	var mixup=["R","R'","R2","U'","U","U2","F","F'","F2","B","B'","B2","L'","L","L2","D","D'","D2","M+","M-","E+","E-","S+","S-","M3+","M3-","E3+","E3-","S3+","S3-"];
+	var mixupvier=["R","R'","R2","U'","U","U2","F","F'","F2","B","B'","B2","L'","L","L2","D","D'","D2","r","r'","r2","u'","u","u2","f","f'","f2","b","b'","b2","l'","l","l2","d","d'","d2","M+","M-","E+","E-","S+","S-","M3+","M3-","E3+","E3-","S3+","S3-","u+","u-","u3+","u3-","r+","r-","r3+","r3-","f+","f-","f3+","f3-"];
+	var ghostu=["U+","U-","U2+","U2-"];
+	var ghostd=["D+","D-","D2+","D2-"];
+	var heli=["UF","UR","UB","UL","DF","DR","DB","DL","FR","FL","BR","BL"];
+	var helij=["UF","UR","UB","UL","DF","DR","DB","DL","FR","FL","BR","BL","JR","JL"];
+	var helifj=["UF","UR","UB","UL","DF","DR","DB","DL","FR","FL","BR","BL","JR","JL","UR+","UR-","UF+","UF-","y","z'","x'","z2"];
+	var squan=["/","1","2","3","4","5","6","7","8","9","0"];
+
+	scramble+=generateScramble(state1,3);
+	scramble+=generateScramble(state2,5);
+	scramble+=generateScramble(state3,32);
+	scramble+=generateScramble(zwei,11);
+	scrambler["sq224"]=scramble;
+	scramble=generateScramble(drei,4);
+	scramble+=generateScramble(state4,8);
+	scramble+=generateScramble(zwei,3);
+	scramble+=generateScramble(state4,14);
+	scramble+=generateScramble(drei,5);
+	scramble+=generateScramble(state5,2);
+	scramble+=generateScramble(state4,22);
+	scramble+=generateScramble(drei,2);
+	scramble+=generateScramble(zwei,3);
+	scrambler["dreidellim"]=scramble;
+	scramble=generateScramble(mega,9);
+	scramble+="U ";
+	scramble+=generateScramble(mega,9);
+	scramble+="U' ";
+	scramble+=generateScramble(mega,9);
+	scramble+="U ";
+	scramble+=generateScramble(mega,9);
+	scrambler["mega"]=scramble;
+	scrambler["pyracrystal"]=scrambler["mega"]+generateScramble(["U","D"],1);
+	scramble=generateScramble(megaAll,11);
+	scramble+=generateScramble(gigaBetween,1);
+	scramble+=generateScramble(megaAll,9);
+	scramble+=generateScramble(gigaBetween,1);
+	scramble+=generateScramble(megaAll,10);
+	scramble+=generateScramble(gigaBetween,1);
+	scramble+=generateScramble(megaAll,10);
+	scramble+=generateScramble(gigaBetween,1);
+	scramble+=generateScramble(megaAll,9);
+	scramble+=generateScramble(gigaBetween,1);
+	scramble+=generateScramble(megaAll,11);
+	scrambler["giga"]=scramble;
+	scrambler["3x3x5"]=generateScramble(floppy,32)+generateScramble(drei,10);
+	scrambler["3x3x4"]=generateScramble(floppy,35);
+	scrambler["3x3x2"]=generateScramble(floppy,17);
+	scrambler["2x2x3"]=generateScramble(floppy,12);
+	scrambler["barrel"]=generateScramble(["R2","U2","L2","B2"],1)+generateScramble(floppy,11)+generateScramble(drei,10);
+	scrambler["1x2x2"]=generateScramble(nplus,2);
+	scrambler["1x2x3"]=generateScramble(nplusplus,7);
+	scrambler["pyra"]=genScramblePyra(20);
+	scrambler["mpyra"]=generateScramble(mpyramix,37)+generateScramble(pyramixTip,3);
+	scrambler["1x1"]=generateScramble(eins,10);
+	scrambler["2x2"]=generateScramble(zwei,10);
+	scrambler["2x2opt"]=generateScramble(zwei,8);
+	scrambler["2x2bld"]=generateScramble(zwei,9)+rotationReducer.reduce(generateScramble(eins,3));
+	scrambler["2x24"]=generateScramble(zwei,4);
+	scrambler["3x3"]=generateScramble(drei,22);
+	scrambler["3x3bld"]=generateScramble(drei,22)+generateScramble(bld,2);
+	scrambler["3x3lse"]=generateScramble(rouxlse,17);
+	scrambler["3x3ru"]=generateScramble(ru,16);
+	scrambler["3x3ruf"]=generateScramble(zwei,17);
+	scrambler["3x3co"]=generateScramble(drei,25);
+	scrambler["3x3hco"]=generateScramble(drei,24);
+	scrambler["4x4"]=generateScramble(vier,60);
+	scrambler["4x4bld"]=generateScramble(vier,48)+generateScramble(bld,2);
+	scrambler["4x4sh"]=generateScramble(vier,42);
+	scrambler["5x5"]=generateScramble(vier,99);
+	scrambler["5x5bld"]=generateScramble(vier,87)+generateScramble(bld,2);
+	scrambler["5x5sh"]=generateScramble(vier,73);
+	scrambler["mixup3x3"]=generateScramble(mixup,34);
+	scrambler["mixup4x4"]=generateScramble(mixupvier,73);
+	scrambler["ghost"]=generateScramble(ghostu,1)+generateScramble(ghostd,1)+generateScramble(drei,22);
+	scrambler["heli"]=generateScramble(heli,32);
+	scrambler["curvy"]=generateScramble(heli,36);
+	scrambler["helij"]=generateScramble(helij,38);
+	scrambler["curvyj"]=generateScramble(helij,43);
+	scrambler["curvyp"]=generateScramble(heli,43);
+	scrambler["curvypj"]=generateScramble(helij,47);
+	scrambler["curvypfj"]=generateScramble(helifj,58);
+	scrambler["square-2"]=generateScramble(squan,34);
+	scrambler["square-1"]=genScrambleSq1(42);
+	if(relay!=0){
+		scrambler["relay"]=relayScramble(timer.relayCommand);
+	}
+	if(Math.random()<Math.random()<.95){
+		scrambler["2x2"]+=generateScramble(zwei,1);
+	}
+	return scrambler[type];
+}
+
+function getScramble(r,e){for(var t="",a=1;e+1>a;a++)t+=a+".: "+getScrambles(r,1)+"<br>";return t}
+function getScrambleLarge(e,t,r,g){g+=r+".: "+getScrambles(e,1)+"<br>",t>r?setTimeout(getScrambleLarge(e,t,++r,g),100):document.getElementById("output").innerHTML=g}
+
+Array.prototype.max = function() {
+  return Math.max.apply(null, this);
+};
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};
+Array.prototype.min = function() {
+  return Math.min.apply(null, this);
+};
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+function checkBrowserName(name){
+	var agent = navigator.userAgent.toLowerCase();  
+	if (agent.indexOf(name.toLowerCase())>-1) {  
+		return true;  
+	}  
+	return false;  
+}  
+
+var scrambleTypes=["1x1","2x2","2x2opt","2x2bld","2x24","3x3","3x3","3x3bld","3x3co","3x3hco","relay","barrel","ghost","3x3ru","3x3ruf","3x3lse","4x4","5x5","pyra","mpyra","mega","giga","pyracrystal","sq224","dreidellim","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","mixup3x3","mixup4x4","heli","helij","curvy","curvyj","curvyp","curvypj","curvypfj","square-1","square-2","2x2"],
+scrambleNames=["1x1","2x2","2x2 Optimal","2x2 blind","2x2 4 Z&uuml;ge","3x3","3x3 Onehanded","3x3 blind","3x3 mit Center Orientation","3x3 mit 2/3 Center Orientation","Relays","Barrel Cube","Ghost Cube","3x3 RU","3x3 RUF","3x3 Roux LSE","4x4","5x5","Pyraminx","Master Pyraminx","Megaminx","Gigaminx","Pyraminx Crystal","Sq224","Dreidel LimCube","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","Mixup 3x3","Mixup 4x4","Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus","Fully Jumbled Curvy Copter Plus","Square-1","Square-2","skewb"],
+uwrs=[],
+colors=[];
+uwrs["barrel"]=12.67,
+uwrs["ghost"]=33.25,
+colors["W"]="#FFFFFF",
+colors["R"]="#FF0000",
+colors["O"]="#FFA500",
+colors["S"]="#000000",
+colors["G"]="#FFFF00",
+colors["U"]="#FF00FF",
+colors["B"]="#0000FF",
+colors["A"]="#A0A0A0";
+
+timer={
+	config:{
+		results:[],
+		aktualisierungsrate:17
+	},
+	running:false,
+	zeit:0,
+	scramble:"",
+	penalty:"",
+	type:"3x3",
+	timingMode:1,
+	blockTime:2000,
+	blockTimeReturn:3000,
+	sessions:[],
+	currentSession:0,
+	defaultScrambler:"3x3",
+	colorScheme:["R","W","U","G","B","O"],
+	relayCommand:"2x2 2x2bld",
+	version:"2.1.6",
+	customAvg:3,
+	tool:0
+}
+
+function start(){
+	if(!timer.running){
+		timer.running=true;
+		timer.zeit=+new Date();
+		setTimeout(time,2);
+	}
+}
+
+function time(){
+	if(timer.running){
+		document.getElementById("display").innerHTML=format((+new Date())-timer.zeit);
+		setTimeout(time,timer.aktualisierungsrate);
+	}
+}
+
+function displayScramble(){
+	var scramble=getScrambles(timer.type,1);
+	document.getElementById("scramble").innerHTML=scramble;
+	timer.scramble=scramble;
+	drawTool();
+}
+
+function stop(){
+	displayScramble();
+
+	time();
+	zeit=(+new Date()-timer.zeit);
+
+	timer.running=false;
+	var result={
+		zeit:zeit,
+		scramble:timer.scramble,
+		penalty:timer.penalty,
+		datum:+new Date(),
+		kommentar:""
+	};
+	timer.config.results.push(result);
+	ziel.check(0,timer.type,zeit)
+	timer.zeit=timer.scramble=timer.penalty=0;
+	displayTimes();
+	drawTool();
+}
+
+function deletetime(id){
+	timer.config.results.splice(id,1);
+	displayTimes();
+	drawTool();
+}
+
+function format(z){
+	var diff=timer.zeit,b,c,d,e;
+	if(z){
+		diff=z;
+	}
+	var tag = Math.floor(diff / (1000*60*60*24));
+	diff = diff % (1000*60*60*24);
+	var std = Math.floor(diff / (1000*60*60));
+	diff = diff % (1000*60*60);
+	var min = Math.floor(diff / (1000*60));
+	diff = diff % (1000*60);
+	var sec = Math.floor(diff / 1000);
+	var mSec = diff % 1000;
+	mSec=Math.round(mSec);
+	var add="";
+	if(mSec%10==0){
+		add="0";
+	}
+	if(mSec%100==0){
+		add="0";
+	}
+	if(mSec%1000==0){
+		add="0";
+	}
+	if(isNaN(mSec)){
+		return "DNF";
+	}
+	if(tag!=0){
+		return tag + ":" + std + ":" + min + ":" + sec + "." + mSec + add;
+	}else{
+		if(std!=0){
+			return std + ":" + min + ":" + sec + "." + mSec + add;
+		}else{
+			if(min!=0){
+				return min + ":" + sec + "." + mSec + add;
+			}else{
+				return sec + "." + mSec + add;
+			}
+		}
+	}
+}
+
+function displayTimes(){
+	document.getElementById("time_list").innerHTML="";
+	var i,text="";
+	for(i=0;i<timer.config.results.length;i++){
+		zeit=timer.config.results[i].zeit,
+		scramble=timer.config.results[i].scramble,
+		penalty=timer.config.results[i].penalty;
+		if(penalty!="DNF"){
+			text+=(i+1)+".: "+format(zeit);
+			if(penalty=="+2"){
+				text+="+";
+			}
+			if(penalty=="+4"){
+				text+="++";
+			}
+		}else{
+			text+=(i+1)+".: DNF";
+		}
+		text+="<br>";
+	
+		text+="<button onclick='javascript: deletetime("+i+");'>X</button>";
+		if(penalty==""){
+			text+="<button onclick='javascript: givePenalty("+i+",\"+2\");'>+2</button>";
+			text+="<button onclick='javascript: givePenalty("+i+",\"+4\");'>+4</button>";
+			text+="<button onclick='javascript: givePenalty("+i+",\"DNF\");'>DNF</button>";
+		}
+		if(penalty=="+2"){
+			text+="<button onclick='javascript: givePenalty("+i+",\"+2\");'>+2</button>";
+			text+="<button onclick='javascript: givePenalty("+i+",\"-2\");'>-2</button>";
+		}else if(penalty=="DNF"){
+			text+="<button onclick='javascript: givePenalty("+i+",\"-DNF\");'>-DNF</button>";
+		}else if(penalty=="+4"){
+			text+="<button onclick='javascript: givePenalty("+i+",\"-2\");'>-2</button>";
+			text+="<button onclick='javascript: givePenalty("+i+",\"-4\");'>-4</button>";
+		}
+		text+="<br>";
+	
+	}
+	document.getElementById("time_list").innerHTML+=text;
+}
+
+document.onkeyup = function(event) {
+	var actionBox = document.getElementById('action');
+	if ((event.keyCode==86||event.keyCode==32||event.keyCode==66||event.keyCode==78) && timer.timingMode===0){
+		event.cancelBubble = true;
+		event.returnValue = false;
+		checkKeyAction();
+	}
+	if (event.keyCode==32&&timer.timingMode===1){
+		event.cancelBubble = true;
+		event.returnValue = false;
+		checkKeyAction();
+	}
+	if (event.keyCode==17&&timer.timingMode===2){
+		event.cancelBubble = true;
+		event.returnValue = false;
+		checkKeyAction();
+	}
+	if (event.keyCode==79&&!(timer.config.disableKeysRunning&&timer.running)){//O
+		showOptions();
+	}
+	if (event.keyCode==69&&!(timer.config.disableKeysRunning&&timer.running)){//E
+		exportCode();
+	}
+	if (event.keyCode==73&&!(timer.config.disableKeysRunning&&timer.running)){//I
+		//timer.importCode();
+	}
+	if (event.keyCode==88&&!(timer.config.disableKeysRunning&&timer.running)){//X
+		timer.exportCode(1);
+	}
+	if (event.keyCode==78&&!(timer.config.disableKeysRunning&&timer.running)){//N //Conflict with timingMode 1
+		//createSession();
+	}
+	if (event.keyCode==83&&!(timer.config.disableKeysRunning&&timer.running)){//S
+		timer.saveSession(timer.config.currentSession);
+	}
+	return event.returnValue;
+}
+
+function checkKeyAction(){
+	if(timer.running){
+		stop();
+	}else{
+		if(!timer.block){
+			start();
+			timer.block=true;
+			setTimeout(function(){timer.block=false},timer.blockTime);
+		}else{
+			document.getElementById("time_list").innerHTML="Timer blockiert! Warten sie "+timer.blockTime/1000+" Sekunden. <button onclick='javascript:timer.timeListDisplay();'>zurück (Auto in "+timer.blockTimeReturn/1000+" Sekunden)</button>";
+			setTimeout(function(){timeListDisplay()},timer.blockTimeReturn);
+		}
+	}
+}
+
+function avg(times){//aox
+	var min=+Infinity,
+	max=-Infinity,
+	i,minindex,maxindex,sum=0;
+	for(var j=0;j<times.length;j++){
+		if(times[j].zeit<min){
+			min=times[j].zeit;
+			minindex=j;
+		}
+		if(times[j].zeit>max){
+			max=times[j].zeit;
+			maxindex=j;
+		}
+	}
+
+	for(i=0;i<times.length;i++){
+		if(i!==minindex&&i!==maxindex){
+			sum+=times[i].zeit;
+		}
+	}
+
+	return sum/(times.length-2);
+}
+
+function average(times){//mox
+	var i,sum=0;
+
+	for(i=0;i<times.length;i++){
+		sum+=times[i].zeit;	
+	}
+
+	return sum/(times.length);
+}
+
+function minMaxTime(times){
+	var min=+Infinity,j,minindex,max=-Infinity,maxindex;
+	for(var j=0;j<times.length;j++){
+		if(times[j].zeit<min){
+			min=times[j].zeit;
+			minindex=j;
+		}
+		if(times[j].zeit>max){
+			max=times[j].zeit;
+			maxindex=j;
+		}
+	}
+	return {minindex:minindex,min:min,maxindex:maxindex,max:max};
+}
+
+function bestaox(times,x){
+	if(times.length<x){
+		return "DNF";
+	}
+	if(times.length==x){
+		return Math.round(avg(times));
+	}
+	var i,j,arr=[],min=+Infinity,minavg;
+	for(i=0;i<times.length-x;i++){
+		arr=[];
+		for(j=0;j<x;j++){
+			arr.push(times[i+j]);
+		}
+		minavg=avg(arr);
+		if(minavg<min){
+			min=minavg;
+		}
+	}
+	return Math.round(min);
+}
+
+function toolTimes(){
+	var
+		globalAverage=format(average(timer.config.results)),
+		best=format(minMaxTime(timer.config.results).min),
+		worst=format(minMaxTime(timer.config.results).max),
+		besto5=format(bestaox(timer.config.results,5)),
+		uwr,fake;
+	if(best<uwrs[timer.type])uwr=true;
+	if(best<0.3)fake=true;
+	p="Gesamtdurchschnitt: " + globalAverage + "<br>Beste: " + best;
+	if(uwr){
+		p+=" <b>UWR!</b>";
+	}
+	if(fake){
+		p+=" <b>FAKE!</b>";
+	}
+	p+="<br>Schlechteste: " + worst + "<br>Bester Ao5: " + besto5 + "";
+	ziel.check(1,timer.type,besto5);
+	if(timer.config.results.length>11){
+		p+="<br>Bester Ao12: "+format(bestaox(timer.config.results,12));
+		if(timer.config.results.length>49){
+			p+="<br>Bester Ao50: "+format(bestaox(timer.config.results,50));
+		}
+	}
+	if(timer.config.results.length>timer.customAvg-1){
+		p+="<br>Bester Ao"+timer.customAvg+": "+format(bestaox(timer.config.results,timer.customAvg));
+	}
+	return p+"<br><button class='btn-lg' onclick='generateExport();'>Export</button>";
+}
+
+function toolTimeDistribution(){
+	return true;
+}
+
+function toolDrawScramble(){
+	var type=timer.type,scramble=timer.scramble,msg=false;
+	switch(type){
+		case "2x2":case "2x2sh":case "2x2opt":case "2x24":case "2x2bld":msg=generateCube(executeAlg(timer.scramble,SOLVED_POCKET_CUBE(),2));break;
+		case "3x3":case "3x3bld":case "3x3co":case "3x3hco":case "3x3ru":case "3x3ruf":case "lse":case "barrel":     break;
+		case "skewb":     break;
+		case "pyra":     break;
+		default:msg="Scrambles malen ist f&uuml;r diesen Typen leider nicht verf&uuml;gbar.";break;
+	}
+	if(msg)return msg;
+}
+
+function drawTool(){
+	var a=false;
+	switch(timer.tool){
+		case 0:a=toolTimes();break;
+		case 1:a=toolTimeDistribution();break;
+		case 2:a=toolDrawScramble();break;
+	}
+	if(a){
+		document.getElementById("summ").innerHTML=a;
+	}else{
+		document.getElementById("summ").innerHTML="Tool-Fehler!";
+	}
+}
+
+function givePenalty(id,penalty){
+	if(timer.config.results[id].penalty==""&&penalty=="+2"){
+		timer.config.results[id].penalty="+2";
+		timer.config.results[id].zeit+=2000;
+	}
+	else if(timer.config.results[id].penalty==""&&penalty=="+4"){
+		timer.config.results[id].penalty="+4";
+		timer.config.results[id].zeit+=4000;
+	}
+	else if(timer.config.results[id].penalty=="+2"&&penalty=="+2"){
+		timer.config.results[id].penalty="+4";
+		timer.config.results[id].zeit+=2000;
+	}
+	else if(timer.config.results[id].penalty=="+2"&&penalty=="-2"){
+		timer.config.results[id].penalty="";
+		timer.config.results[id].zeit-=2000;
+	}
+	else if(timer.config.results[id].penalty=="+4"&&penalty=="-2"){
+		timer.config.results[id].penalty="+2";
+		timer.config.results[id].zeit-=2000;
+	}
+	else if(timer.config.results[id].penalty=="+4"&&penalty=="-4"){
+		timer.config.results[id].penalty="";
+		timer.config.results[id].zeit-=4000;
+	}
+	else if(penalty=="DNF"){
+		timer.config.results[id].penalty="DNF";
+	}
+	else if(timer.config.results[id].penalty=="DNF"&&penalty=="-DNF"){
+		timer.config.results[id].penalty="";
+	}
+
+	displayTimes();
+	drawTool();
+}
+
+function switchSession(id){
+	timer.sessions[timer.currentSession].results=timer.sessions[id].results;
+	timer.currentSession=id;
+	timer.type=timer.sessions[timer.currentSession].scrambler;
+	displayTimes();
+	displaySessions();
+	displayScramble();
+}
+
+function deleteSession(id){
+	if(confirm("Session wirklich löschen?"&&confirm("Ganz sicher?"))){
+		timer.sessions[id].results=[];
+	}
+	displaySessions();
+}
+
+function createSession(){
+	session={
+		scrambler:timer.defaultScrambler,
+		results:[],
+	}
+	timer.sessions.push(session);
+	displaySessions();
+}
+
+function displaySessions(){
+	for(var i=0,text="";i<timer.sessions.length;i++){
+		text+="<button onclick='javascript:switchSession("+i+")'>"+i+"</button>";
+	}
+	text+="<button onclick='createSession()'>+</button>";
+	text+="<button onclick='deleteSession(timer.currentSession)'>-</button>";
+	document.getElementById("sessions").innerHTML=text;
+	displayScrambler();
+}
+
+function switchScrambler(typ){
+	timer.sessions[timer.currentSession].scrambler=timer.type=typ;
+	displayScramble();
+}
+
+function displayScrambler(){
+	var text="",i;
+	
+	for(i=0;i<scrambleTypes.length;i++){
+		text+="<button onclick='switchScrambler(\""+scrambleTypes[i]+"\")'>"+scrambleNames[i]+"</button>";
+		if(i%5==0){
+			text+="<br>";
+		}
+	}
+	document.getElementById("session").innerHTML+=text;
+}
+
+function generateExport(){
+	var
+		globalAverage=format(average(timer.config.results)),
+		best=format(minMaxTime(timer.config.results).min),
+		worst=format(minMaxTime(timer.config.results).max),
+		besto5=format(bestaox(timer.config.results,5)),
+
+
+	p="<h2>Export</h2>Gesamtdurchschnitt: " + globalAverage + "<br>Beste: " + best + "<br>Schlechteste: " + worst + "<br>Bester Ao5: " + besto5 + "<br>";
+	if(timer.config.results.length>11){
+		p+="<br>Bester Ao12: "+format(bestaox(timer.config.results,12));
+		if(timer.config.results.length>49){
+			p+="<br>Bester Ao50: "+format(bestaox(timer.config.results,50));
+		}
+	}
+	if(timer.config.results.length>timer.customAvg-1){
+		p+="<br>Bester Ao"+timer.customAvg+": "+format(bestaox(timer.config.results,timer.customAvg));
+	}
+
+	
+	for(i=0;i<timer.config.results.length;i++){
+		i++;
+		p+="<br>"+i+".: ";
+		i--;
+		p+=format(timer.config.results[i].zeit)+" "+timer.config.results[i].scramble+"<br>";
+	}
+	d = new Date();
+	d=d.toDateString();
+	i=Math.round((i/256)+.5);
+	p+="<br><br>Export wurde am "+d+" in "+i+"ms generiert.";
+	p+="<br><button onclick='hide(\"export\");'>zur&uuml;ck</button>";
+	show('export');
+	document.getElementById('export').innerHTML=p;
+
+	displayTimes();
+	drawTool();
+}
+
+function exportCode(){
+	var code="timer={config:{results:[",i,j;
+	for(i=0;i<timer.config.results.length;i++){
+		code+="{zeit:"+timer.config.results[i].zeit;
+		code+=",scramble:'"+timer.config.results[i].scramble.replaceAll("'","i");
+		code+="',penalty:'"+timer.config.results[i].penalty;
+		code+="',datum:"+timer.config.results[i].datum+"},";
+	}
+	code+="],aktualisierungsrate:"+timer.config.aktualisierungsrate+"},running:false,zeit:0,penalty:'',type:'"+timer.type+"',timingMode:"+timer.timingMode;
+	code+=",blockTime:"+timer.blockTime+",blockTimeReturn:"+timer.blockTimeReturn+",currentSession:"+timer.currentSession+",defaultScrambler:'"+timer.defaultScrambler+"',sessions:[";
+	for(i=0;i<timer.sessions.length;i++){
+		code+="{scrambler:'"+timer.sessions[i].scrambler+"',results:["
+		for(j=0;j<timer.sessions[i].results.length;j++){
+			code+=",{zeit:"+timer.sessions[i].results[j].zeit;
+			code+=",scramble:'"+timer.sessions[i].results[j].scramble.replaceAll("'","i");
+			code+="',penalty:'"+timer.sessions[i].results[j].penalty;
+			code+="',kommentar:'"+timer.sessions[i].results[j].kommentar;
+			code+="',datum:"+timer.sessions[i].results[j].datum+"}";
+		}
+		code+="]},";
+	}
+	code+="],relayCommand:'"+timer.relayCommand+"',version:'"+timer.version+"',customAvg:"+timer.customAvg+"}<button onclick='hideExportCode()'>OK</button>";
+	document.getElementById("scrambleImage").innerHTML=code;
+	return code;
+}
+
+function hideExportCode(){
+	document.getElementById("scrambleImage").innerHTML="";
+}
+
+function importCode(){
+	var a=timer.version||false;
+	eval(prompt("Geben Sie Ihren Code hier ein"));
+	displayTimes();
+	displaySessions();
+	var b=timer.version||false;
+	if(b!=a){
+		alert ("Der Export wurde mit Version "+a+" erstellt. Diese Version ist veraltet. Die fehlenden Variablen wurden ergänzt. Manche Scramblertypen können verändert sein. Der nächste Export wird Dateien der aktuellen Version generieren; diese sind meistens rückwärtskompatibel.");
+	}
+}
+
+ziel={
+	ziele:[],
+	done:[],
+	zieleAvg:[],
+	doneAvg:[],
+	display:function(){
+		var t,w;
+		for(w=0;w<scrambleTypes.length;w++){
+			t+="Ziel f&uuml;r "+scrambleNames[w]+" Single: ";
+			if(ziel.done[w]==true){
+				t+="<span style='color:green'>";
+			}else{
+				t+="<span style='color:red'>";
+			}
+			t+=format(ziel.ziele[w]);
+			t+="</span>, Ao5: ";
+			if(ziel.doneAvg[w]==true){
+				t+="<span style='color:green'>";
+			}else{
+				t+="<span style='color:red'>";
+			}
+			t+=format(ziel.zieleAvg[w])+"</span><br>";
+			t+="<button onclick='javascript:ziel.change(0,"+w+",100);'>+0.1</button>"
+			+"<button onclick='javascript:ziel.change(0,"+w+",1000);'>+1</button>"
+			+"<button onclick='javascript:ziel.change(0,"+w+",10000);'>+10</button>"
+			+"<button onclick='javascript:ziel.change(0,"+w+",60000);'>+1:00</button>"
+			+"<button onclick='javascript:ziel.change(0,"+w+",600000);'>+10:00</button><br>"
+			+"<button onclick='javascript:ziel.change(0,"+w+",-100);'>-0.1</button>"
+			+"<button onclick='javascript:ziel.change(0,"+w+",-1000);'>-1</button>"
+			+"<button onclick='javascript:ziel.change(0,"+w+",-10000);'>-10</button>"
+			+"<button onclick='javascript:ziel.change(0,"+w+",-60000);'>-1:00</button>"
+			+"<button onclick='javascript:ziel.change(0,"+w+",-600000);'>-10:00</button><br>"
+			+"<button onclick='javascript:ziel.change(1,"+w+",100);'>+A+0.1</button>"
+			+"<button onclick='javascript:ziel.change(1,"+w+",1000);'>A+1</button>"
+			+"<button onclick='javascript:ziel.change(1,"+w+",10000);'>A+10</button>"
+			+"<button onclick='javascript:ziel.change(1,"+w+",60000);'>A+1:00</button>"
+			+"<button onclick='javascript:ziel.change(1,"+w+",600000);'>A+10:00</button><br>"
+			+"<button onclick='javascript:ziel.change(1,"+w+",-100);'>+A-0.1</button>"
+			+"<button onclick='javascript:ziel.change(1,"+w+",-1000);'>A-1</button>"
+			+"<button onclick='javascript:ziel.change(1,"+w+",-10000);'>A-10</button>"
+			+"<button onclick='javascript:ziel.change(1,"+w+",-60000);'>A-1:00</button>"
+			+"<button onclick='javascript:ziel.change(1,"+w+",-600000);'>A-10:00</button><br>"
+			;
+		}
+		t+="<br><button onclick='g=getScrambles(timer.type,1);document.getElementById(\"scramble\").innerHTML=g;'>zur&uuml;ck</button>";
+		document.getElementById("scramble").innerHTML=t;
+	},
+	change:function(singleAverage,id,distance){
+		if(!singleAverage){
+			if(ziel.ziele[id]){
+				ziel.ziele[id]+=distance;
+			}else{
+				ziel.ziele[id]=distance;
+			}
+			ziel.done[id]=false;
+		}else{
+			if(ziel.zieleAvg[id]){
+				ziel.zieleAvg[id]+=distance;
+			}else{
+				ziel.zieleAvg[id]=distance;
+			}
+			ziel.doneAvg[id]=false;
+		}
+		ziel.display();
+		drawTool();
+	},
+	check:function(singleAverage,event,time){
+		if(ziel.ziele[scrambleTypes.indexOf(event)]>time&&singleAverage===0){
+			ziel.done[scrambleTypes.indexOf(event)]=true;
+		}
+		if(ziel.zieleAvg[scrambleTypes.indexOf(event)]>time&&singleAverage===1){
+			ziel.doneAvg[scrambleTypes.indexOf(event)]=true;
+		}
+	}
+}
+
+function showOptions(){
+	document.getElementById("options").style.visibility="visible";
+	document.getElementById("blocktime").innerHTML=timer.blockTime;
+	document.getElementById("blocktimereturn").innerHTML=timer.blockTimeReturn;
+	document.getElementById("defaultscrambler").innerHTML=timer.defaultScrambler;
+	document.getElementById("timingmode").innerHTML=timer.timingMode;
+}
+
+function hideOptions(){
+	document.getElementById("options").style.visibility="hidden";
+}
+
+function show(id){
+	document.getElementById(id).style.visibility="visible";
+}
+
+function hide(id){
+	document.getElementById(id).style.visibility="hidden";
+}
+
+{var mozilla=document.getElementById&&!document.all,ie=document.all,contextisvisible=0;function iebody(){return document.compatMode&&"BackCompat"!=document.compatMode?document.documentElement:document.body}
+function displaymenu(a){el=document.getElementById("context_menu");contextisvisible=1;if(mozilla)return el.style.left=pageXOffset+a.clientX+"px",el.style.top=pageYOffset+a.clientY+"px",el.style.visibility="visible",a.preventDefault(),!1;if(ie)return el.style.left=iebody().scrollLeft+event.clientX,el.style.top=iebody().scrollTop+event.clientY,el.style.visibility="visible",!1}function hidemenu(){"undefined"!=typeof el&&contextisvisible&&(el.style.visibility="hidden",contextisvisible=0)}
+mozilla?(document.addEventListener("contextmenu",displaymenu,!0),document.addEventListener("click",hidemenu,!0)):ie&&(document.attachEvent("oncontextmenu",displaymenu),document.attachEvent("onclick",hidemenu));}
+</script>
+</head>
+<body>
+<div id="context_menu" style="visibility:hidden">
+	<div class="menupnt">HutiTimer 2.0.6</div>
+	<div class="menupnt" onclick="javascript:showOptions();">O: Optionen</div>
+	<div class="menupnt" onclick="javascript:generateExport();">E: Export</div>
+	<div class="menupnt" onclick="javascript:timer.importCode();">I: Import Code</div>
+	<div class="menupnt" onclick="javascript:timer.exportCode(1);">X: Export Code</div>
+	<div class="menupnt" onclick="javascript:createSession;">N: Erstelle Session</div>
+	<div class="menupnt" onclick="javascript:timer.saveSession(timer.config.currentSession);">S: Speichere aktuelle Session</div>
+</div>
+<div class="options" style="visibility:hidden" onclick="showOptions()" id="options">
+	<h3>Optionen:</h3>
+	Zeit zwischen Stop und Start: <span id="blocktime"></span>ms&nbsp;<button onclick="javascript:timer.blockTime+=100">+100</button><button onclick="javascript:timer.blockTime-=100">-100</button><br>
+	Popup-R&uuml;ckgangzeit: <span id="blocktimereturn"></span>ms&nbsp;<button onclick="javascript:timer.blockTimeReturn+=100">+100</button><button onclick="javascript:timer.blockTimeReturn-=100">-100</button><br>
+	Start/Stop Tasten: <span id="timingmode"></span><button onclick="javascript:timer.timingMode=0">Leertaste, V, B, N</button><button onclick="javascript:timer.timingMode=1">Leertaste</button><button onclick="javascript:timer.timingMode=2">Control, Control</button><button onclick="javascript:timer.timingMode=3">Javascript</button><br>
+	Default Scrambler bei neuen Sessions: <span id="defaultscrambler"></span><br>
+	Tool: <button onclick="javascript:timer.tool=0">Zeiten-&Uuml;bersicht</button><button onclick="javascript:timer.tool=1">Zeitenverteilung</button><button onclick="javascript:timer.tool=2">Scrambles malen</button>
+	<br>
+	<h4>Farben</h4>
+	<button onclick="colors['W']='#FFFFFF';showOptions();" style="background-color:#FFFFFF;width:80px;color:black;">&nbsp;Wei&szlig;&nbsp;</button><br>
+	<button onclick="colors['R']='#FF0000';showOptions();" style="background-color:#FF0000;width:80px;">&nbsp;Rot&nbsp;</button><button onclick="colors['R']='#CD0000';showOptions();" style="background-color:#CD0000;width:80px;">&nbsp;Rot&nbsp;</button><button onclick="colors['R']='#8B0000';showOptions();" style="background-color:#8B0000;width:80px;">&nbsp;Rot&nbsp;</button><br>
+	<button onclick="colors['O']='#FFA500';showOptions();" style="background-color:#FFA500;width:80px;">&nbsp;Orange&nbsp;</button><button onclick="colors['O']='#FF0000';showOptions();" style="background-color:#FF0000;width:80px;">&nbsp;Orange&nbsp;</button><button onclick="colors['O']='#FF4500';showOptions();" style="background-color:#FF4500;width:80px;">&nbsp;Orange&nbsp;</button><br>
+	<button onclick="colors['S']='#000000';showOptions();" style="background-color:#000000;width:80px;color:white;">&nbsp;Schwarz&nbsp;</button><br>
+	<button onclick="colors['G']='#FFFF00';showOptions();" style="background-color:#FFFF00;width:80px;color:black;">&nbsp;Gelb&nbsp;</button><button onclick="colors['G']='#FFD800';showOptions();" style="background-color:#FFD800;width:80px;">&nbsp;Gelb&nbsp;</button><button onclick="colors['G']='#EEEE00';showOptions();" style="background-color:#EEEE00;width:80px;color:black;">&nbsp;Gelb&nbsp;</button><br>
+	<button onclick="colors['U']='#00FF00';showOptions();" style="background-color:#00FF00;width:80px;">&nbsp;Gr&uuml;n&nbsp;</button><button onclick="colors['U']='#32CD32';showOptions();" style="background-color:#32CD32;width:80px;">&nbsp;Gr&uuml;n&nbsp;</button><button onclick="colors['U']='#00CD00';showOptions();" style="background-color:#00CD00;width:80px;">&nbsp;Gr&uuml;n&nbsp;</button><br>
+	<button onclick="colors['B']='#0000FF';showOptions();" style="background-color:#0000FF;width:80px;">&nbsp;Blau&nbsp;</button><button onclick="colors['B']='#0000CC';showOptions();" style="background-color:#0000CC;width:80px;">&nbsp;&nbsp;Blau&nbsp;</button><button onclick="colors['B']='#0000AA';showOptions();" style="background-color:#0000AA;width:80px;">&nbsp;&nbsp;Blau&nbsp;</button><br>
+	<button onclick="colors['A']='#A0A0A0';showOptions();" style="background-color:#A0A0A0;width:80px;">&nbsp;Grau&nbsp;</button><button onclick="colors['A']='#C0C0C0';showOptions();" style="background-color:#C0C0C0;width:80px;">&nbsp;Grau&nbsp;</button><button onclick="colors['A']='#909090';showOptions();" style="background-color:#909090;width:80px;">&nbsp;Grau&nbsp;</button><button onclick="colors['A']='#808080';showOptions();" style="background-color:#808080;width:80px;">&nbsp;Grau&nbsp;</button><br>
+	<br>
+	<h3>Export/Import</h3>
+	<button onclick="exportCode()">Export Huticode</button><br>
+	<button onclick="importCode()">Import Huticode</button><br>
+	<button onclick="importCstimer()">Import Cstimer</button><br>
+	<br>
+	<button onclick="setTimeout(hideOptions,10);">zur&uuml;ck</button>
+</div>
+<div class="options" style="visibility:hidden" id="export">
+</div>
+<div id="time_liste" style="overflow:auto;"><div id="session" class="scroll"></div><div id="time_list"></div></div>
+<div id="config"><button class="btn-lg" onclick="javascript:showOptions();">Optionen</button><button class="btn-lg" onclick="javascript:ziel.display();">Ziele</button></div>
+<div id="display">0.000</div>
+<div id="scrambleImage"></div>
+<div id="sessions"></div>
+<div id="scramble" style="overflow:auto;"></div>
+<div id="summ"></div>
+<script>
+displayScramble();
+drawTool();
+createSession();
+displaySessions();
+
+$(function(){
+	$('.scroll').jScrollPane();
+});
+</script>
+<noscript>
+Um diesen Timer nutzen zu k&ouml;nnen, m&uuml;ssen Sie Javascript aktivieren!
+</noscript>
+</body>
+</html>

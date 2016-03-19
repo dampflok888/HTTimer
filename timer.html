@@ -885,6 +885,26 @@ ziel={
 	}
 }
 
+var relayNumbers=[];
+
+function displayRelayOption(){
+	var text="<button onclick='displayRelayOption();relayNumbers[1]=relayNumbers[5]=relayNumbers[16]=1;'>2x2-4x4</button><br><button onclick='displayRelayOption();relayNumbers[1]=relayNumbers[5]=relayNumbers[16]=relayNumbers[17]=1;'>2x2-5x5</button><br><br>";
+	for(var i=0;i<scrambleTypes.length;i++){
+		relayNumbers[i]=0;
+		text+=i+".: "+scrambleNames[i]+"&nbsp;&nbsp;<button onclick='relayNumbers["+i+"]++;'>+</button><button onclick='relayNumbers["+i+"]--;'>-</button><br>";
+	}
+	document.getElementById("relays").innerHTML=text+"<br><button onclick='generateRelayCode();hide(\"relays\");'>Finish</button>";
+}
+
+function generateRelayCode(){
+	timer.relayCommand="";
+	for(var i=0;i<relayNumbers.length;i++){
+		if(relayNumbers[i]>0){
+			timer.relayCommand+=scrambleTypes[i]+" ";
+		}
+	}
+}
+
 function showOptions(){
 	document.getElementById("options").style.visibility="visible";
 	document.getElementById("blocktime").innerHTML=timer.blockTime;
@@ -926,7 +946,8 @@ mozilla?(document.addEventListener("contextmenu",displaymenu,!0),document.addEve
 	Popup-R&uuml;ckgangzeit: <span id="blocktimereturn"></span>ms&nbsp;<button onclick="javascript:timer.blockTimeReturn+=100">+100</button><button onclick="javascript:timer.blockTimeReturn-=100">-100</button><br>
 	Start/Stop Tasten: <span id="timingmode"></span><button onclick="javascript:timer.timingMode=0">Leertaste, V, B, N</button><button onclick="javascript:timer.timingMode=1">Leertaste</button><button onclick="javascript:timer.timingMode=2">Control, Control</button><button onclick="javascript:timer.timingMode=3">Javascript</button><br>
 	Default Scrambler bei neuen Sessions: <span id="defaultscrambler"></span><br>
-	Tool: <button onclick="javascript:timer.tool=0">Zeiten-&Uuml;bersicht</button><button onclick="javascript:timer.tool=1">Zeitenverteilung</button><button onclick="javascript:timer.tool=2">Scrambles malen</button>
+	Tool: <button onclick="javascript:timer.tool=0">Zeiten-&Uuml;bersicht</button><button onclick="javascript:timer.tool=1">Zeitenverteilung</button><button onclick="javascript:timer.tool=2">Scrambles malen</button><br>
+	Relays: <button onclick="javascript:show('relays');displayRelayOption();">Puzzles ausw&auml;hlen</button>
 	<br>
 	<h4>Farben</h4>
 	<button onclick="colors['W']='#FFFFFF';showOptions();" style="background-color:#FFFFFF;width:80px;color:black;">&nbsp;Wei&szlig;&nbsp;</button><br>
@@ -946,6 +967,8 @@ mozilla?(document.addEventListener("contextmenu",displaymenu,!0),document.addEve
 	<button onclick="setTimeout(hideOptions,10);">zur&uuml;ck</button>
 </div>
 <div class="options" style="visibility:hidden" id="export">
+</div>
+<div class="options" style="visibility:hidden" id="relays">
 </div>
 <div id="time_liste" style="overflow:auto;"><div id="session" class="scroll"></div><div id="time_list"></div></div>
 <div id="config"><button class="btn-lg" onclick="javascript:showOptions();">Optionen</button><button class="btn-lg" onclick="javascript:ziel.display();">Ziele</button></div>

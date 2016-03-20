@@ -12,6 +12,16 @@ rotationReducer={
 }
 
 
+if(navigator.userAgent.toLowerCase().search(/(iphone|ipad|opera mini|fennec|palm|blackberry|android|symbian|series60)/)>-1){
+  mobil=true;
+}
+else{
+  mobil=false;
+}
+
+if(mobil&&!isMobile){
+	window.location.href="mobiletimer.html";
+}
 
 Array.prototype.max = function() {
   return Math.max.apply(null, this);
@@ -255,7 +265,7 @@ function checkKeyAction(){
 			setTimeout(function(){timer.block=false},timer.blockTime);
 		}else{
 			document.getElementById("time_list").innerHTML="Timer blockiert! Warten sie "+timer.blockTime/1000+" Sekunden. <button onclick='javascript:timer.timeListDisplay();'>zurück (Auto in "+timer.blockTimeReturn/1000+" Sekunden)</button>";
-			setTimeout(function(){timeListDisplay()},timer.blockTimeReturn);
+			setTimeout(timeListDisplay,timer.blockTimeReturn);
 		}
 	}
 }
@@ -455,9 +465,10 @@ function givePenalty(id,penalty){
 }
 
 function switchSession(id){
-	timer.sessions[timer.currentSession].results=timer.sessions[id].results;
+	timer.sessions[timer.currentSession].results=JSON.parse(JSON.stringify(timer.config.results));
 	timer.currentSession=id;
 	timer.type=timer.sessions[timer.currentSession].scrambler;
+	timer.config.results=JSON.parse(JSON.stringify(timer.sessions[timer.currentSession].results));
 	displayTimes();
 	displaySessions();
 	displayScramble();
@@ -503,7 +514,7 @@ function displayScrambler(){
 			text+="<br>";
 		}
 	}
-	document.getElementById("session").innerHTML+=text;
+	document.getElementById("session").innerHTML+=text+"<button onclick='hide(\"session\")'>zur&uuml;ck</button>";
 }
 
 function generateExport(){
@@ -690,6 +701,38 @@ function generateRelayCode(){
 			for(j=0;j<relayNumbers[i];j++){
 				timer.relayCommand+=scrambleTypes[i]+" ";
 			}
+		}
+	}
+}
+
+function importCstimer(code){
+	timer={
+		running:false,
+		zeit:0,
+		penalty:'',
+		type:"",
+		timingMode:1,
+		blockTime:1000,
+		blockTimeReturn:3000,
+		currentSession:0,
+		relayCommand:'2x2 2x2bld',
+		version:'2.1.7',
+		customAvg:3,
+		relayWarn:true,
+		sessions:[],
+		config:{
+			aktualisierungsrate:17,
+			results:[]
+		}
+	};
+	eval("cstimer="+code);
+	eval("csproperties="+cstimer.properties);
+	timer.type=csproperties.scrType;
+	for(var i=1;i<csproperties.sessionN;i++){
+		timer.sessions[i]={"scrambler":csproperties.scrType,"results":[]};
+		for(var j=0,obj;j<eval("cstimer.session"+i).length;i++){
+			obj={"zeit":eval("cstimer.session"+i)[j][0][1],"scramble":eval("cstimer.session"+i)[j][1],"penalty":'',"datum":0}
+			timer.sessions[i].results.push(obj);
 		}
 	}
 }

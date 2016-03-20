@@ -2,17 +2,18 @@
 <html>
 <head>
 <title>Hutitimer 2.1.7</title>
-<link rel="stylesheet" type="text/css" href="timercss.css" media="all"   />
-<link rel="stylesheet" type="text/css" href="scroll.css"   media="all"   />
+<link rel="stylesheet" type="text/css" href="mobile.css" media="all"/>
+<link rel="stylesheet" type="text/css" href="scroll.css" media="all"/>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript" src="http://jscrollpane.kelvinluck.com/script/jquery.mousewheel.js"></script>
 <script type="text/javascript" src="http://jscrollpane.kelvinluck.com/script/jquery.jscrollpane.min.js"></script>
 <script type="text/javascript" src="display.js"></script>
 <script type="text/javascript" src="nxnPosition.js"></script>
+<script>isMobile=true;</script>
 <script type="text/javascript" src="hutitimer.js"></script>
 <script type="text/javascript" src="hutiscrambler.js"></script>
 <script type="text/javascript" src="squanPyraScrambler.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable:no">
 </head>
 <body>
 <div id="context_menu" style="visibility:hidden">
@@ -72,6 +73,8 @@
 	<button onclick="importCode()">Import Huticode</button><br>
 	<button onclick="importCstimer()">Import Cstimer</button><br>
 	<br>
+	<div id="sessions"></div>
+	<br><br>
 	<button onclick="setTimeout(hideOptions,10);">zur&uuml;ck</button>
 	<br>
 	<br>
@@ -81,13 +84,17 @@
 </div>
 <div class="options" style="visibility:hidden" id="relays">
 </div>
-<div id="time_liste" style="overflow:auto;"><div id="session" class="scroll"></div><div id="time_list"></div></div>
-<div id="config"><button class="btn-lg" onclick="javascript:showOptions();">Optionen</button><button class="btn-lg" onclick="javascript:ziel.display();">Ziele</button></div>
+<div id="session" class="options" style="visibility:hidden;"></div>
+<div id="time_liste" style="overflow:auto;">
+<div id="time_list"></div>
+</div>
 <div id="display" onclick="javascript:if(timer.running){stop();}else{start()};" style="user-select:none;-o-user-select:none;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;" unselectable="on" onselectstart="return false;" onmousedown="return false;">0.000</div>
 <div id="scrambleImage"></div>
-<div id="sessions"></div>
-<div id="scramble" style="overflow:auto;"></div>
-<div id="summ"></div>
+<div id="scramble" style="overflow:auto;" onclick="show('session')" style="user-select:none;-o-user-select:none;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;" unselectable="on" onselectstart="return false;" onmousedown="return false;"></div>
+<div id="summ" style="visibility:hidden;" onclick="hide('summ');" class="options"></div>
+<div id="summbutton" onclick="show('summ');">T<br>O<br>O<br>L</div>
+<div id="optionbutton" onclick="show('options');">O<br>P<br>T<br>I<br>O<br>N<br>S</div>
+<div id="zielbutton" onclick="ziel.display();">Z<br>I<br>E<br>L<br>E</div>
 <script>
 displayScramble();
 drawTool();

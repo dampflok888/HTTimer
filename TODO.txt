@@ -17,3 +17,4 @@ uwr ao5, ao12 und ao100
 verhältnis single/avg5/ao12/ao50/ao100 als tool
 verhältnis 2x2/3x3/4x4/5x5/...
 selbst wählbares verhältnis
+import von cstimer

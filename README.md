@@ -11,10 +11,18 @@ Functions:
 - options for custom color scheme
 - blocking of accidentally double-hits (flexible time)
 - solving relays of selectable puzzles; max 256/type
-- different tools: draw scramble, time distribution, time overview
+- different tools: draw scramble, time distribution, time overview, time ratio
 - export and import
 - detection of uwr solves on some scramblers and puzzles
 - no scrambles with less than 3 moves (exception: 1x2x2, 1x1)
+
+Files:
+- timer.html: Main timer file
+- scroll.css: Scrolldesign for puzzle selection
+- timercss.css: Main css
+- display.js: Display Sticker positions as a cube graohic
+- nxnPosition.js: Generic nxn cube move to sticker converter
+
 
 
 German version:
@@ -31,7 +39,14 @@ Funktionen:
 - Optionen für frei wählbares Farbschema
 - Blockierung von Prellungen in den Stopptasten (flexible Zeit)
 - Relays mit selbst bestimmbaren oder vorausgewählten Puzzles (maximal 256/Typ)
-- Verschiedene, auswählbare Tools: Verdrehung malen, Zeitenverteilung, Zeiten-Übersicht
+- Verschiedene, auswählbare Tools: Verdrehung malen, Zeitenverteilung, Zeiten-Übersicht, Zeitenverhältnisse
 - Export und Import
 - Erkennung von UWRs (nur manche Puzzles)
 - keine Scrambles unter 3 Zügen (außer 1x2x2 und 1x1)
+
+Dateien:
+- timer.html: Haupttimerdatei
+- scroll.css: Scrolldesign für Puzzleauswahl
+- timercss.css: Haupt-css
+- display.js: Anzeigen von Stickerpositionen als Würfel
+- nxnPosition.js: Genereller nxn Zug zu Sticker umwandler

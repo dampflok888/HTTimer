@@ -114,6 +114,10 @@ button {
 	width: 250px;
 }
 
+table,td {
+	border: 2px solid white;
+}
+
 /*Cube*/
 
 

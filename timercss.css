@@ -75,6 +75,9 @@ button {
 	right:0;
 	top:500px;
 }
+#session {
+	height:200px;
+}
 .options {
 	background-color: #99CC29;
 	border: 1px solid #222277;

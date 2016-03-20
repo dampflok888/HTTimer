@@ -25,7 +25,7 @@ body {
 	border: 1px solid #222277;
 	position: absolute;
 	top: 0;
-	right: 15px;
+	right: 18px;
 	max-height: 100px;
 	font-size: 15pt;
 	left: 201px;
@@ -46,6 +46,7 @@ button {
 	border-radius: 2px;
 	color: white;
 	padding: 1px;
+	font-size:20px;
 }
 #summ {
 	background-color: #99CC29;
@@ -58,29 +59,34 @@ button {
 	margin: 3px;
 }
 #summbutton {
-	position:absolute;
 	bottom:0;
-	right:0;
-	height:33.33%;
 	background-color:#30D130;
-	width:15px;
 }
 #optionbutton {
-	position:absolute;
 	top:0;
-	right:0;
-	height:33.33%;
 	background-color:orange;
-	width:15px;
 }
 #zielbutton {
-	position:absolute;
-	top:33.33%;
-	right:0;
-	height:33.33%;
+	top:25%;
 	background-color:yellow;
+}
+#sessionbutton {
+	bottom:25%;
+	background-color:red;
+}
+.optionbutton {
+	height:25%;
+	position:absolute;
+	width:18px;
 	color:black;
-	width:15px;
+	right:0;
+	text-align:center;
+}
+div#sessions {
+	font-size:25px;
+}
+.turned {
+	transform: rotate(90deg);
 }
 #session {
 	background-color: #99CC29;

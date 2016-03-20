@@ -13,6 +13,7 @@
 <script type="text/javascript" src="hutitimer.js"></script>
 <script type="text/javascript" src="hutiscrambler.js"></script>
 <script type="text/javascript" src="squanPyraScrambler.js"></script>
+<script src="mobile.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable:no">
 </head>
 <body>
@@ -73,8 +74,6 @@
 	<button onclick="importCode()">Import Huticode</button><br>
 	<button onclick="importCstimer()">Import Cstimer</button><br>
 	<br>
-	<div id="sessions"></div>
-	<br><br>
 	<button onclick="setTimeout(hideOptions,10);">zur&uuml;ck</button>
 	<br>
 	<br>
@@ -84,17 +83,20 @@
 </div>
 <div class="options" style="visibility:hidden" id="relays">
 </div>
-<div id="session" class="options" style="visibility:hidden;"></div>
+<div id="session" class="options" style="visibility:hidden;" onclick="hide('session')">
+</div>
 <div id="time_liste" style="overflow:auto;">
 <div id="time_list"></div>
 </div>
+<div id="sessions" class="options" style="visibility:hidden" onclick="hide('sessions')"></div>
 <div id="display" onclick="javascript:if(timer.running){stop();}else{start()};" style="user-select:none;-o-user-select:none;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;" unselectable="on" onselectstart="return false;" onmousedown="return false;">0.000</div>
 <div id="scrambleImage"></div>
 <div id="scramble" style="overflow:auto;" onclick="show('session')" style="user-select:none;-o-user-select:none;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;" unselectable="on" onselectstart="return false;" onmousedown="return false;"></div>
 <div id="summ" style="visibility:hidden;" onclick="hide('summ');" class="options"></div>
-<div id="summbutton" onclick="show('summ');">T<br>O<br>O<br>L</div>
-<div id="optionbutton" onclick="show('options');">O<br>P<br>T<br>I<br>O<br>N<br>S</div>
-<div id="zielbutton" onclick="ziel.display();">Z<br>I<br>E<br>L<br>E</div>
+<div id="summbutton" onclick="show('summ');" class="optionbutton"><div class="turned">&nbsp;&nbsp;TOOL</div></div>
+<div id="optionbutton" onclick="show('options');" class="optionbutton"><div class="turned">&nbsp;&nbsp;OPTIONEN</div></div>
+<div id="zielbutton" onclick="ziel.display();" class="optionbutton"><div class="turned">&nbsp;&nbsp;ZIELE</div></div>
+<div id="sessionbutton" onclick="show('sessions')" class="optionbutton"><div class="turned">&nbsp;&nbsp;SESSIONS</div></div>
 <script>
 displayScramble();
 drawTool();

@@ -101,31 +101,31 @@ function time(){
 }
 
 function displayScramble(){
-	var scramble=getScrambles(timer.type,1);
-	document.getElementById("scramble").innerHTML=scramble;
-	timer.scramble=scramble;
+	var Tscramble=getScrambles(timer.type,1);
+	document.getElementById("scramble").innerHTML=Tscramble;
+	timer.scramble=Tscramble;
 	drawTool();
 }
 
 function stop(){
-	displayScramble();
-
 	time();
 	zeit=(+new Date()-timer.zeit);
 
 	timer.running=false;
 	var result={
-		zeit:zeit,
-		scramble:timer.scramble,
+		zeit:zeit-.2,
+		scramble:document.getElementById("scramble").innerHTML,
 		penalty:timer.penalty,
 		datum:+new Date(),
 		kommentar:""
 	};
 	timer.config.results.push(result);
+	displayScramble();
 	ziel.check(0,timer.type,zeit)
 	timer.zeit=timer.scramble=timer.penalty=0;
 	displayTimes();
 	drawTool();
+	document.getElementById("time_liste").scrollBy(250,250);
 }
 
 function deletetime(id){

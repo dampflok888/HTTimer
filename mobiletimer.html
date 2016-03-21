@@ -26,64 +26,37 @@
 	<div class="menupnt" onclick="javascript:createSession;">N: Erstelle Session</div>
 	<div class="menupnt" onclick="javascript:timer.saveSession(timer.config.currentSession);">S: Speichere aktuelle Session</div>
 </div>
-<div class="options" style="visibility:hidden" onclick="showOptions()" id="options">
+<div class="options" style="visibility:hidden" onclick="hideOptions()" id="options">
 	<h3>Optionen:</h3>
-	Zeit zwischen Stop und Start: <span id="blocktime"></span>ms&nbsp;<button onclick="javascript:timer.blockTime+=100">+100</button><button onclick="javascript:timer.blockTime-=100">-100</button><br>
-	Popup-R&uuml;ckgangzeit: <span id="blocktimereturn"></span>ms&nbsp;<button onclick="javascript:timer.blockTimeReturn+=100">+100</button><button onclick="javascript:timer.blockTimeReturn-=100">-100</button><br>
+	Zeit zwischen Stop und Start: <span id="blocktime"></span>ms&nbsp;<button onclick="javascript:timer.blockTime+=100;showOptions();">+100</button><button onclick="javascript:timer.blockTime-=100;showOptions();">-100</button><br>
+	Popup-R&uuml;ckgangzeit: <span id="blocktimereturn"></span>ms&nbsp;<button onclick="javascript:timer.blockTimeReturn+=100;showOptions();">+100</button><button onclick="javascript:timer.blockTimeReturn-=100;showOptions();">-100</button><br>
 	Start/Stop Tasten: <span id="timingmode"></span>
-	<button onclick="javascript:timer.timingMode=0">Leertaste, V, B, N</button>
-	<button onclick="javascript:timer.timingMode=1">Leertaste</button>
-	<button onclick="javascript:timer.timingMode=2">Control, Control</button>
-	<button onclick="javascript:timer.timingMode=3">Javascript</button><br>
+	<button onclick="javascript:timer.timingMode=0;showOptions();">Leertaste, V, B, N</button>
+	<button onclick="javascript:timer.timingMode=1;showOptions();">Leertaste</button>
+	<button onclick="javascript:timer.timingMode=2;showOptions();">Control, Control</button>
+	<button onclick="javascript:timer.timingMode=3;showOptions();">Javascript</button><br>
 	Default Scrambler bei neuen Sessions: <span id="defaultscrambler"></span><br>
-	Tool: <button onclick="javascript:timer.tool=0;drawTool()">Zeiten-&Uuml;bersicht</button>
-	<button onclick="javascript:timer.tool=1;drawTool()">Zeitenverteilung</button>
-	<button onclick="javascript:timer.tool=2;drawTool()">Scrambles malen</button>
-	<button onclick="javascript:timer.tool=3;drawTool()">Zeitenverh&auml;ltnis</button><br>
+	Tool: <button onclick="javascript:timer.tool=0;drawTool();showOptions();">Zeiten-&Uuml;bersicht</button>
+	<button onclick="javascript:timer.tool=1;drawTool();showOptions();">Zeitenverteilung</button>
+	<button onclick="javascript:timer.tool=2;drawTool();showOptions();">Scrambles malen</button>
+	<button onclick="javascript:timer.tool=3;drawTool();showOptions();">Zeitenverh&auml;ltnis</button><br>
 	Relays: <button onclick="javascript:show('relays');displayRelayOption();">Puzzles ausw&auml;hlen</button><br>
-	Relay-Warnungen ausgeben: <button onclick="javascript:relayWarn=true;">Ja</button>
-	<button onclick="javascript:relayWarn=false;">Nein</button><br>
-	<br>
-	<h4>Farben</h4>
-	<button onclick="colors['W']='#FFFFFF';showOptions();" style="background-color:#FFFFFF;width:80px;color:black;">&nbsp;Wei&szlig;&nbsp;</button>
-	<button onclick="colors['W']='#EEEEEE';showOptions();" style="background-color:#EEEEEE;width:80px;color:black;">&nbsp;Wei&szlig;&nbsp;</button><br>
-	<button onclick="colors['R']='#FF0000';showOptions();" style="background-color:#FF0000;width:80px;">&nbsp;Rot&nbsp;</button>
-	<button onclick="colors['R']='#CD0000';showOptions();" style="background-color:#CD0000;width:80px;">&nbsp;Rot&nbsp;</button>
-	<button onclick="colors['R']='#8B0000';showOptions();" style="background-color:#8B0000;width:80px;">&nbsp;Rot&nbsp;</button><br>
-	<button onclick="colors['O']='#FFA500';showOptions();" style="background-color:#FFA500;width:80px;">&nbsp;Orange&nbsp;</button>
-	<button onclick="colors['O']='#FF0000';showOptions();" style="background-color:#FF0000;width:80px;">&nbsp;Orange&nbsp;</button>
-	<button onclick="colors['O']='#FF4500';showOptions();" style="background-color:#FF4500;width:80px;">&nbsp;Orange&nbsp;</button><br>
-	<button onclick="colors['S']='#000000';showOptions();" style="background-color:#000000;width:80px;">&nbsp;Schwarz&nbsp;</button>
-	<button onclick="colors['S']='#121212';showOptions();" style="background-color:#121212;width:80px;">&nbsp;Schwarz&nbsp;</button><br>
-	<button onclick="colors['G']='#FFFF00';showOptions();" style="background-color:#FFFF00;width:80px;color:black;">&nbsp;Gelb&nbsp;</button>
-	<button onclick="colors['G']='#FFD800';showOptions();" style="background-color:#FFD800;width:80px;">&nbsp;Gelb&nbsp;</button>
-	<button onclick="colors['G']='#EEEE00';showOptions();" style="background-color:#EEEE00;width:80px;color:black;">&nbsp;Gelb&nbsp;</button><br>
-	<button onclick="colors['U']='#00FF00';showOptions();" style="background-color:#00FF00;width:80px;">&nbsp;Gr&uuml;n&nbsp;</button>
-	<button onclick="colors['U']='#32CD32';showOptions();" style="background-color:#32CD32;width:80px;">&nbsp;Gr&uuml;n&nbsp;</button>
-	<button onclick="colors['U']='#00CD00';showOptions();" style="background-color:#00CD00;width:80px;">&nbsp;Gr&uuml;n&nbsp;</button><br>
-	<button onclick="colors['B']='#0000FF';showOptions();" style="background-color:#0000FF;width:80px;">&nbsp;Blau&nbsp;</button>
-	<button onclick="colors['B']='#0000CC';showOptions();" style="background-color:#0000CC;width:80px;">&nbsp;Blau&nbsp;</button>
-	<button onclick="colors['B']='#0000AA';showOptions();" style="background-color:#0000AA;width:80px;">&nbsp;Blau&nbsp;</button><br>
-	<button onclick="colors['A']='#A0A0A0';showOptions();" style="background-color:#A0A0A0;width:80px;">&nbsp;Grau&nbsp;</button>
-	<button onclick="colors['A']='#C0C0C0';showOptions();" style="background-color:#C0C0C0;width:80px;">&nbsp;Grau&nbsp;</button>
-	<button onclick="colors['A']='#909090';showOptions();" style="background-color:#909090;width:80px;">&nbsp;Grau&nbsp;</button>
-	<button onclick="colors['A']='#808080';showOptions();" style="background-color:#808080;width:80px;">&nbsp;Grau&nbsp;</button><br>
+	Relay-Warnungen ausgeben: <button onclick="javascript:relayWarn=true;;showOptions();">Ja</button>
+	<button onclick="javascript:relayWarn=false;;showOptions();">Nein</button><br>
 	<br>
 	<h3>Export/Import</h3>
 	<button onclick="exportCode()">Export Huticode</button><br>
 	<button onclick="importCode()">Import Huticode</button><br>
 	<button onclick="importCstimer()">Import Cstimer</button><br>
-	<br>
-	<button onclick="setTimeout(hideOptions,10);">zur&uuml;ck</button>
-	<br>
-	<br>
-	<a href="http://www.github.com/dampflok888/Hutitimer">Code (Github)</a>
 </div>
 <div class="options" style="visibility:hidden" id="export">
+Lade Export ...
 </div>
 <div class="options" style="visibility:hidden" id="relays">
+Lade Relayausw&auml;hler ...
 </div>
 <div id="session" class="options" style="visibility:hidden;" onclick="hide('session')">
+Lade Sessions ...
 </div>
 <div id="time_liste" style="overflow:auto;">
 <div id="time_list"></div>

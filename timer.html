@@ -4,7 +4,7 @@
 <title>Hutitimer 2.1.7</title>
 <link rel="stylesheet" type="text/css" href="timercss.css" media="all"   />
 <link rel="stylesheet" type="text/css" href="scroll.css"   media="all"   />
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script><!--würde lieber ohne nichtselbstgeschriebenes js auskommen-->
 <script type="text/javascript" src="http://jscrollpane.kelvinluck.com/script/jquery.mousewheel.js"></script>
 <script type="text/javascript" src="http://jscrollpane.kelvinluck.com/script/jquery.jscrollpane.min.js"></script>
 <script type="text/javascript" src="display.js"></script>
@@ -17,11 +17,11 @@
 </head>
 <body>
 <div id="context_menu" style="visibility:hidden">
-	<div class="menupnt">HutiTimer 2.1.7</div>
+	<div class="menupnt">HutiTimer 2.1.8</div>
 	<div class="menupnt" onclick="javascript:showOptions();">O: Optionen</div>
 	<div class="menupnt" onclick="javascript:generateExport();">E: Export</div>
-	<div class="menupnt" onclick="javascript:timer.importCode();">I: Import Code</div>
-	<div class="menupnt" onclick="javascript:timer.exportCode(1);">X: Export Code</div>
+	<div class="menupnt" onclick="javascript:importCode();">I: Import Code</div>
+	<div class="menupnt" onclick="javascript:exportCode();">X: Export Code</div>
 	<div class="menupnt" onclick="javascript:createSession;">N: Erstelle Session</div>
 	<div class="menupnt" onclick="javascript:timer.saveSession(timer.config.currentSession);">S: Speichere aktuelle Session</div>
 </div>
@@ -44,6 +44,7 @@
 	Relay-Warnungen ausgeben: <button onclick="javascript:relayWarn=true;">Ja</button>
 	<button onclick="javascript:relayWarn=false;">Nein</button><br>
 	<button onclick="javascript:language=deutsch">DE_DE</button>
+	<button onclick="javascript:language=chinese">CH_ZN</button>
 	<button onclick="javascript:language=english">EN_GB</button><br>
 	<br>
 	<h4>Farben</h4>

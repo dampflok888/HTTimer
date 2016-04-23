@@ -4,20 +4,17 @@ Draw scramble: 2x2, 3x3, Pyraminx, Skewb
 Best/ao5/12/50/100/custom of todays solves
 Best/ao5/12/50/100/custom of last x/60000 msecs
 option for custom big ao oder mo
-Skewb scrambler
-Vergleich Current/Best
 Nachricht wenn PB
-Nachricht wenn Ziel erreicht
 Mögliche Ziele: n subx-solves oder averages oder means haben
-tool time distribution
 Export vom ColorScheme und Puzzles
 aktuelles tool speichern
 uwr ao5, ao12 und ao100
 selbst wählbares verhältnis
 import von cstimer
-rewrite ziele
 alg trainer
 alg sets
+translate more things (options ...)
+translate into more different languages
 
 for version 4.0:
 ----------------
@@ -25,5 +22,3 @@ Best/ao5/12/50/100/custom of selected solves (Bereich=selected)
 zu 9.: Dafür setzbare PBs
 Sessions zusammenführen
 Server version!
-
-next dojo: 28. mai

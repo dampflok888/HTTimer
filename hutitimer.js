@@ -667,7 +667,7 @@ function displayRelayOption(){
 		if(relayNumbers[i]<256){
 			text+="<button onclick='relayNumbers["+i+"]++;displayRelayOption();'>+</button>"
 		}else{
-			if(timer.relayWarn)text+="Maximal 256 erlaubt!";
+			if(timer.relayWarn)text+=language.relayWarnText;
 		}
 		text+="&nbsp;"+relayNumbers[i]+"&nbsp;";
 		if(relayNumbers[i]>0){

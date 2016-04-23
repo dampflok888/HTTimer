@@ -1,6 +1,6 @@
 Hutitimer is a free, open-soure timer designed for twisty puzzler solvers. It is a good alternative to cstimer and other timers.
 
-Functions:
+Functions (German version below):
 - starting/stopping the timer with space, space+V+B+N or Ctrl.+Ctrl.
 - saving times in up to 1023 sessions
 - automatic calculation of ao5, ao12, ao50 and one custom selectable average

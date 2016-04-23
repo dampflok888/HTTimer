@@ -12,6 +12,7 @@
 <script type="text/javascript" src="hutitimer.js"></script>
 <script type="text/javascript" src="hutiscrambler.js"></script>
 <script type="text/javascript" src="squanPyraScrambler.js"></script>
+<script type="text/javascript" src="language.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -42,6 +43,8 @@
 	Relays: <button onclick="javascript:show('relays');displayRelayOption();">Puzzles ausw&auml;hlen</button><br>
 	Relay-Warnungen ausgeben: <button onclick="javascript:relayWarn=true;">Ja</button>
 	<button onclick="javascript:relayWarn=false;">Nein</button><br>
+	<button onclick="javascript:language=deutsch">DE_DE</button>
+	<button onclick="javascript:language=english">EN_GB</button><br>
 	<br>
 	<h4>Farben</h4>
 	<button onclick="colors['W']='#FFFFFF';showOptions();" style="background-color:#FFFFFF;width:80px;color:black;">&nbsp;Wei&szlig;&nbsp;</button>
@@ -89,6 +92,7 @@
 <div id="sessions"></div>
 <div id="scramble" style="overflow:auto;"></div>
 <div id="summ"></div>
+<div id="ziele" class="options" style="visibility:hidden;"></div>
 <script>
 displayScramble();
 drawTool();

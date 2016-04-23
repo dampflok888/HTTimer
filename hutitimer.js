@@ -46,7 +46,7 @@ function checkBrowserName(name){
 	return false;  
 }  
 
-var scrambleTypes=["1x1","2x2","2x2opt","2x2bld","2x24","3x3","3x3","3x3bld","3x3co","3x3hco","relay","barrel","ghost","3x3ru","3x3ruf","3x3lse","4x4","5x5","pyra","mpyra","mega","giga","pyracrystal","sq224","dreidellim","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","mixup3x3","mixup4x4","heli","helij","curvy","curvyj","curvyp","curvypj","curvypfj","square-1","square-2","2x2"],
+var scrambleTypes=["1x1","2x2","2x2opt","2x2bld","2x24","3x3","3x3","3x3bld","3x3co","3x3hco","relay","barrel","ghost","3x3ru","3x3ruf","3x3lse","4x4","5x5","pyra","mpyra","mega","giga","pyracrystal","sq224","dreidellim","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","mixup3x3","mixup4x4","heli","helij","curvy","curvyj","curvyp","curvypj","curvypfj","square-1","square-2","skewb"],
 scrambleNames=["1x1","2x2","2x2 Optimal","2x2 blind","2x2 4 Z&uuml;ge","3x3","3x3 Onehanded","3x3 blind","3x3 mit Center Orientation","3x3 mit 2/3 Center Orientation","Relays","Barrel Cube","Ghost Cube","3x3 RU","3x3 RUF","3x3 Roux LSE","4x4","5x5","Pyraminx","Master Pyraminx","Megaminx","Gigaminx","Pyraminx Crystal","Sq224","Dreidel LimCube","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","Mixup 3x3","Mixup 4x4","Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus","Fully Jumbled Curvy Copter Plus","Square-1","Square-2","skewb"],
 uwrs=[],
 colors=[];
@@ -264,7 +264,7 @@ function checkKeyAction(){
 			timer.block=true;
 			setTimeout(function(){timer.block=false},timer.blockTime);
 		}else{
-			document.getElementById("time_list").innerHTML="Timer blockiert! Warten sie "+timer.blockTime/1000+" Sekunden. <button onclick='javascript:timer.timeListDisplay();'>zurück (Auto in "+timer.blockTimeReturn/1000+" Sekunden)</button>";
+			document.getElementById("time_list").innerHTML="Timer blockiert! Warten sie "+timer.blockTime/1000+" Sekunden. <button onclick='javascript:timer.timeListDisplay();'>"+language.back+" (Auto in "+timer.blockTimeReturn/1000+" Sekunden)</button>";
 			setTimeout(timeListDisplay,timer.blockTimeReturn);
 		}
 	}
@@ -359,16 +359,16 @@ function toolTimes(){
 	if(fake&&uwr){
 		p+=" <b>FAKED UWR! :(</b>";
 	}
-	p+="<br>Schlechteste: " + worst + "<br>Bester Ao5: " + besto5 + "";
+	p+="<br>Schlechteste: " + worst + "<br>"+language.best+" Ao5: " + besto5 + "";
 	ziel.check(1,timer.type,besto5);
 	if(timer.config.results.length>11){
-		p+="<br>Bester Ao12: "+format(bestaox(timer.config.results,12));
+		p+="<br>"+language.best+" Ao12: "+format(bestaox(timer.config.results,12));
 		if(timer.config.results.length>49){
-			p+="<br>Bester Ao50: "+format(bestaox(timer.config.results,50));
+			p+="<br>"+language.best+" Ao50: "+format(bestaox(timer.config.results,50));
 		}
 	}
 	if(timer.config.results.length>timer.customAvg-1){
-		p+="<br>Bester Ao"+timer.customAvg+": "+format(bestaox(timer.config.results,timer.customAvg));
+		p+="<br>"+language.best+" Ao"+timer.customAvg+": "+format(bestaox(timer.config.results,timer.customAvg));
 	}
 	return p+"<br><button class='btn-lg' onclick='generateExport();'>Export</button>";
 }
@@ -441,11 +441,12 @@ function drawTool(){
 		case 1:a=toolTimeDistribution();break;
 		case 2:a=toolDrawScramble();break;
 		case 3:a=toolTimeRatio();break;
+		case 4:a=toolTimeHistory();break;
 	}
 	if(a){
 		document.getElementById("summ").innerHTML=a;
 	}else{
-		case 4:a=toolTimeHistory();break;
+		
 	}
 }
 
@@ -535,7 +536,7 @@ function displayScrambler(){
 			text+="<br>";
 		}
 	}
-	document.getElementById("session").innerHTML+=text+"<button onclick='hide(\"session\")'>zur&uuml;ck</button>";
+	document.getElementById("session").innerHTML+=text+"<button onclick='hide(\"session\")'>"+language.back+"</button>";
 }
 
 function generateExport(){
@@ -546,15 +547,15 @@ function generateExport(){
 		besto5=format(bestaox(timer.config.results,5)),
 
 
-	p="<h2>Export</h2>Gesamtdurchschnitt: " + globalAverage + "<br>Beste: " + best + "<br>Schlechteste: " + worst + "<br>Bester Ao5: " + besto5 + "<br>";
+	p="<h2>Export</h2>"+language.globalAverage+": " + globalAverage + "<br>Beste: " + best + "<br>"+language.worst+": " + worst + "<br>"+language.best+" Ao5: " + besto5 + "<br>";
 	if(timer.config.results.length>11){
-		p+="<br>Bester Ao12: "+format(bestaox(timer.config.results,12));
+		p+="<br>"+language.best+" Ao12: "+format(bestaox(timer.config.results,12));
 		if(timer.config.results.length>49){
-			p+="<br>Bester Ao50: "+format(bestaox(timer.config.results,50));
+			p+="<br>"+language.best+" Ao50: "+format(bestaox(timer.config.results,50));
 		}
 	}
 	if(timer.config.results.length>timer.customAvg-1){
-		p+="<br>Bester Ao"+timer.customAvg+": "+format(bestaox(timer.config.results,timer.customAvg));
+		p+="<br>"+language.best+" Ao"+timer.customAvg+": "+format(bestaox(timer.config.results,timer.customAvg));
 	}
 
 	
@@ -568,7 +569,7 @@ function generateExport(){
 	d=d.toDateString();
 	i=Math.round((i/256)+.5);
 	p+="<br><br>Export wurde am "+d+" in "+i+"ms generiert.";
-	p+="<br><button onclick='hide(\"export\");'>zur&uuml;ck</button>";
+	p+="<br><button onclick='hide(\"export\");'>"+language.back+"</button>";
 	show('export');
 	document.getElementById('export').innerHTML=p;
 
@@ -608,7 +609,7 @@ function hideExportCode(){
 
 function importCode(){
 	var a=timer.version||false;
-	eval(prompt("Geben Sie Ihren Code hier ein"));
+	eval(prompt(language.entercode));
 	displayTimes();
 	displaySessions();
 	var b=timer.version||false;
@@ -618,78 +619,41 @@ function importCode(){
 }
 
 ziel={
-	ziele:[],
+	ziele:[[0,0,0,0,0,0]],
 	done:[],
-	zieleAvg:[],
 	doneAvg:[],
 	display:function(){
-		var t,w;
-		for(w=0;w<scrambleTypes.length;w++){
-			t+="Ziel f&uuml;r "+scrambleNames[w]+" Single: ";
-			if(ziel.done[w]==true){
-				t+="<span style='color:green'>";
-			}else{
-				t+="<span style='color:red'>";
-			}
-			t+=format(ziel.ziele[w]);
-			t+="</span>, Ao5: ";
-			if(ziel.doneAvg[w]==true){
-				t+="<span style='color:green'>";
-			}else{
-				t+="<span style='color:red'>";
-			}
-			t+=format(ziel.zieleAvg[w])+"</span><br>";
-			t+="<button onclick='javascript:ziel.change(0,"+w+",100);'>+0.1</button>"
-			+"<button onclick='javascript:ziel.change(0,"+w+",1000);'>+1</button>"
-			+"<button onclick='javascript:ziel.change(0,"+w+",10000);'>+10</button>"
-			+"<button onclick='javascript:ziel.change(0,"+w+",60000);'>+1:00</button>"
-			+"<button onclick='javascript:ziel.change(0,"+w+",600000);'>+10:00</button><br>"
-			+"<button onclick='javascript:ziel.change(0,"+w+",-100);'>-0.1</button>"
-			+"<button onclick='javascript:ziel.change(0,"+w+",-1000);'>-1</button>"
-			+"<button onclick='javascript:ziel.change(0,"+w+",-10000);'>-10</button>"
-			+"<button onclick='javascript:ziel.change(0,"+w+",-60000);'>-1:00</button>"
-			+"<button onclick='javascript:ziel.change(0,"+w+",-600000);'>-10:00</button><br>"
-			+"<button onclick='javascript:ziel.change(1,"+w+",100);'>+A+0.1</button>"
-			+"<button onclick='javascript:ziel.change(1,"+w+",1000);'>A+1</button>"
-			+"<button onclick='javascript:ziel.change(1,"+w+",10000);'>A+10</button>"
-			+"<button onclick='javascript:ziel.change(1,"+w+",60000);'>A+1:00</button>"
-			+"<button onclick='javascript:ziel.change(1,"+w+",600000);'>A+10:00</button><br>"
-			+"<button onclick='javascript:ziel.change(1,"+w+",-100);'>+A-0.1</button>"
-			+"<button onclick='javascript:ziel.change(1,"+w+",-1000);'>A-1</button>"
-			+"<button onclick='javascript:ziel.change(1,"+w+",-10000);'>A-10</button>"
-			+"<button onclick='javascript:ziel.change(1,"+w+",-60000);'>A-1:00</button>"
-			+"<button onclick='javascript:ziel.change(1,"+w+",-600000);'>A-10:00</button><br>"
-			;
-		}
-		t+="<br><button onclick='g=getScrambles(timer.type,1);document.getElementById(\"scramble\").innerHTML=g;'>zur&uuml;ck</button>";
-		document.getElementById("scramble").innerHTML=t;
+		var text="<h2>"+language.ziele+"</h2>"+language.currentSession+":";
+		show('ziele');
+		var
+		globalAverage=format(average(timer.config.results)),
+		best=format(minMaxTime(timer.config.results).min),
+		worst=format(minMaxTime(timer.config.results).max),
+		besto5=format(bestaox(timer.config.results,5)),
+		besto12=format(bestaox(timer.config.results,12)),
+		besto50=format(bestaox(timer.config.results,50)),
+		bestocustom=format(bestaox(timer.config.results,timer.customAvg));
+		if(typeof ziel.ziele[timer.currentSession]=="undefined")ziel.ziele[timer.currentSession]=[0,0,0,0,0,0];
+		
+		text+="<br>Single:"+ziel.format(ziel.ziele[timer.currentSession][0],best)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][0]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][0]--;ziel.display();'>-</button>"
+		+"<br>Ao5:"+ziel.format(ziel.ziele[timer.currentSession][1],besto5)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][1]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][1]--;ziel.display();'>-</button>"
+		+"<br>Ao12:"+ziel.format(ziel.ziele[timer.currentSession][2],besto12)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][2]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][2]--;ziel.display();'>-</button>"
+		+"<br>Ao50:"+ziel.format(ziel.ziele[timer.currentSession][3],besto50)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][3]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][3]--;ziel.display();'>-</button>"
+		+"<br>Custom Aox:"+ziel.format(ziel.ziele[timer.currentSession][4],bestocustom)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][4]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][4]--;ziel.display();'>-</button>"
+		+"<br>";
+		
+		text+="<div onclick='hide(\"ziele\")'>"+language.back+"</div>";
+		$("#ziele").html(text);
 	},
-	change:function(singleAverage,id,distance){
-		if(!singleAverage){
-			if(ziel.ziele[id]){
-				ziel.ziele[id]+=distance;
-			}else{
-				ziel.ziele[id]=distance;
-			}
-			ziel.done[id]=false;
-		}else{
-			if(ziel.zieleAvg[id]){
-				ziel.zieleAvg[id]+=distance;
-			}else{
-				ziel.zieleAvg[id]=distance;
-			}
-			ziel.doneAvg[id]=false;
+	format:function(ziel,current){
+		var color="red";
+		if(ziel/current>1){
+			color="green";
 		}
-		ziel.display();
-		drawTool();
+		return "<span style='background-color:"+color+"'>"+Math.round(ziel/current*100)+"% ("+language.goal+": "+ziel+" "+language.seconds+")</span>";
 	},
 	check:function(singleAverage,event,time){
-		if(ziel.ziele[scrambleTypes.indexOf(event)]>time&&singleAverage===0){
-			ziel.done[scrambleTypes.indexOf(event)]=true;
-		}
-		if(ziel.zieleAvg[scrambleTypes.indexOf(event)]>time&&singleAverage===1){
-			ziel.doneAvg[scrambleTypes.indexOf(event)]=true;
-		}
+		var times=timer.config.results;
 	}
 }
 

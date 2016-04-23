@@ -38,6 +38,7 @@ function getScrambles(type,relay){
 	var helij=["UF","UR","UB","UL","DF","DR","DB","DL","FR","FL","BR","BL","JR","JL"];
 	var helifj=["UF","UR","UB","UL","DF","DR","DB","DL","FR","FL","BR","BL","JR","JL","UR+","UR-","UF+","UF-","y","z'","x'","z2"];
 	var squan=["/","1","2","3","4","5","6","7","8","9","0"];
+	var skewb=["U","R","B","L"];
 
 	scramble+=generateScramble(state1,3);
 	scramble+=generateScramble(state2,5);
@@ -114,6 +115,7 @@ function getScrambles(type,relay){
 	scrambler["curvypfj"]=generateScramble(helifj,58);
 	scrambler["square-2"]=generateScramble(squan,34);
 	scrambler["square-1"]=genScrambleSq1(42);
+	scrambler["skewb"]=generateScramble(skewb,12);
 	if(relay!=0){
 		scrambler["relay"]=relayScramble(timer.relayCommand);
 	}

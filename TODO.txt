@@ -15,6 +15,9 @@ aktuelles tool speichern
 uwr ao5, ao12 und ao100
 selbst wählbares verhältnis
 import von cstimer
+rewrite ziele
+alg trainer
+alg sets
 
 for version 4.0:
 ----------------

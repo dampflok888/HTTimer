@@ -413,6 +413,27 @@ function toolTimeRatio(){
 	return text;
 }
 
+function toolTimeHistory(){
+	$("#summ").html("<canvas id='pbcanvas' width='200' height='150'></canvas>");
+	var canvas = document.getElementById('pbcanvas'),
+	ctx = canvas.getContext('2d'),
+	height=150,
+	width=200;
+	ctx.moveTo(0,height-10);
+	ctx.lineTo(width,height-10);
+	ctx.stroke();
+	ctx.font = "10px Arial";
+	
+	times=JSON.parse(JSON.stringify(timer.config.results));
+	var min=0,j,max=minMaxTime(timer.config.results).max,time;
+	for(var j=0;j<times.length;j++){
+		time=times[j].zeit;
+		ctx.moveTo((j/times.length)*width,height+min-10);
+		ctx.lineTo((j/times.length)*width,height-((time/max)*height)+12);
+	}
+	ctx.stroke();
+}
+
 function drawTool(){
 	var a=false;
 	switch(timer.tool){
@@ -424,7 +445,7 @@ function drawTool(){
 	if(a){
 		document.getElementById("summ").innerHTML=a;
 	}else{
-		document.getElementById("summ").innerHTML="Tool-Fehler!";
+		case 4:a=toolTimeHistory();break;
 	}
 }
 

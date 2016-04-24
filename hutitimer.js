@@ -46,8 +46,8 @@ function checkBrowserName(name){
 	return false;  
 }  
 
-var scrambleTypes=["1x1","2x2","2x2opt","2x2bld","2x24","3x3","3x3","3x3bld","3x3co","3x3hco","relay","barrel","ghost","3x3ru","3x3ruf","3x3lse","4x4","5x5","pyra","mpyra","mega","giga","pyracrystal","sq224","dreidellim","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","mixup3x3","mixup4x4","heli","helij","curvy","curvyj","curvyp","curvypj","curvypfj","square-1","square-2","skewb"],
-scrambleNames=["1x1","2x2","2x2 Optimal","2x2 blind","2x2 4 Z&uuml;ge","3x3","3x3 Onehanded","3x3 blind","3x3 mit Center Orientation","3x3 mit 2/3 Center Orientation","Relays","Barrel Cube","Ghost Cube","3x3 RU","3x3 RUF","3x3 Roux LSE","4x4","5x5","Pyraminx","Master Pyraminx","Megaminx","Gigaminx","Pyraminx Crystal","Sq224","Dreidel LimCube","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","Mixup 3x3","Mixup 4x4","Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus","Fully Jumbled Curvy Copter Plus","Square-1","Square-2","skewb"],
+var scrambleTypes=["1x1","2x2","3x3","4x4","5x5","2x2opt","2x2bld","2x24","3x3","3x3","3x3bld","3x3co","3x3hco","relay","barrel","ghost","3x3ru","3x3ruf","3x3lse","4x4","5x5","pyra","mpyra","mega","giga","pyracrystal","sq224","dreidellim","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","mixup3x3","mixup4x4","heli","helij","curvy","curvyj","curvyp","curvypj","curvypfj","square-1","square-2","skewb"],
+scrambleNames=["1x1","2x2","3x3","4x4","5x5","2x2 Optimal","2x2 blind","2x2 4 Z&uuml;ge","3x3","3x3 Onehanded","3x3 blind","3x3 mit Center Orientation","3x3 mit 2/3 Center Orientation","Relays","Barrel Cube","Ghost Cube","3x3 RU","3x3 RUF","3x3 Roux LSE","4x4","5x5","Pyraminx","Master Pyraminx","Megaminx","Gigaminx","Pyraminx Crystal","Sq224","Dreidel LimCube","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","Mixup 3x3","Mixup 4x4","Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus","Fully Jumbled Curvy Copter Plus","Square-1","Square-2","skewb"],
 uwrs=[],
 colors=[];
 uwrs["barrel"]=12.67,
@@ -60,6 +60,7 @@ colors["G"]="#FFFF00",
 colors["U"]="#FF00FF",
 colors["B"]="#0000FF",
 colors["A"]="#A0A0A0";
+triggers=[[["R","U","R'","U'"],"sexy"],[["R'","F","R","F'"],"sledge"]];
 
 timer={
 	config:{
@@ -264,7 +265,7 @@ function checkKeyAction(){
 			timer.block=true;
 			setTimeout(function(){timer.block=false},timer.blockTime);
 		}else{
-			document.getElementById("time_list").innerHTML="Timer blockiert! Warten sie "+timer.blockTime/1000+" Sekunden. <button onclick='javascript:timer.timeListDisplay();'>"+language.back+" (Auto in "+timer.blockTimeReturn/1000+" Sekunden)</button>";
+			document.getElementById("time_list").innerHTML="Timer blockiert! Warten sie "+timer.blockTime/1000+" Sekunden. <button onclick='javascript:displayTimes();'>"+language.back+" (Auto in "+timer.blockTimeReturn/1000+" Sekunden)</button>";
 			setTimeout(timeListDisplay,timer.blockTimeReturn);
 		}
 	}
@@ -349,7 +350,7 @@ function toolTimes(){
 		uwr,fake;
 	if(best<uwrs[timer.type])uwr=true;
 	if(best<0.3)fake=true;
-	p="Gesamtdurchschnitt: " + globalAverage + "<br>Beste: " + best;
+	p=language.globalAverage+": " + globalAverage + "<br>"+language.best+": " + best;
 	if(uwr&&!fake){
 		p+=" <b>UWR!</b>";
 	}
@@ -359,7 +360,7 @@ function toolTimes(){
 	if(fake&&uwr){
 		p+=" <b>FAKED UWR! :(</b>";
 	}
-	p+="<br>Schlechteste: " + worst + "<br>"+language.best+" Ao5: " + besto5 + "";
+	p+="<br>"+language.worst+": " + worst + "<br>"+language.best+" Ao5: " + besto5 + "";
 	ziel.check(1,timer.type,besto5);
 	if(timer.config.results.length>11){
 		p+="<br>"+language.best+" Ao12: "+format(bestaox(timer.config.results,12));
@@ -445,8 +446,6 @@ function drawTool(){
 	}
 	if(a){
 		document.getElementById("summ").innerHTML=a;
-	}else{
-		
 	}
 }
 
@@ -481,6 +480,9 @@ function givePenalty(id,penalty){
 	else if(timer.config.results[id].penalty=="DNF"&&penalty=="-DNF"){
 		timer.config.results[id].penalty="";
 	}
+	else{
+		timer.config.results[id].penalty="";
+	}
 
 	displayTimes();
 	drawTool();
@@ -497,7 +499,7 @@ function switchSession(id){
 }
 
 function deleteSession(id){
-	if(confirm("Session wirklich resetten?"&&confirm("Alle Ihre Zeiten aus der Session werden gelöscht. Ganz sicher?"))){
+	if(confirm("Session wirklich resetten?")&&confirm("Alle Ihre Zeiten aus der Session werden gelöscht. Ganz sicher?")){
 		timer.sessions[id].results=[];
 	}
 	displaySessions();
@@ -547,7 +549,7 @@ function generateExport(){
 		besto5=format(bestaox(timer.config.results,5)),
 
 
-	p="<h2>Export</h2>"+language.globalAverage+": " + globalAverage + "<br>Beste: " + best + "<br>"+language.worst+": " + worst + "<br>"+language.best+" Ao5: " + besto5 + "<br>";
+	p="<h2>Export</h2>"+language.globalAverage+": " + globalAverage + "<br>"+language.best+"e: " + best + "<br>"+language.worst+": " + worst + "<br>"+language.best+" Ao5: " + besto5 + "<br>";
 	if(timer.config.results.length>11){
 		p+="<br>"+language.best+" Ao12: "+format(bestaox(timer.config.results,12));
 		if(timer.config.results.length>49){
@@ -654,6 +656,53 @@ ziel={
 	},
 	check:function(singleAverage,event,time){
 		var times=timer.config.results;
+	}
+}
+
+algsets={
+	sets:[],
+	setnames:[],
+	display:function(){
+		show('algSets');
+		text="<h2>Algorithmen</h2>";
+		text+="Es sind "+algsets.sets.length+" Sets eingetragen.<br><button onclick='javascript:algsets.addSet()'>+</button><br>";
+		for(var i=0;i<algsets.sets.length;i++){
+			text+=algsets.setnames[i]+":<button onclick='javascript:algsets.addAlg("+i+")'>+</button><br>";
+			for(var j=0;j<algsets.sets[i].length;j++){
+				text+=(j+1)+".: "+algsets.formatAlg(algsets.sets[i][j])+"<button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.turnAlg(algsets.sets["+i+"]["+j+"]);algsets.display();'>Drehen</button><br>";
+			}
+		}
+		text+="<br><div onclick='hide(\"algSets\")'>"+language.back+"</div>";
+		$("#algSets").html(text);
+	},
+	addSet:function(){
+		algsets.sets[algsets.sets.length]=[];
+		algsets.setnames.push(prompt("Geben Sie Ihren AlgSetNamen hier ein."));
+		algsets.display();
+	},
+	addAlg:function(setid){
+		algsets.sets[setid].push(prompt("Geben Sie Ihren Algorithmus hier ein."));
+		algsets.display();
+	},
+	formatAlg:function(alg){
+		return alg;
+	},
+	turnAlg:function(alg){
+		alg=alg.replaceAll("R","L'");
+		alg=alg.replaceAll("R'","L");
+		alg=alg.replaceAll("R2","L2");
+		alg=alg.replaceAll("L'","R");
+		alg=alg.replaceAll("L","L'");
+		alg=alg.replaceAll("L2","R2");
+		alg=alg.replaceAll("U'","U");
+		alg=alg.replaceAll("U","U'");
+		alg=alg.replaceAll("D'","D");
+		alg=alg.replaceAll("D","D'");
+		alg=alg.replaceAll("F","F'");
+		alg=alg.replaceAll("F'","F");
+		alg=alg.replaceAll("B","B'");
+		alg=alg.replaceAll("B'","B");
+		return alg;
 	}
 }
 

@@ -30,10 +30,10 @@
 	Zeit zwischen Stop und Start: <span id="blocktime"></span>ms&nbsp;<button onclick="javascript:timer.blockTime+=100">+100</button><button onclick="javascript:timer.blockTime-=100">-100</button><br>
 	Popup-R&uuml;ckgangzeit: <span id="blocktimereturn"></span>ms&nbsp;<button onclick="javascript:timer.blockTimeReturn+=100">+100</button><button onclick="javascript:timer.blockTimeReturn-=100">-100</button><br>
 	Start/Stop Tasten: <span id="timingmode"></span>
-	<button onclick="javascript:timer.timingMode=0">Leertaste, V, B, N</button>
+	<button onclick="javascript:timer.timingMode=0">Leertaste, V, B, N (nicht mehr empfohlen)</button>
 	<button onclick="javascript:timer.timingMode=1">Leertaste</button>
 	<button onclick="javascript:timer.timingMode=2">Control, Control</button>
-	<button onclick="javascript:timer.timingMode=3">Javascript</button><br>
+	<button onclick="javascript:timer.timingMode=3">Javascript (nicht empfohlen)</button><br>
 	Default Scrambler bei neuen Sessions: <span id="defaultscrambler"></span><br>
 	Tool: <button onclick="javascript:timer.tool=0;drawTool()">Zeiten-&Uuml;bersicht</button>
 	<button onclick="javascript:timer.tool=1;drawTool()">Zeitenverteilung</button>
@@ -46,6 +46,10 @@
 	<button onclick="javascript:language=deutsch">DE_DE</button>
 	<button onclick="javascript:language=chinese">CH_ZN</button>
 	<button onclick="javascript:language=english">EN_GB</button><br>
+	Schrift: <button onclick="javascript:$('body').css('font-family','lngs725')">default</button>
+	<button onclick="javascript:$('body').css('font-family','arial')">Arial</button>
+	<button onclick="javascript:$('body').css('font-family','verdana')">Verdana</button>
+	<button onclick="javascript:$('body').css('font-family','courier')">Courier</button><br>
 	<br>
 	<h4>Farben</h4>
 	<button onclick="colors['W']='#FFFFFF';showOptions();" style="background-color:#FFFFFF;width:80px;color:black;">&nbsp;Wei&szlig;&nbsp;</button>
@@ -87,13 +91,30 @@
 <div class="options" style="visibility:hidden" id="relays">
 </div>
 <div id="time_liste" style="overflow:auto;"><div id="session" class="scroll"></div><div id="time_list"></div></div>
-<div id="config"><button class="btn-lg" onclick="javascript:showOptions();">Optionen</button><button class="btn-lg" onclick="javascript:ziel.display();">Ziele</button></div>
+<div id="config"><button class="btn-lg" onclick="javascript:showOptions();">Optionen</button><button class="btn-lg" onclick="javascript:ziel.display();">Ziele</button><button class="btn-lg" onclick="javascript:algsets.display();">AlgSets</button><button class="btn-lg" onclick="javascript:show('hilfe');">Hilfe</button></div>
 <div id="display" onclick="javascript:if(timer.running){stop();}else{start()};" style="user-select:none;-o-user-select:none;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;" unselectable="on" onselectstart="return false;" onmousedown="return false;">0.000</div>
 <div id="scrambleImage"></div>
 <div id="sessions"></div>
 <div id="scramble" style="overflow:auto;"></div>
 <div id="summ"></div>
 <div id="ziele" class="options" style="visibility:hidden;"></div>
+<div id="algSets" class="options" style="visibility:hidden;"></div>
+<div id="hilfe" class="options" style="visibility:hidden;">
+<h1>Hilfe</h1>
+<h2>Zeiten messen</h2>
+Die Zeit zwischen zwei Tastendr&uuml;cken auf eine oder mehrere definierte Tasten k&ouml;nnen gemessen werden. Die Taste ist in den Optionen einstellbar. Als default-Wert ist die Leertaste eingestellt. Die gemessene Zeit wird in der Mitte dargestellt.
+<h2>Scrambler</h2>
+Der Scrambler, oben mittig angezeigt, gibt eine Folge von Z&uuml;gen aus, die vor dem L&ouml;sen ausgef&uuml;hrt werden m&uuml;ssen. Der Scramblertyp kann oben links angegeben werden.
+<h2>Vergangenheit gemessener Zeiten</h2>
+Alle Vergangenen Zeiten werden links angezeigt. Es gibt au&szlig;erdem 4 Kn&ouml;pfe. "X" l&ouml;scht die Zeit und aktualisiert die Anzeige, "+2" gibt zwei Sekunden Zeitstrafe und aktualisiert die Anzeige, "+4" gibt vier Sekunden Zeitstrafe und aktualisiert die Anzeige, "DNF" setzt den Status auf DNF, also Did Not Finish und aktualisiert die Anzeige.
+<h2>Tools</h2>
+Es gibt verschiedene Zools zur Auswahl. Immer eines wird unten rechts angezeigt; welches ist in den Optionen auswählbar.
+<h2>Ziele</h2>
+Es ist m&ouml;glich, f&uuml;r jede Session eigene Ziele zu setzen. Die Zielseite wird mit Knopfdruck auf "Ziele" oben links aufgerufen. Es lassen sich Ziele f&uuml;r Single, Ao5, Ao12, Ao50 und einen selbst in den Optionen definierbaren AoX setzen. Bei erfolgreicher Durchf&uuml;hrung wird die Schrift gr&uuml;n, sonst bleibt sie rot.
+<h2>AlgSets</h2>
+Die AlgSets-Funktion bietet die M&ouml;glichkeit, Algorithmen d.H. Zugfolgen in Gruppen nach Funktion geordnet abzuspeichern. Sie ist mit dem Knopf oben links "AlgSets" erreichbar.
+<button onclick="javascript:hide('hilfe')">zur&uuml;ck</button>
+</div>
 <script>
 displayScramble();
 drawTool();

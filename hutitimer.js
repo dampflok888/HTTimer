@@ -46,8 +46,8 @@ function checkBrowserName(name){
 	return false;  
 }  
 
-var scrambleTypes=["1x1","2x2","3x3","4x4","5x5","2x2opt","2x2bld","2x24","3x3","3x3","3x3bld","3x3co","3x3hco","relay","barrel","ghost","3x3ru","3x3ruf","3x3lse","4x4","5x5","pyra","mpyra","mega","giga","pyracrystal","sq224","dreidellim","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","mixup3x3","mixup4x4","heli","helij","curvy","curvyj","curvyp","curvypj","curvypfj","square-1","square-2","skewb"],
-scrambleNames=["1x1","2x2","3x3","4x4","5x5","2x2 Optimal","2x2 blind","2x2 4 Z&uuml;ge","3x3","3x3 Onehanded","3x3 blind","3x3 mit Center Orientation","3x3 mit 2/3 Center Orientation","Relays","Barrel Cube","Ghost Cube","3x3 RU","3x3 RUF","3x3 Roux LSE","4x4","5x5","Pyraminx","Master Pyraminx","Megaminx","Gigaminx","Pyraminx Crystal","Sq224","Dreidel LimCube","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","Mixup 3x3","Mixup 4x4","Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus","Fully Jumbled Curvy Copter Plus","Square-1","Square-2","skewb"],
+var scrambleTypes=["1x1","2x2opt","2x2bld","2x24","3x3","3x3","3x3bld","3x3co","3x3hco","relay","barrel","ghost","3x3ru","3x3ruf","3x3lse","4x4","5x5","pyra","mpyra","mega","giga","pyracrystal","sq224","dreidellim","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","mixup3x3","mixup4x4","heli","helij","curvy","curvyj","curvyp","curvypj","curvypfj","square-1","square-2","skewb"],
+scrambleNames=["1x1","2x2 Optimal","2x2 blind","2x2 4 Z&uuml;ge","3x3","3x3 Onehanded","3x3 blind","3x3 mit Center Orientation","3x3 mit 2/3 Center Orientation","Relays","Barrel Cube","Ghost Cube","3x3 RU","3x3 RUF","3x3 Roux LSE","4x4","5x5","Pyraminx","Master Pyraminx","Megaminx","Gigaminx","Pyraminx Crystal","Sq224","Dreidel LimCube","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","Mixup 3x3","Mixup 4x4","Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus","Fully Jumbled Curvy Copter Plus","Square-1","Square-2","skewb"],
 uwrs=[],
 colors=[];
 uwrs["barrel"]=12.67,
@@ -531,14 +531,11 @@ function switchScrambler(typ){
 
 function displayScrambler(){
 	var text="",i;
-	
+
 	for(i=0;i<scrambleTypes.length;i++){
-		text+="<button onclick='switchScrambler(\""+scrambleTypes[i]+"\")'>"+scrambleNames[i]+"</button>";
-		if(i%5==0){
-			text+="<br>";
-		}
+		text+="<div class='scrambler-div' onclick='switchScrambler(\""+scrambleTypes[i]+"\")'>"+scrambleNames[i]+"</div>";
 	}
-	document.getElementById("session").innerHTML+=text+"<button onclick='hide(\"session\")'>"+language.back+"</button>";
+	document.getElementById("session").innerHTML=text+"<button onclick='hide(\"session\")'>"+language.back+"</button>";
 }
 
 function generateExport(){

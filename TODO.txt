@@ -12,13 +12,13 @@ uwr ao5, ao12 und ao100
 selbst wählbares verhältnis
 import von cstimer
 alg trainer
-alg sets
 translate more things (options ...)
 translate into more different languages
+algSets Speichern
 
 for version 4.0:
 ----------------
 Best/ao5/12/50/100/custom of selected solves (Bereich=selected)
-zu 9.: Dafür setzbare PBs
+zu 7.: Dafür setzbare PBs
 Sessions zusammenführen
 Server version!

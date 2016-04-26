@@ -7,14 +7,12 @@ option for custom big ao oder mo
 Nachricht wenn PB
 Mögliche Ziele: n subx-solves oder averages oder means haben
 Export vom ColorScheme und Puzzles
-aktuelles tool speichern
 uwr ao5, ao12 und ao100
 selbst wählbares verhältnis
 import von cstimer
 alg trainer
 translate more things (options ...)
 translate into more different languages
-algSets Speichern
 
 for version 4.0:
 ----------------

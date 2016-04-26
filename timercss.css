@@ -9,7 +9,7 @@ body {
 	bottom: 0;
 	background-color: #99CC29;
 	width: 200px;
-	height: 100px;
+	height: 50px;
 	border: 1px solid #222277;
 	border-radius: 10px;
 }
@@ -17,7 +17,7 @@ body {
 	font-size: 15pt;
 	position: absolute;
 	left: 0;
-	top: 102px;
+	top: 51px;
 	bottom: 0;
 	background-color: #99CC29;
 	width: 200px;
@@ -96,6 +96,12 @@ button {
 	font-size: 20pt;
 	margin: 3px;
 	padding: 2px;
+}
+.btn-option {
+	margin: 3px;
+	padding: 2px;
+	border: 1px solid black;
+	font-size:20pt;
 }
 .big {
 	font-size: 150pt !important;
@@ -188,4 +194,42 @@ table,td {
 	width:99%;
 	min-height:10px;
 	border: 1px solid #D5D5D5;
+}
+
+.right {
+	float:right;
+	width:50%;
+	border-radius:3px;
+	margin-top:3px;
+	margin-bottom:3px;
+}
+.left {
+	float:left;
+	width:50%;
+	border-radius:3px;
+	margin-top:3px;
+	margin-bottom:3px;
+}
+.startContainer {
+	width:99%;
+	height:100px;
+	text-align:center;
+	font-size:25pt;
+}
+.optionBottomContainer {
+	position:absolute;
+	left:0;
+	right:0;
+	bottom:0;
+	float:right;
+	font-size:20pt;
+	padding:5px;
+	margin:5px;
+}
+.helpmsg {
+	font-size:15pt;
+	background-color:#D2D2D2;
+	border: 1px solid black;
+	height:28px;
+	float:right;
 }

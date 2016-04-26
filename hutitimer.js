@@ -46,22 +46,6 @@ function checkBrowserName(name){
 	return false;  
 }  
 
-var scrambleTypes=["1x1","2x2opt","2x2bld","2x24","3x3","3x3","3x3bld","3x3co","3x3hco","relay","barrel","ghost","3x3ru","3x3ruf","3x3lse","4x4","5x5","pyra","mpyra","mega","giga","pyracrystal","sq224","dreidellim","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","mixup3x3","mixup4x4","heli","helij","curvy","curvyj","curvyp","curvypj","curvypfj","square-1","square-2","skewb"],
-scrambleNames=["1x1","2x2 Optimal","2x2 blind","2x2 4 Z&uuml;ge","3x3","3x3 Onehanded","3x3 blind","3x3 mit Center Orientation","3x3 mit 2/3 Center Orientation","Relays","Barrel Cube","Ghost Cube","3x3 RU","3x3 RUF","3x3 Roux LSE","4x4","5x5","Pyraminx","Master Pyraminx","Megaminx","Gigaminx","Pyraminx Crystal","Sq224","Dreidel LimCube","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","Mixup 3x3","Mixup 4x4","Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus","Fully Jumbled Curvy Copter Plus","Square-1","Square-2","skewb"],
-uwrs=[],
-colors=[];
-uwrs["barrel"]=12.67,
-uwrs["ghost"]=33.25,
-colors["W"]="#FFFFFF",
-colors["R"]="#FF0000",
-colors["O"]="#FFA500",
-colors["S"]="#000000",
-colors["G"]="#FFFF00",
-colors["U"]="#FF00FF",
-colors["B"]="#0000FF",
-colors["A"]="#A0A0A0";
-triggers=[[["R","U","R'","U'"],"sexy"],[["R'","F","R","F'"],"sledge"]];
-
 var cube=generatealgjscube(alg_jison);
 
 timer={
@@ -85,8 +69,23 @@ timer={
 	version:"2.1.7",
 	customAvg:3,
 	tool:0,
-	relayWarn:true
+	relayWarn:true,
+	scrambleTypes:["1x1","2x2opt","2x2bld","2x24","3x3","3x3","3x3bld","3x3co","3x3hco","relay","barrel","ghost","3x3ru","3x3ruf","3x3lse","4x4","5x5","pyra","mpyra","mega","giga","pyracrystal","sq224","dreidellim","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","mixup3x3","mixup4x4","heli","helij","curvy","curvyj","curvyp","curvypj","curvypfj","square-1","square-2","skewb"],
+	scrambleNames:["1x1","2x2 Optimal","2x2 blind","2x2 4 Z&uuml;ge","3x3","3x3 Onehanded","3x3 blind","3x3 mit Center Orientation","3x3 mit 2/3 Center Orientation","Relays","Barrel Cube","Ghost Cube","3x3 RU","3x3 RUF","3x3 Roux LSE","4x4","5x5","Pyraminx","Master Pyraminx","Megaminx","Gigaminx","Pyraminx Crystal","Sq224","Dreidel LimCube","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","Mixup 3x3","Mixup 4x4","Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus","Fully Jumbled Curvy Copter Plus","Square-1","Square-2","skewb"]
 }
+uwrs=[],
+colors=[];
+uwrs["barrel"]=12.67,
+uwrs["ghost"]=33.25,
+colors["W"]="#FFFFFF",
+colors["R"]="#FF0000",
+colors["O"]="#FFA500",
+colors["S"]="#000000",
+colors["G"]="#FFFF00",
+colors["U"]="#FF00FF",
+colors["B"]="#0000FF",
+colors["A"]="#A0A0A0";
+triggers=[[["R","U","R'","U'"],"sexy"],[["R'","F","R","F'"],"sledge"]];
 
 function start(){
 	if(!timer.running){
@@ -534,8 +533,8 @@ function switchScrambler(typ){
 function displayScrambler(){
 	var text="",i;
 
-	for(i=0;i<scrambleTypes.length;i++){
-		text+="<div class='scrambler-div' onclick='switchScrambler(\""+scrambleTypes[i]+"\")'>"+scrambleNames[i]+"</div>";
+	for(i=0;i<timer.scrambleTypes.length;i++){
+		text+="<div class='scrambler-div' onclick='switchScrambler(\""+timer.scrambleTypes[i]+"\")'>"+timer.scrambleNames[i]+"</div>";
 	}
 	document.getElementById("session").innerHTML=text+"<button onclick='hide(\"session\")'>"+language.back+"</button>";
 }
@@ -579,27 +578,7 @@ function generateExport(){
 }
 
 function exportCode(){
-	var code="timer={config:{results:[",i,j;
-	for(i=0;i<timer.config.results.length;i++){
-		code+="{zeit:"+timer.config.results[i].zeit;
-		code+=",scramble:'"+timer.config.results[i].scramble.replaceAll("'","i");
-		code+="',penalty:'"+timer.config.results[i].penalty;
-		code+="',datum:"+timer.config.results[i].datum+"},";
-	}
-	code+="],aktualisierungsrate:"+timer.config.aktualisierungsrate+"},running:false,zeit:0,penalty:'',type:'"+timer.type+"',timingMode:"+timer.timingMode;
-	code+=",blockTime:"+timer.blockTime+",blockTimeReturn:"+timer.blockTimeReturn+",currentSession:"+timer.currentSession+",defaultScrambler:'"+timer.defaultScrambler+"',sessions:[";
-	for(i=0;i<timer.sessions.length;i++){
-		code+="{scrambler:'"+timer.sessions[i].scrambler+"',results:["
-		for(j=0;j<timer.sessions[i].results.length;j++){
-			code+=",{zeit:"+timer.sessions[i].results[j].zeit;
-			code+=",scramble:'"+timer.sessions[i].results[j].scramble.replaceAll("'","i");
-			code+="',penalty:'"+timer.sessions[i].results[j].penalty;
-			code+="',kommentar:'"+timer.sessions[i].results[j].kommentar;
-			code+="',datum:"+timer.sessions[i].results[j].datum+"}";
-		}
-		code+="]},";
-	}
-	code+="],relayCommand:'"+timer.relayCommand+"',version:'"+timer.version+"',customAvg:"+timer.customAvg+",relayWarn:"+timer.relayWarn+"}<button onclick='hideExportCode()'>OK</button>";
+	var code="timer="+JSON.stringify(timer,null,1)+";algsets.sets="+JSON.stringify(algsets.sets,null,1)+"<button onclick='hideExportCode()'>OK</button>";
 	document.getElementById("scrambleImage").innerHTML=code;
 	return code;
 }
@@ -624,7 +603,7 @@ ziel={
 	done:[],
 	doneAvg:[],
 	display:function(){
-		var text="<h2>"+language.ziele+"</h2>"+language.currentSession+":";
+		var text="<h2>"+language.goals+"</h2>"+language.currentSession+":";
 		show('ziele');
 		var
 		globalAverage=format(average(timer.config.results)),
@@ -708,9 +687,9 @@ var relayNumbers=[];
 
 function displayRelayOption(){
 	var text="<button onclick='relayNumbers[1]=relayNumbers[5]=relayNumbers[16]=1;displayRelayOption();'>2x2-4x4</button><br><button onclick='relayNumbers[1]=relayNumbers[5]=relayNumbers[16]=relayNumbers[17]=1;displayRelayOption();'>2x2-5x5</button><br><br>";
-	for(var i=0;i<scrambleTypes.length;i++){
+	for(var i=0;i<timer.scrambleTypes.length;i++){
 		if(typeof relayNumbers[i]=="undefined")relayNumbers[i]=0;
-		text+=(i+1)+".: "+scrambleNames[i]+"&nbsp;&nbsp;";
+		text+=(i+1)+".: "+timer.scrambleNames[i]+"&nbsp;&nbsp;";
 		if(relayNumbers[i]<256){
 			text+="<button onclick='relayNumbers["+i+"]++;displayRelayOption();'>+</button>"
 		}else{
@@ -731,7 +710,7 @@ function generateRelayCode(){
 	for(i=0;i<relayNumbers.length;i++){
 		if(relayNumbers[i]>0){
 			for(j=0;j<relayNumbers[i];j++){
-				timer.relayCommand+=scrambleTypes[i]+" ";
+				timer.relayCommand+=timer.scrambleTypes[i]+" ";
 			}
 		}
 	}
@@ -770,11 +749,7 @@ function importCstimer(code){
 }
 
 function showOptions(){
-	document.getElementById("options").style.visibility="visible";
-	document.getElementById("blocktime").innerHTML=timer.blockTime;
-	document.getElementById("blocktimereturn").innerHTML=timer.blockTimeReturn;
-	document.getElementById("defaultscrambler").innerHTML=timer.defaultScrambler;
-	document.getElementById("timingmode").innerHTML=timer.timingMode;
+	show("options");
 }
 
 function hideOptions(){

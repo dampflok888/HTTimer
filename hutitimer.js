@@ -62,6 +62,8 @@ colors["B"]="#0000FF",
 colors["A"]="#A0A0A0";
 triggers=[[["R","U","R'","U'"],"sexy"],[["R'","F","R","F'"],"sledge"]];
 
+var cube=generatealgjscube(alg_jison);
+
 timer={
 	config:{
 		results:[],
@@ -666,7 +668,7 @@ algsets={
 		for(var i=0;i<algsets.sets.length;i++){
 			text+=algsets.setnames[i]+":<button onclick='javascript:algsets.addAlg("+i+")'>+</button><br>";
 			for(var j=0;j<algsets.sets[i].length;j++){
-				text+=(j+1)+".: "+algsets.formatAlg(algsets.sets[i][j])+"<button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.turnAlg(algsets.sets["+i+"]["+j+"]);algsets.display();'>Drehen</button><br>";
+				text+=(j+1)+".: "+algsets.formatAlg(algsets.sets[i][j])+"<button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.turnAlg(algsets.sets["+i+"]["+j+"]);algsets.display();'>Invert</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.mirrorM(algsets.sets["+i+"]["+j+"]);algsets.display();'>Mirror M</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.mirrorS(algsets.sets["+i+"]["+j+"]);algsets.display();'>Mirror S</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.simplify(algsets.sets["+i+"]["+j+"]);algsets.display();'>Simplify</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.viewExecution(algsets.sets["+i+"]["+j+"]);'>View Execution</button><br>";
 			}
 		}
 		text+="<br><div onclick='hide(\"algSets\")'>"+language.back+"</div>";
@@ -685,20 +687,19 @@ algsets={
 		return alg;
 	},
 	turnAlg:function(alg){
-		alg=alg.replaceAll("R","L'");
-		alg=alg.replaceAll("R'","L");
-		alg=alg.replaceAll("R2","L2");
-		alg=alg.replaceAll("L'","R");
-		alg=alg.replaceAll("L","L'");
-		alg=alg.replaceAll("L2","R2");
-		alg=alg.replaceAll("U'","U");
-		alg=alg.replaceAll("U","U'");
-		alg=alg.replaceAll("D'","D");
-		alg=alg.replaceAll("D","D'");
-		alg=alg.replaceAll("F","F'");
-		alg=alg.replaceAll("F'","F");
-		alg=alg.replaceAll("B","B'");
-		alg=alg.replaceAll("B'","B");
+		return cube.cube.invert(alg);
+	},
+	mirrorS:function(alg){
+		return cube.cube.mirrorAcrossS(alg);
+	},
+	mirrorM:function(alg){
+		return cube.cube.mirrorAcrossM(alg);
+	},
+	simplify:function(alg){
+		return cube.cube.simplify(alg);
+	},
+	viewExecution:function(alg){
+		$("#algSets").html('<iframe src="https://alg.cubing.net/?alg='+cube.cube.simplify(alg)+'&setup='+cube.cube.invert(alg)+'&view=fullscreen" width="800" height="550"></iframe><div onclick="algsets.display()">'+language.back+'</div>');
 		return alg;
 	}
 }

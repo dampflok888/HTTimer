@@ -116,6 +116,9 @@ function getScrambles(type,relay){
 	scrambler["square-2"]=generateScramble(squan,34);
 	scrambler["square-1"]=genScrambleSq1(42);
 	scrambler["skewb"]=generateScramble(skewb,12);
+	
+	for(var i=0;i<scrambler.length;i++)scrambler[i]=cube.cube.simplify(scrambler[i])||scrambler[i];
+	
 	if(relay!=0){
 		scrambler["relay"]=relayScramble(timer.relayCommand);
 	}

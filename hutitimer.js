@@ -1,3 +1,25 @@
+/*
+hutitimer.js - main timer file
+written by Frederik Hutfleß
+*/
+
+uwrs=[],
+colors=[],
+uwrholders=[],
+uwrs["barrel"]=11.636,
+uwrholders["barrel"]="Frederik Hutfle&szlig;",
+uwrs["ghost"]=33.25,
+uwrholders["ghost"]="Sebastian Haefner",
+colors["W"]="#FFFFFF",
+colors["R"]="#FF0000",
+colors["O"]="#FFA500",
+colors["S"]="#000000",
+colors["G"]="#FFFF00",
+colors["U"]="#FF00FF",
+colors["B"]="#0000FF",
+colors["A"]="#A0A0A0";
+triggers=[[["R","U","R'","U'"],"sexy"],[["R'","F","R","F'"],"sledge"]];
+
 rotationReducer={
 	keys:[["x y x'","z"],["x' y x","z'"],["y x y'","z'"],["y x' y'","z"]],
 	reduce:function(rots){
@@ -10,7 +32,6 @@ rotationReducer={
 		return rots;
 	}
 }
-
 
 if(navigator.userAgent.toLowerCase().search(/(iphone|ipad|opera mini|fennec|palm|blackberry|android|symbian|series60)/)>-1){
   mobil=true;
@@ -69,23 +90,11 @@ timer={
 	version:"2.1.7",
 	customAvg:3,
 	tool:0,
+	precision:true,
 	relayWarn:true,
 	scrambleTypes:["1x1","2x2opt","2x2bld","2x24","3x3","3x3","3x3bld","3x3co","3x3hco","relay","barrel","ghost","3x3ru","3x3ruf","3x3lse","4x4","5x5","pyra","mpyra","mega","giga","pyracrystal","sq224","dreidellim","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","mixup3x3","mixup4x4","heli","helij","curvy","curvyj","curvyp","curvypj","curvypfj","square-1","square-2","skewb"],
 	scrambleNames:["1x1","2x2 Optimal","2x2 blind","2x2 4 Z&uuml;ge","3x3","3x3 Onehanded","3x3 blind","3x3 mit Center Orientation","3x3 mit 2/3 Center Orientation","Relays","Barrel Cube","Ghost Cube","3x3 RU","3x3 RUF","3x3 Roux LSE","4x4","5x5","Pyraminx","Master Pyraminx","Megaminx","Gigaminx","Pyraminx Crystal","Sq224","Dreidel LimCube","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","Mixup 3x3","Mixup 4x4","Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus","Fully Jumbled Curvy Copter Plus","Square-1","Square-2","skewb"]
 }
-uwrs=[],
-colors=[];
-uwrs["barrel"]=12.67,
-uwrs["ghost"]=33.25,
-colors["W"]="#FFFFFF",
-colors["R"]="#FF0000",
-colors["O"]="#FFA500",
-colors["S"]="#000000",
-colors["G"]="#FFFF00",
-colors["U"]="#FF00FF",
-colors["B"]="#0000FF",
-colors["A"]="#A0A0A0";
-triggers=[[["R","U","R'","U'"],"sexy"],[["R'","F","R","F'"],"sledge"]];
 
 function start(){
 	if(!timer.running){
@@ -149,6 +158,7 @@ function format(z){
 	diff = diff % (1000*60);
 	var sec = Math.floor(diff / 1000);
 	var mSec = diff % 1000;
+	if(!timer.precision)mSec=mSec%10*10;
 	mSec=Math.round(mSec);
 	var add="";
 	if(mSec%10==0){
@@ -157,7 +167,7 @@ function format(z){
 	if(mSec%100==0){
 		add="0";
 	}
-	if(mSec%1000==0){
+	if(mSec%1000==0&&timer.precision){
 		add="0";
 	}
 	if(isNaN(mSec)){
@@ -347,7 +357,7 @@ function toolTimes(){
 		globalAverage=format(average(timer.config.results)),
 		best=format(minMaxTime(timer.config.results).min),
 		worst=format(minMaxTime(timer.config.results).max),
-		besto5=format(bestaox(timer.config.results,5)),
+		bestao5=format(bestaox(timer.config.results,5)),
 		uwr,fake;
 	if(best<uwrs[timer.type])uwr=true;
 	if(best<0.3)fake=true;
@@ -361,8 +371,8 @@ function toolTimes(){
 	if(fake&&uwr){
 		p+=" <b>FAKED UWR! :(</b>";
 	}
-	p+="<br>"+language.worst+": " + worst + "<br>"+language.best+" Ao5: " + besto5 + "";
-	ziel.check(1,timer.type,besto5);
+	p+="<br>"+language.worst+": " + worst + "<br>"+language.best+" Ao5: " + bestao5 + "";
+	ziel.check(1,timer.type,bestao5);
 	if(timer.config.results.length>11){
 		p+="<br>"+language.best+" Ao12: "+format(bestaox(timer.config.results,12));
 		if(timer.config.results.length>49){
@@ -396,10 +406,10 @@ function toolTimeRatio(){
 		globalAverage=format(average(timer.config.results)),
 		best=format(minMaxTime(timer.config.results).min),
 		worst=format(minMaxTime(timer.config.results).max),
-		besto5=format(bestaox(timer.config.results,5)),text="<table>";
+		bestao5=format(bestaox(timer.config.results,5)),text="<table>";
 	text+="<tr><td><b>A</b></td><td><b>zu B</b></td><td><b>Verh&auml;ltnis</b></td></tr>";
 	text+="<tr><td>Best</td><td>Worst</td><td>"+Math.floor(best/worst*100)/100+"</td></tr>";
-	text+="<tr><td>Single</td><td>Ao5</td><td>"+Math.floor(best/besto5*100)/100+"</td></tr>";
+	text+="<tr><td>Single</td><td>Ao5</td><td>"+Math.floor(best/bestao5*100)/100+"</td></tr>";
 	if(timer.config.results.length>11){
 		text+="<tr><td>Single</td><td>Ao12</td><td>"+Math.floor(best/format(bestaox(timer.config.results,12))*100)/100;+"</td></tr>";
 		text+="<tr><td>Ao5</td><td>Ao12</td><td>"+Math.floor(bestao5/format(bestaox(timer.config.results,12))*100)/100;+"</td></tr>";
@@ -421,8 +431,8 @@ function toolTimeHistory(){
 	ctx = canvas.getContext('2d'),
 	height=150,
 	width=200;
-	ctx.moveTo(0,height-10);
-	ctx.lineTo(width,height-10);
+	ctx.moveTo(0,height-1);
+	ctx.lineTo(width,height-1);
 	ctx.stroke();
 	ctx.font = "10px Arial";
 	
@@ -430,8 +440,8 @@ function toolTimeHistory(){
 	var min=0,j,max=minMaxTime(timer.config.results).max,time;
 	for(var j=0;j<times.length;j++){
 		time=times[j].zeit;
-		ctx.moveTo((j/times.length)*width,height+min-10);
-		ctx.lineTo((j/times.length)*width,height-((time/max)*height)+12);
+		ctx.moveTo((j/times.length)*width,height+min-1);
+		ctx.lineTo((j/times.length)*width,height-((time/max)*height)+1);
 	}
 	ctx.stroke();
 }
@@ -530,13 +540,14 @@ function switchScrambler(typ){
 	displayScramble();
 }
 
-function displayScrambler(){
+function displayScrambler(a){
 	var text="",i;
 
 	for(i=0;i<timer.scrambleTypes.length;i++){
 		text+="<div class='scrambler-div' onclick='switchScrambler(\""+timer.scrambleTypes[i]+"\")'>"+timer.scrambleNames[i]+"</div>";
 	}
-	document.getElementById("session").innerHTML=text+"<button onclick='hide(\"session\")'>"+language.back+"</button>";
+	$("#session").html(text+"<button onclick='hide(\"session\")'>"+language.back+"</button>");
+	if(a)$(a).html(text);
 }
 
 function generateExport(){
@@ -544,10 +555,10 @@ function generateExport(){
 		globalAverage=format(average(timer.config.results)),
 		best=format(minMaxTime(timer.config.results).min),
 		worst=format(minMaxTime(timer.config.results).max),
-		besto5=format(bestaox(timer.config.results,5)),
+		bestao5=format(bestaox(timer.config.results,5)),
 
 
-	p="<h2>Export</h2>"+language.globalAverage+": " + globalAverage + "<br>"+language.best+"e: " + best + "<br>"+language.worst+": " + worst + "<br>"+language.best+" Ao5: " + besto5 + "<br>";
+	p="<h2>Export</h2>"+language.globalAverage+": " + globalAverage + "<br>"+language.best+"e: " + best + "<br>"+language.worst+": " + worst + "<br>"+language.best+" Ao5: " + bestao5 + "<br>";
 	if(timer.config.results.length>11){
 		p+="<br>"+language.best+" Ao12: "+format(bestaox(timer.config.results,12));
 		if(timer.config.results.length>49){
@@ -603,22 +614,29 @@ ziel={
 	done:[],
 	doneAvg:[],
 	display:function(){
-		var text="<h2>"+language.goals+"</h2>"+language.currentSession+":";
+		while(ziel.ziele.length<timer.sessions.length){
+			ziel.ziele.push([0,0,0,0,0,0]);
+		}
+		var text="<h2>"+language.goals+"</h2>";
+		for(var i=0;i<timer.sessions.length;i++){
+			text+="<button class='btn-option' onclick='javascript:switchSession("+i+");ziel.display();'>"+i+"</button>";
+		}
+		text+="<span class=\"helpmsg\" onmouseover=\"$(this).html('W&auml;hlen Sie die Session aus, f&uuml;r die Sie die Ziele setzen m&ouml;chten.');\" onmouseout=\"$(this).html('&nbsp;?&nbsp;')\">&nbsp;?&nbsp;</span><br>";
 		show('ziele');
 		var
 		globalAverage=format(average(timer.config.results)),
 		best=format(minMaxTime(timer.config.results).min),
 		worst=format(minMaxTime(timer.config.results).max),
-		besto5=format(bestaox(timer.config.results,5)),
+		bestao5=format(bestaox(timer.config.results,5)),
 		besto12=format(bestaox(timer.config.results,12)),
-		besto50=format(bestaox(timer.config.results,50)),
+		bestao50=format(bestaox(timer.config.results,50)),
 		bestocustom=format(bestaox(timer.config.results,timer.customAvg));
 		if(typeof ziel.ziele[timer.currentSession]=="undefined")ziel.ziele[timer.currentSession]=[0,0,0,0,0,0];
 		
 		text+="<br>Single:"+ziel.format(ziel.ziele[timer.currentSession][0],best)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][0]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][0]--;ziel.display();'>-</button>"
-		+"<br>Ao5:"+ziel.format(ziel.ziele[timer.currentSession][1],besto5)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][1]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][1]--;ziel.display();'>-</button>"
+		+"<br>Ao5:"+ziel.format(ziel.ziele[timer.currentSession][1],bestao5)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][1]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][1]--;ziel.display();'>-</button>"
 		+"<br>Ao12:"+ziel.format(ziel.ziele[timer.currentSession][2],besto12)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][2]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][2]--;ziel.display();'>-</button>"
-		+"<br>Ao50:"+ziel.format(ziel.ziele[timer.currentSession][3],besto50)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][3]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][3]--;ziel.display();'>-</button>"
+		+"<br>Ao50:"+ziel.format(ziel.ziele[timer.currentSession][3],bestao50)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][3]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][3]--;ziel.display();'>-</button>"
 		+"<br>Custom Aox:"+ziel.format(ziel.ziele[timer.currentSession][4],bestocustom)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][4]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][4]--;ziel.display();'>-</button>"
 		+"<br>";
 		
@@ -640,6 +658,7 @@ ziel={
 algsets={
 	sets:[],
 	setnames:[],
+	registeredSets:{"PLL":[" 	x (R' U R') D2(R U' R') D2 R2 "," 	x' (R U' R) D2 (R' U R) D2 R2 ","R U' R U R U R U' R' U' R2","R2 U R U R' U' (R' U') (R' U R')","M2 U M2 U2 M2 U M2 ","R U R' U' R' F R2 U' R' U' R U R' F'"," 	R U R' F' R U R' U' R' F R2 U' R' U'","F R U' R' U' R U R' F' R U R' U' R' F R F'"," 	R' U2 R U2 R' F R U R' U' R' F' R2 U'"," 	L U2' L' U2' L F' L' U' L U L F L2' U","R' U R' d' R' F' R2 U' R' U R' F R F","R' U2 R' d' R' F' R2 U' R' U R' F R U' F"," 	R U R' y' R2 u' R U' R' U R' u R2","R' U' R y R2 u R' U R U' R u' R2"," 	R2 u' R U' R U R' u R2 y R U' R'"," 	R2 u R' U R' U' R u' R2 y' R' U R"," 	M2 U M2 U M' U2 M2 U2 M' U2","R' U L' U2 R U' R' U2 R L U'","x' (R U' R') D (R U R') D' (R U R') D (R U' R') D' ","(R' U L') U2 (R U' L) (R' U L') U2 (R U' L) U'","(L U' R) U2 (L' U R') (L U' R) U2 (L' U R') U"]},
 	display:function(){
 		show('algSets');
 		text="<h2>Algorithmen</h2>";
@@ -647,15 +666,24 @@ algsets={
 		for(var i=0;i<algsets.sets.length;i++){
 			text+=algsets.setnames[i]+":<button onclick='javascript:algsets.addAlg("+i+")'>+</button><br>";
 			for(var j=0;j<algsets.sets[i].length;j++){
-				text+=(j+1)+".: "+algsets.formatAlg(algsets.sets[i][j])+"<button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.turnAlg(algsets.sets["+i+"]["+j+"]);algsets.display();'>Invert</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.mirrorM(algsets.sets["+i+"]["+j+"]);algsets.display();'>Mirror M</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.mirrorS(algsets.sets["+i+"]["+j+"]);algsets.display();'>Mirror S</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.simplify(algsets.sets["+i+"]["+j+"]);algsets.display();'>Simplify</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.viewExecution(algsets.sets["+i+"]["+j+"]);'>View Execution</button><br>";
+				text+=(j+1)+".: "+algsets.formatAlg(algsets.sets[i][j])+"<button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.turnAlg(algsets.sets["+i+"]["+j+"]);algsets.display();'>Invert</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.mirrorM(algsets.sets["+i+"]["+j+"]);algsets.display();'>Mirror M</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.mirrorS(algsets.sets["+i+"]["+j+"]);algsets.display();'>Mirror S</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.simplify(algsets.sets["+i+"]["+j+"]);algsets.display();'>Simplify</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.viewExecution(algsets.sets["+i+"]["+j+"]);'>View Execution</button><button onclick='javascript:algsets.edit("+i+","+j+");'>Edit</button><br>";
 			}
 		}
 		text+="<br><div onclick='hide(\"algSets\")'>"+language.back+"</div>";
 		$("#algSets").html(text);
 	},
 	addSet:function(){
-		algsets.sets[algsets.sets.length]=[];
-		algsets.setnames.push(prompt("Geben Sie Ihren AlgSetNamen hier ein."));
+		var a=prompt("Geben Sie Ihren AlgSetNamen hier ein.");
+		algsets.setnames.push(a);
+		if(typeof algsets.registeredSets[a.toUpperCase()]!=="undefined"){
+			if(confirm("Das AlgSet ist schon definiert. Möchten Sie Ihre eigene Definition schreiben (OK) oder die vorgefertigte Verwenden (Abbrechen)?")){
+				algsets.sets[algsets.sets.length]=algsets.registeredSets[a.toUpperCase()];
+			}else{
+				algsets.sets[algsets.sets.length]=[];
+			}
+		}else{
+			algsets.sets[algsets.sets.length]=[];
+		}
 		algsets.display();
 	},
 	addAlg:function(setid){
@@ -680,6 +708,10 @@ algsets={
 	viewExecution:function(alg){
 		$("#algSets").html('<iframe src="https://alg.cubing.net/?alg='+cube.cube.simplify(alg)+'&setup='+cube.cube.invert(alg)+'&view=fullscreen" width="800" height="550"></iframe><div onclick="algsets.display()">'+language.back+'</div>');
 		return alg;
+	},
+	edit:function(i,j){
+		algsets.sets[i][j]=prompt("Geben Sie den neuen Algorithmus hier ein.",algsets.sets[i][j]);
+		algsets.display();
 	}
 }
 
@@ -744,6 +776,44 @@ function importCstimer(code){
 		for(var j=0,obj;j<eval("cstimer.session"+i).length;i++){
 			obj={"zeit":eval("cstimer.session"+i)[j][0][1],"scramble":eval("cstimer.session"+i)[j][1],"penalty":'',"datum":0}
 			timer.sessions[i].results.push(obj);
+		}
+	}
+}
+
+musik={
+	server:{
+		load:function(){
+			var src=prompt("Geben Sie hier die URL ein.");
+			var type=false;
+			src3=src.split(".");
+			src2=src3[src3.length-1];
+			switch(src2){
+				case "mp3":
+				type="audio/mpeg";
+				break;
+				case "ogg":
+				type="audio/ogg";
+				break;
+				case "wav":
+				type="audio/wav";
+				break;
+			}
+			if(type){
+				$("#musik0").html($("#musik0").html()+"<audio controls autoplay loop><source src='"+src+"' type='"+type+"'/></audio>");
+			}else{
+				$("#musik0").html($("#musik0").html()+"Nicht unterst&uuml;tzter Dateityp!");
+			}
+		}
+	},
+	youtube:{
+		load:function(){
+			var id=prompt("Youtubevideoid hier eingeben:");
+			$("#musik1").html($("#musik1").html()+'<iframe id="ytplayer" type="text/html" width="640" height="390" src="http://www.youtube.com/embed/'+id+'?autoplay=1&fs=0&disablekb=1&loop=1&autohide=0" frameborder="0"/>');
+		},
+		loadlist:function(){
+			var id=prompt("Youtubevideoid hier eingeben:");
+			var list=prompt("Youtubevideolistenid hier eingeben:");
+			$("#musik2").html($("#musik2").html()+'<iframe id="ytplayer" type="text/html" width="640" height="390" src="http://www.youtube.com/embed/'+id+'?autoplay=1&fs=0&disablekb=1&loop=1&autohide=0&list='+list+'" frameborder="0"/>');
 		}
 	}
 }

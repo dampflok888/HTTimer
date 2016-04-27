@@ -13,6 +13,7 @@ import von cstimer
 alg trainer
 translate more things (options ...)
 translate into more different languages
+custom scrambler
 
 for version 4.0:
 ----------------

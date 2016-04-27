@@ -230,6 +230,7 @@ table,td {
 	font-size:15pt;
 	background-color:#D2D2D2;
 	border: 1px solid black;
-	height:28px;
+	min-height:28px;
 	float:right;
+	max-width:742px;
 }

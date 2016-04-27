@@ -39,6 +39,7 @@ function getScrambles(type,relay){
 	var helifj=["UF","UR","UB","UL","DF","DR","DB","DL","FR","FL","BR","BL","JR","JL","UR+","UR-","UF+","UF-","y","z'","x'","z2"];
 	var squan=["/","1","2","3","4","5","6","7","8","9","0"];
 	var skewb=["U","R","B","L"];
+	var barrelstage1=["R","R'","R2","L","L'","L2","F","F'","F2","B","B'","B2"];
 
 	scramble+=generateScramble(state1,3);
 	scramble+=generateScramble(state2,5);
@@ -80,7 +81,7 @@ function getScrambles(type,relay){
 	scrambler["3x3x4"]=generateScramble(floppy,35);
 	scrambler["3x3x2"]=generateScramble(floppy,17);
 	scrambler["2x2x3"]=generateScramble(floppy,12);
-	scrambler["barrel"]=generateScramble(["R2","U2","L2","B2"],1)+generateScramble(floppy,11)+generateScramble(drei,10);
+	scrambler["barrel"]=generateScramble(barrelstage1,2)+generateScramble(["R2","U2","L2","B2"],1)+generateScramble(floppy,11)+generateScramble(drei,10);
 	scrambler["1x2x2"]=generateScramble(nplus,2);
 	scrambler["1x2x3"]=generateScramble(nplusplus,7);
 	scrambler["pyra"]=genScramblePyra(20);

@@ -19,13 +19,14 @@ function getScrambles(type,relay){
 	var vier=["R","R'","R2","U'","U","U2","F","F'","F2","B","B'","B2","L'","L","L2","D","D'","D2","r","r'","r2","u'","u","u2","f","f'","f2","b","b'","b2","l'","l","l2","d","d'","d2"];
 	var pyramix=["R","R'","U","U'","L","L'","B","B'"];
 	var pyramixTip=["r","r'","u","u'","l","l'","b","b'"];
-	var mpyramix=["R","R'","U","U'","L","L'","B","B'","r","r'","u","u'","l","l'","b","b'"]
+	var mpyramix=["R","R'","U","U'","L","L'","B","B'","r","r'","u","u'","l","l'","b","b'"];
 	var megaAll=["r++","r--","u++","u--","R++","R--","U--","R++"];
 	var gigaBetween=["U","U'","U2","u","u'","u2"];
 	var mega=["R++","R--","U++","U--"];
 	var eins=["x","x'","x2","y","y'","y2","z","z2","z'"];
 	var rouxlse=["M","M'","M2","U","U'","U2"];
 	var ru=["R","R'","R2","U","U'","U2"];
+	var rul=["R","R'","R2","U","U'","U2","L","L'","L2"];
 	var bld=["Uw","Uw'","Uw'2","Uw2","Rw","Rw'","Rw'2","Rw2","Fw","Fw'","Fw'2","Fw2"];
 	var floppy=["R2","U2","F2","L2","U","U'","D","D'","U2","D2"];
 	var nplus=["R2","U2"];
@@ -95,6 +96,7 @@ function getScrambles(type,relay){
 	scrambler["3x3bld"]=generateScramble(drei,22)+generateScramble(bld,2);
 	scrambler["3x3lse"]=generateScramble(rouxlse,17);
 	scrambler["3x3ru"]=generateScramble(ru,16);
+	scrambler["3x3rul"]=generateScramble(rul,18);
 	scrambler["3x3ruf"]=generateScramble(zwei,17);
 	scrambler["3x3co"]=generateScramble(drei,25);
 	scrambler["3x3hco"]=generateScramble(drei,24);

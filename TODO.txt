@@ -7,7 +7,8 @@ option for custom big ao oder mo
 Nachricht wenn PB
 Mögliche Ziele: n subx-solves oder averages oder means haben
 Export vom ColorScheme und Puzzles
-uwr ao5, ao12 und ao100
+uwr averages
+BLD random state orientation scrambler
 selbst wählbares verhältnis
 import von cstimer
 alg trainer

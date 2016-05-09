@@ -67,7 +67,8 @@ function checkBrowserName(name){
 	return false;  
 }  
 
-var cube=generatealgjscube(alg_jison);
+var cube=generatealgjscube(alg_jison),
+rshtml="<small><span style='color:red;float:right;' title='Random state'><i>RS</i>&nbsp;</span></small>";
 
 timer={
 	config:{
@@ -92,8 +93,18 @@ timer={
 	tool:0,
 	precision:true,
 	relayWarn:true,
-	scrambleTypes:["1x1","2x2opt","2x2bld","2x24","3x3","3x3","3x3bld","3x3co","3x3hco","relay","barrel","ghost","3x3ru","3x3ruf","3x3lse","4x4","5x5","pyra","mpyra","mega","giga","pyracrystal","sq224","dreidellim","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","mixup3x3","mixup4x4","heli","helij","curvy","curvyj","curvyp","curvypj","curvypfj","square-1","square-2","skewb"],
-	scrambleNames:["1x1","2x2 Optimal","2x2 blind","2x2 4 Z&uuml;ge","3x3","3x3 Onehanded","3x3 blind","3x3 mit Center Orientation","3x3 mit 2/3 Center Orientation","Relays","Barrel Cube","Ghost Cube","3x3 RU","3x3 RUF","3x3 Roux LSE","4x4","5x5","Pyraminx","Master Pyraminx","Megaminx","Gigaminx","Pyraminx Crystal","Sq224","Dreidel LimCube","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","Mixup 3x3","Mixup 4x4","Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus","Fully Jumbled Curvy Copter Plus","Square-1","Square-2","skewb"]
+	scrambleTypes:["1x1","2x2","3x3","4x4","5x5","5x5","5x5","pyra","mega","square-1","skewb","clock",
+						"2x2opt","2x2bld","3x3bld","3x3co","3x3hco","3x3ru","3x3ruf","3x3rul","3x3lse",
+						"1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3",
+						"barrel","ghost",
+						"heli","helij","curvy","curvyj","curvyp","curvypj","curvypfj","mixup3x3","mixup4x4","mpyra","giga","pyracrystal","sq224","dreidellim","square-2",
+						"relay"],
+	scrambleNames:["1x1x1",rshtml+"2x2x2","3x3x3","4x4x4","5x5x5","6x6x6","7x7x7",rshtml+"Pyraminx","Megaminx",rshtml+"Square-1","Skewb","Clock",
+						"2x2x2 Optimal/kurz","2x2x2 Blind","3x3x3 Blind","3x3x3 Center Orientation","3x3x3 half center orientation","3x3x3 &lt;RU&gt;","3x3x3 &lt;RUF&gt;","3x3x3 &lt;RUL&gt;","3x3x3 LSE",
+						"1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3",
+						"Barrel Cube","Ghost Cube",
+						"Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus","Fully Jumbled Curvy Copter Plus","Mixup 3x3","Mixup 4x4","Master Pyraminx","Gigaminx","Pyraminx Crystal","Square 2x2x4","Dreidel LimCube","Square-2",
+						"Relays"]
 }
 
 function start(){
@@ -112,8 +123,9 @@ function time(){
 }
 
 function displayScramble(){
-	var Tscramble=getScrambles(timer.type,1);
-	document.getElementById("scramble").innerHTML=Tscramble;
+	var Tscramble=getScrambles(timer.type,1),
+		text=""+Tscramble+"<div style='float:right;' onclick='javascript:displayScramble();'><small>next</small></div>";
+	document.getElementById("scramble").innerHTML=text;
 	timer.scramble=Tscramble;
 	drawTool();
 }
@@ -206,7 +218,7 @@ function displayTimes(){
 		}else{
 			text+=(i+1)+".: DNF";
 		}
-		text+="<br>";
+		text+="<div style='float:right;'>";
 	
 		text+="<button onclick='javascript: deletetime("+i+");'>X</button>";
 		if(penalty==""){
@@ -223,7 +235,7 @@ function displayTimes(){
 			text+="<button onclick='javascript: givePenalty("+i+",\"-2\");'>-2</button>";
 			text+="<button onclick='javascript: givePenalty("+i+",\"-4\");'>-4</button>";
 		}
-		text+="<br>";
+		text+="</div><br>";
 	
 	}
 	document.getElementById("time_list").innerHTML+=text;
@@ -526,8 +538,9 @@ function createSession(){
 }
 
 function displaySessions(){
-	for(var i=0,text="";i<timer.sessions.length;i++){
+	for(var i=0,text="<h4>Sessions</h4>";i<timer.sessions.length;i++){
 		text+="<button onclick='javascript:switchSession("+i+")'>"+i+"</button>";
+		if((i+1)%20==0)text+="<br>";
 	}
 	text+="<button onclick='createSession()'>+</button>";
 	text+="<button onclick='deleteSession(timer.currentSession)'>-</button>";
@@ -541,12 +554,15 @@ function switchScrambler(typ){
 }
 
 function displayScrambler(a){
-	var text="",i;
-
+	var text="",i,
+	optionbreaks=[1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+	optiontexts=["WCA",0,0,0,0,0,0,0,0,0,0,"Special NxNxN",0,0,0,0,0,0,0,0,0,"Cuboids",0,0,0,0,0,"Shapemods",0,"Sonstige",0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Relays"]
+	;
 	for(i=0;i<timer.scrambleTypes.length;i++){
+		if(optionbreaks[i]==1)text+="</div><button class='accordion'>"+optiontexts[i]+"</button><div class='panel'>";
 		text+="<div class='scrambler-div' onclick='switchScrambler(\""+timer.scrambleTypes[i]+"\")'>"+timer.scrambleNames[i]+"</div>";
 	}
-	$("#session").html(text+"<button onclick='hide(\"session\")'>"+language.back+"</button>");
+	$("#session").html(text+"<div class='scrambler-div'>Auswahl in Men&uuml;/Optionen/Sonstiges/Relays</div>");
 	if(a)$(a).html(text);
 }
 
@@ -639,8 +655,8 @@ ziel={
 		+"<br>Ao50:"+ziel.format(ziel.ziele[timer.currentSession][3],bestao50)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][3]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][3]--;ziel.display();'>-</button>"
 		+"<br>Custom Aox:"+ziel.format(ziel.ziele[timer.currentSession][4],bestocustom)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][4]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][4]--;ziel.display();'>-</button>"
 		+"<br>";
-		
 		text+="<div onclick='hide(\"ziele\")'>"+language.back+"</div>";
+		text+=ziel.vergleich();
 		$("#ziele").html(text);
 	},
 	format:function(ziel,current){
@@ -652,6 +668,34 @@ ziel={
 	},
 	check:function(singleAverage,event,time){
 		var times=timer.config.results;
+	},
+	vergleich:function(){
+		var
+		globalAverage=format(average(timer.config.results)),
+		best=minMaxTime(timer.config.results).min,
+		bestao5=bestaox(timer.config.results,5)
+		bestao12=bestaox(timer.config.results,12),
+		bestao12=bestaox(timer.config.results,12),
+		bestao50=bestaox(timer.config.results,50),
+		bestocustom=bestaox(timer.config.results,timer.customAvg),
+		currentValues=[best,bestao5,bestao12,bestao50,bestocustom];
+		text="Aktueller Single/Ao5/Ao12/Ao50/AoCustom Rankvergleich:<table>",
+		maxtime=minMaxTime(timer.config.results).min*1.1;
+		startvalues=[maxtime,maxtime*1.1,maxtime*1.2*1.1,maxtime*1.3*1.2*1.1,maxtime*1.4*1.3*1.2*1.1,maxtime*1.4*1.3*1.2*1.1*1.5],
+		currentValue=0;
+		for(var j=0;j<5;j++){
+			text+="<tr>";
+			currentValue=startvalues[j];
+			for(var i=0;i<20;i++){
+				text+="<td>";
+				for(var k=0;k<i;k++)currentValue*=.97;
+				if(currentValue>currentValues[j])text+="<span style='background-color:green'>"+Math.round(currentValue)/1000+"</span></td>";
+				if(currentValue<currentValues[j])text+="<span style='background-color:red'>"+Math.round(currentValue)/1000+"</span></td>";
+				if(currentValue==currentValues[j])text+="<span style='background-color:yellow'>"+Math.round(currentValue)/1000+"</span></td>";
+			}
+			text+="</tr>";
+		}
+		return text+"</table";
 	}
 }
 

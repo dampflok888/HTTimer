@@ -24,6 +24,10 @@ body {
 	border: 1px solid #222277;
 	border-radius: 10px;
 }
+#time_liste button {
+	font-size:7pt;
+	margin:0;
+}
 #display {
 	position: absolute;
 	left: 40%;
@@ -76,8 +80,7 @@ button {
 	top:500px;
 }
 #session {
-	height:200px;
-	width:180px;
+	width:200px;
 }
 .options {
 	background-color: #99CC29;
@@ -233,4 +236,52 @@ table,td {
 	min-height:28px;
 	float:right;
 	max-width:742px;
+}
+
+button.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 13px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 12px !important;
+    transition: 0.2s;
+}
+
+button.accordion.active, button.accordion:hover {
+    background-color: #ddd;
+}
+
+button.accordion:after {
+    content: '\02795';
+    font-size: 11px !important;
+    color: #777;
+    float: right;
+    margin-left: 5px !important;
+}
+
+button.accordion.active:after {
+    content: "\2796";
+}
+
+div.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.3s ease-in-out;
+    opacity: 0;
+}
+
+div.panel.show {
+    opacity: 1;
+    max-height: 5000px;
+}
+
+a,a:hover,a:link,a:avtive {
+	color:black !important;
+	text-decoration:underline;
 }

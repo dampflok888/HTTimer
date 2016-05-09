@@ -4,9 +4,17 @@
 <title>Hutitimer 2.1.7</title>
 <link rel="stylesheet" type="text/css" href="timercss.css" media="all"   />
 <link rel="stylesheet" type="text/css" href="scroll.css"   media="all"   />
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script><!--würde lieber ohne nichtselbstgeschriebenes js auskommen-->
-<script type="text/javascript" src="http://jscrollpane.kelvinluck.com/script/jquery.mousewheel.js"></script>
-<script type="text/javascript" src="http://jscrollpane.kelvinluck.com/script/jquery.jscrollpane.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cubing.github.io/icons/css/cubing-icons.css" media="all"/>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<!--würde lieber ohne nichtselbstgeschriebenes js auskommen-->
+<script type="text/javascript" src="https://raw.githubusercontent.com/dampflok888/Hutitimer/master/display.js"></script>
+<script type="text/javascript" src="https://raw.githubusercontent.com/dampflok888/Hutitimer/master/nxnPosition.js"></script>
+<script type="text/javascript" src="https://raw.githubusercontent.com/dampflok888/Hutitimer/master/hutiscrambler.js"></script>
+<script type="text/javascript" src="https://raw.githubusercontent.com/dampflok888/Hutitimer/master/squanPyraScrambler.js"></script>
+<script type="text/javascript" src="https://raw.githubusercontent.com/dampflok888/Hutitimer/master/language.js"></script>
+<script type="text/javascript" src="https://raw.githubusercontent.com/dampflok888/Hutitimer/master/alg.js"></script>
+<script type="text/javascript" src="https://raw.githubusercontent.com/dampflok888/Hutitimer/master/alg_jison.js"></script>
+<script type="text/javascript" src="https://raw.githubusercontent.com/dampflok888/Hutitimer/master/hutitimer.js"></script></script><!--
 <script type="text/javascript" src="display.js"></script>
 <script type="text/javascript" src="nxnPosition.js"></script>
 <script type="text/javascript" src="hutiscrambler.js"></script>
@@ -14,7 +22,7 @@
 <script type="text/javascript" src="language.js"></script>
 <script type="text/javascript" src="alg.js"></script>
 <script type="text/javascript" src="alg_jison.js"></script>
-<script type="text/javascript" src="hutitimer.js"></script>
+<script type="text/javascript" src="hutitimer.js"></script>-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -108,7 +116,10 @@
 			<span class="helpmsg" onmouseover="$(this).html('Die Anzeige wird auf 100ms genau dargestellt. Alle Werte sind intern auf 1ms Genauigkeit gespeichert.')" onmouseout="$(this).html('&nbsp;?&nbsp;')">&nbsp;?&nbsp;</span><br>
 	</div>
 	<div class="optionBottomContainer" id="select5" style="visibility:hidden;max-height:400px;overflow:scroll;">
-	<script>displayScrambler("#select5")</script>
+	<script>var text="",i;
+	for(i=0;i<timer.scrambleTypes.length;i++){
+		text+='<button class="btn-option" onclick="javascript:switchScrambler(\''+timer.scrambleTypes[i]+'\');">'+timer.scrambleNames[i]+'</button><span class="helpmsg" onmouseover="$(this).html(\'Setzt den Scrambler auf '+timer.scrambleNames[i]+'.\')" onmouseout="$(this).html(\'&nbsp;?&nbsp;\')">&nbsp;?&nbsp;</span><br>';
+	}$("#select5").html(text);</script>
 	</div>
 	<div class="optionBottomContainer" id="select6" style="visibility:hidden;">
 	<button class="btn-option" onclick="javascript:randomcolor();">Hauptfarbe &auml;ndern</button>
@@ -183,7 +194,7 @@
 	<div class="left">
 		<div class="startContainer white" onclick="javascript:toggleMenuActive2(2);">YouTube PlayList</div>
 		<div class="startContainer red" onclick="javascript:toggleMenuActive2(3);"></div>
-		<div class="startContainer green" onclick="javascript:toggleMenuActive2(6);"></div>
+		<div class="startContainer green" onclick="javascript:toggleMenuActive2(6);">Hier k&ouml;nnte Ihre Werbung stehen.</div>
 		<div class="startContainer orange" onclick="javascript:toggleMenuActive2(4);">Hilfe</div>
 	</div>
 	<div class="optionBottomContainer" id="musik0" style="visibility:hidden;">
@@ -198,7 +209,8 @@
 	<div class="optionBottomContainer" id="musik3" style="visibility:hidden;">l
 	</div>
 	<div class="optionBottomContainer" id="musik4" style="visibility:hidden;">
-		Die Musikklasse gibt die M&ouml;glichkeit, w&auml;hrend dem Timen Musik zu h&ouml;hren.
+		Die Musikklasse gibt die M&ouml;glichkeit, w&auml;hrend dem Timen Musik zu h&ouml;hren.<br>
+		Die Youtube-Id ist die Zeichenfolge am Ende der URL z.B. <small>https://www.youtube.com/watch?v=</small><b>Jyrpx9rEGMI</b>
 	</div>
 	<div class="optionBottomContainer" id="musik5" style="visibility:hidden;">!
 	</div>
@@ -223,20 +235,28 @@
 <h2>Zeiten messen</h2>
 Die Zeit zwischen zwei Tastendr&uuml;cken auf eine oder mehrere definierte Tasten k&ouml;nnen gemessen werden. Die Taste ist in den Optionen einstellbar. Als default-Wert ist die Leertaste eingestellt. Die gemessene Zeit wird in der Mitte dargestellt.
 <h2>Scrambler</h2>
-Der Scrambler, oben mittig angezeigt, gibt eine Folge von Z&uuml;gen aus, die vor dem L&ouml;sen ausgef&uuml;hrt werden m&uuml;ssen. Der Scramblertyp kann oben links angegeben werden.
+Der Scrambler, oben mittig angezeigt, gibt eine Folge von Z&uuml;gen aus, die vor dem L&ouml;sen ausgef&uuml;hrt werden m&uuml;ssen. Der Scramblertyp kann oben links angegeben werden.<br>
+Viele Scrambler sind nur random-moves, Pyraminx, Square-1 und 2x2 jedoch random-state. Die Blind-Scrambles sowie 'Fully Jumbled Curvy Copter Plus' haben random-moves-rotations.
 <h2>Vergangenheit gemessener Zeiten</h2>
 Alle Vergangenen Zeiten werden links angezeigt. Es gibt au&szlig;erdem 4 Kn&ouml;pfe. "X" l&ouml;scht die Zeit und aktualisiert die Anzeige, "+2" gibt zwei Sekunden Zeitstrafe und aktualisiert die Anzeige, "+4" gibt vier Sekunden Zeitstrafe und aktualisiert die Anzeige, "DNF" setzt den Status auf DNF, also Did Not Finish und aktualisiert die Anzeige.
 <h2>Tools</h2>
-Es gibt verschiedene Zools zur Auswahl. Immer eines wird unten rechts angezeigt; welches ist in den Optionen ausw&auml;hlbar.
+Es gibt verschiedene Zools zur Auswahl. Immer eines wird unten rechts angezeigt; welches ist in den <span onclick='javascript:hide("hilfe");show("options");toggleMenuActive(3);'><u>Optionen</u></span> ausw&auml;hlbar.
 <h2>Ziele</h2>
 Es ist m&ouml;glich, f&uuml;r jede Session eigene Ziele zu setzen. Die Zielseite wird mit Knopfdruck auf "Ziele" oben links aufgerufen. Es lassen sich Ziele f&uuml;r Single, Ao5, Ao12, Ao50 und einen selbst in den Optionen definierbaren AoX setzen. Bei erfolgreicher Durchf&uuml;hrung wird die Schrift gr&uuml;n, sonst bleibt sie rot.
 <h2>AlgSets</h2>
-Die AlgSets-Funktion bietet die M&ouml;glichkeit, Algorithmen d.H. Zugfolgen in Gruppen nach Funktion geordnet abzuspeichern. Sie ist mit dem Knopf oben links "AlgSets" erreichbar.
+Die AlgSets-Funktion bietet die M&ouml;glichkeit, Algorithmen d.H. Zugfolgen in Gruppen nach Funktion geordnet abzuspeichern. Sie ist mit dem Knopf oben links "AlgSets" erreichbar. Vordefinierte AlgSets werden angeboten, zurzeit allerdings nur 'PLL'.<br>
+Ebenfalls m&ouml;glich ist Rotation &uuml;ber alle Achsen, Ivertation und animierung der Z&uuml;ge.
+<h2>Musik</h2>
+Unter 'Men&uuml;/Musik' finden sich Optionen zum Musikh&ouml;ren.<br>
+Auf 'Men&uuml;/Musik/Link auf Musik (mp3 wav ogg)/Musik laden' k&ouml;nnen Sie einen Link zu einem beliebigen Server hinterlegen, dessen Musik dann abgespielt wird.<br>
+Die YouTube-Funktionen erlauben Abspielung von Einzelvideos und gesamten Playlists innerhalb der Timersoftware.
 <h2>Hinweise</h2>
-F&uuml;r das Anzeigen der animierten Scrambles im AlgSet wurde alg.cubing.net verwendet.
+F&uuml;r das Anzeigen der animierten Scrambles im AlgSet wurde alg.cubing.net verwendet.<br>Die YouTube-Musikdienste greifen auf Youtube zur&uuml;ck.<br>
+<a href="https://cubing.github.io/icons/">Hier</a> kommen die Icons her.<br>
+Jquery 1.10.2 wurde genutzt.
 <button onclick="javascript:hide('hilfe')">zur&uuml;ck</button>
 </div>
-<div id="time_liste" style="overflow:auto;"><div id="session" class="scroll"></div><div id="time_list"></div></div>
+<div id="time_liste" style="overflow:auto;"><div id="session"></div><div id="time_list"></div></div>
 <div id="config">
 	<button class="btn-lg" onclick="javascript:show('start');">Men&uuml;</button>
 </div>
@@ -251,9 +271,15 @@ drawTool();
 createSession();
 displaySessions();
 
-$(function(){
-	$('.scroll').jScrollPane();
-});
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+    acc[i].onclick = function(){
+        this.classList.toggle("active");
+        this.nextElementSibling.classList.toggle("show");
+  }
+}
 </script>
 <noscript>
 Um diesen Timer nutzen zu k&ouml;nnen, m&uuml;ssen Sie Javascript aktivieren!

@@ -685,6 +685,7 @@ function exportCode(){
 	var code="timer="+JSON.stringify(timer,null,1)+";algsets.sets="+JSON.stringify(algsets.sets,null,1);
 	document.getElementById("scrambleImage").innerHTML="Success!<button onclick='hideExportCode()'>OK</button>";
 	localStorage.hutiexport=code;
+	alert ("Code wurde in localStorage verschoben und wird bei Neuladen automatisch geladen werden!");
 	return code;
 }
 

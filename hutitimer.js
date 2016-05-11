@@ -68,8 +68,9 @@ function checkBrowserName(name){
 }  
 
 var cube=generatealgjscube(alg_jison),
-rshtml="<small><span style='color:red;float:right;' title='Random state'><i>RS</i>&nbsp;</span></small>",
-rohtml="<small><span style='color:red;float:right;' title='Random orientation'><i>RO</i>&nbsp;</span></small>";
+rshtml='<small><span style="color:red;float:right;" title="Random state"><i>RS</i>&nbsp;</span></small>',
+rohtml='<small><span style="color:red;float:right;" title="Random orientation"><i>RO</i>&nbsp;</span></small>';
+//rshtml=rohtml="";
 
 timer={
 	config:{
@@ -302,7 +303,7 @@ function displayTimes(){
 			text+="<button onclick='javascript: givePenalty("+i+",\"-2\");'>-2</button>";
 			text+="<button onclick='javascript: givePenalty("+i+",\"-4\");'>-4</button>";
 		}
-		text+="</div><br>";
+		text+="</div><br><br>";
 	
 	}
 	document.getElementById("time_list").innerHTML+=text;
@@ -433,7 +434,7 @@ function bestaox(times,x){
 
 function toolTimes(){
 	var
-		globalAverage=format(average(timer.config.results)),
+		globalAverage=format(Math.floor(average(timer.config.results))),
 		best=format(minMaxTime(timer.config.results).min),
 		worst=format(minMaxTime(timer.config.results).max),
 		bestao5=format(bestaox(timer.config.results,5)),
@@ -681,8 +682,9 @@ function generateExport(){
 }
 
 function exportCode(){
-	var code="timer="+JSON.stringify(timer,null,1)+";algsets.sets="+JSON.stringify(algsets.sets,null,1)+"<button onclick='hideExportCode()'>OK</button>";
-	document.getElementById("scrambleImage").innerHTML=code;
+	var code="timer="+JSON.stringify(timer,null,1)+";algsets.sets="+JSON.stringify(algsets.sets,null,1);
+	document.getElementById("scrambleImage").innerHTML="Success!<button onclick='hideExportCode()'>OK</button>";
+	localStorage.hutiexport=code;
 	return code;
 }
 

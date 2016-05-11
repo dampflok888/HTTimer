@@ -1,13 +1,13 @@
 /*
 hutitimer.js - main timer file
-written by Frederik Hutfleﬂ
+written by Frederik H.
 */
 
 uwrs=[],
 colors=[],
 uwrholders=[],
 uwrs["barrel"]=11.636,
-uwrholders["barrel"]="Frederik Hutfle&szlig;",
+uwrholders["barrel"]="Frederik H.",
 uwrs["ghost"]=33.25,
 uwrholders["ghost"]="Sebastian Haefner",
 colors["W"]="#FFFFFF",
@@ -68,7 +68,8 @@ function checkBrowserName(name){
 }  
 
 var cube=generatealgjscube(alg_jison),
-rshtml="<small><span style='color:red;float:right;' title='Random state'><i>RS</i>&nbsp;</span></small>";
+rshtml="<small><span style='color:red;float:right;' title='Random state'><i>RS</i>&nbsp;</span></small>",
+rohtml="<small><span style='color:red;float:right;' title='Random orientation'><i>RO</i>&nbsp;</span></small>";
 
 timer={
 	config:{
@@ -93,18 +94,20 @@ timer={
 	tool:0,
 	precision:true,
 	relayWarn:true,
-	scrambleTypes:["1x1","2x2","3x3","4x4","5x5","5x5","5x5","pyra","mega","square-1","skewb","clock",
-						"2x2opt","2x2bld","3x3bld","3x3co","3x3hco","3x3ru","3x3ruf","3x3rul","3x3lse",
+	exportDesign:0,
+	scrambleTypes:["1x1","2x2","3x3","4x4","5x5","5x5","5x5","pyra","mega","square-1","skewb","clock","FMC",
+						"2x2opt","4x4sh","5x5sh","2x2bld","3x3bld","4x4bld","5x5bld","3x3co","3x3hco","3x3ru","3x3ruf","3x3rul","3x3lse","4x4sign","4x4rruu","5x5sign",
 						"1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3",
 						"barrel","ghost",
 						"heli","helij","curvy","curvyj","curvyp","curvypj","curvypfj","mixup3x3","mixup4x4","mpyra","giga","pyracrystal","sq224","dreidellim","square-2",
 						"relay"],
-	scrambleNames:["1x1x1",rshtml+"2x2x2","3x3x3","4x4x4","5x5x5","6x6x6","7x7x7",rshtml+"Pyraminx","Megaminx",rshtml+"Square-1","Skewb","Clock",
-						"2x2x2 Optimal/kurz","2x2x2 Blind","3x3x3 Blind","3x3x3 Center Orientation","3x3x3 half center orientation","3x3x3 &lt;RU&gt;","3x3x3 &lt;RUF&gt;","3x3x3 &lt;RUL&gt;","3x3x3 LSE",
+	scrambleNames:["1x1x1",rshtml+"2x2x2","3x3x3","4x4x4","5x5x5","6x6x6","7x7x7",rshtml+"Pyraminx","Megaminx",rshtml+"Square-1","Skewb","Clock","Fewest Moves",
+						"2x2x2 kurz","4x4x4 kurz","5x5x5 kurz",rohtml+"2x2x2 Blind",rohtml+"3x3x3 Blind",rohtml+"4x4x4 Blind",rohtml+"5x5x5 Blind","3x3x3 Center Orientation","3x3x3 half center orientation","3x3x3 &lt;RU&gt;","3x3x3 &lt;RUF&gt;","3x3x3 &lt;RUL&gt;","3x3x3 LSE","4x4x4 SiGN","4x4x4 &lt;RrUu&gt;","5x5x5 SiGN",
 						"1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3",
 						"Barrel Cube","Ghost Cube",
-						"Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus","Fully Jumbled Curvy Copter Plus","Mixup 3x3","Mixup 4x4","Master Pyraminx","Gigaminx","Pyraminx Crystal","Square 2x2x4","Dreidel LimCube","Square-2",
-						"Relays"]
+						"Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus",rohtml+"Fully Jumbled Curvy Copter Plus","Mixup 3x3","Mixup 4x4","Master Pyraminx","Gigaminx","Pyraminx Crystal","Square 2x2x4","Dreidel LimCube","Square-2",
+						"Relays"],
+	displayTimeWhenSolving:true
 }
 
 function start(){
@@ -112,12 +115,16 @@ function start(){
 		timer.running=true;
 		timer.zeit=+new Date();
 		setTimeout(time,2);
+		document.getElementById("scrambleImage").innerHTML="";
 	}
 }
 
 function time(){
 	if(timer.running){
-		document.getElementById("display").innerHTML=format((+new Date())-timer.zeit);
+		var tmw=format((+new Date())-timer.zeit);
+		if(!timer.displayTimeWhenSolving)tmw="solving";
+		document.getElementById("display").innerHTML=tmw;
+		document.getElementById("display2").innerHTML=tmw;
 		setTimeout(time,timer.aktualisierungsrate);
 	}
 }
@@ -136,7 +143,7 @@ function stop(){
 
 	timer.running=false;
 	var result={
-		zeit:zeit-.2,
+		zeit:zeit-80,
 		scramble:document.getElementById("scramble").innerHTML,
 		penalty:timer.penalty,
 		datum:+new Date(),
@@ -151,13 +158,35 @@ function stop(){
 	document.getElementById("time_liste").scrollBy(250,250);
 }
 
+var remainingInspectionTime=0;
+function startInspection(){
+	if(!timer.running){
+		remainingInspectionTime=+new Date();
+		timeInspection();
+	}
+}
+
+function timeInspection(){
+	if(!timer.running){
+		var tmw=+new Date()-remainingInspectionTime;
+		var color="green";
+		if(tmw>8000)color="orange",document.getElementById("scrambleImage").innerHTML="<span style='font-size:40pt;'>8!</span>";
+		if(tmw>12000)color="red",document.getElementById("scrambleImage").innerHTML="<span style='font-size:40pt;'>12!</span>";
+		if(tmw>14000)document.getElementById("scrambleImage").innerHTML="<span style='font-size:40pt;'>Go!</span>";
+		tmw="<span style='color:"+color+"'>"+format(tmw)+"</span>";
+		document.getElementById("display2").innerHTML="Inspect: "+tmw;
+		document.getElementById("display").innerHTML="Inspect:<br>"+tmw;
+		setTimeout(timeInspection,100);
+	}
+}
+
 function deletetime(id){
 	timer.config.results.splice(id,1);
 	displayTimes();
 	drawTool();
 }
 
-function format(z){
+function formatOld(z){
 	var diff=timer.zeit,b,c,d,e;
 	if(z){
 		diff=z;
@@ -197,6 +226,44 @@ function format(z){
 				return sec + "." + mSec + add;
 			}
 		}
+	}
+}
+
+function format(s) {
+	
+	if(isNaN(s))return "DNF";
+	if(!s)s=timer.zeit;
+	
+  function addZ(n) {
+    return (n<10? '0':'') + n;
+  }
+  function addH(n){
+	  if(n<100){
+		  if(n<10){
+			  return '00'+n;
+		  }else{
+			  return '0'+n;
+		  }
+	  }else{
+		  return n;
+	  }
+  }
+
+  var ms = s % 1000;
+  s = (s - ms) / 1000;
+  var secs = s % 60;
+  s = (s - secs) / 60;
+  var mins = s % 60;
+  var hrs = (s - mins) / 60;
+	
+	if(hrs==0){
+		if(mins==0){
+			return secs + '.' + addH(ms);
+		}else{
+			return mins + ':' + addZ(secs) + '.' + ms;
+		}
+	}else{
+		return hrs + ':' + addZ(mins) + ':' + addZ(secs) + '.' + ms;
 	}
 }
 
@@ -265,7 +332,7 @@ document.onkeyup = function(event) {
 		exportCode();
 	}
 	if (event.keyCode==73&&!(timer.config.disableKeysRunning&&timer.running)){//I
-		//timer.importCode();
+		startInspection();
 	}
 	if (event.keyCode==88&&!(timer.config.disableKeysRunning&&timer.running)){//X
 		timer.exportCode(1);
@@ -466,6 +533,7 @@ function drawTool(){
 		case 2:a=toolDrawScramble();break;
 		case 3:a=toolTimeRatio();break;
 		case 4:a=toolTimeHistory();break;
+		case 5:a=ziel.vergleich();break;
 	}
 	if(a){
 		document.getElementById("summ").innerHTML=a;
@@ -555,8 +623,8 @@ function switchScrambler(typ){
 
 function displayScrambler(a){
 	var text="",i,
-	optionbreaks=[1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-	optiontexts=["WCA",0,0,0,0,0,0,0,0,0,0,"Special NxNxN",0,0,0,0,0,0,0,0,0,"Cuboids",0,0,0,0,0,"Shapemods",0,"Sonstige",0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Relays"]
+	optionbreaks=[1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+	optiontexts=["WCA",0,0,0,0,0,0,0,0,0,0,0,0,"Special NxNxN",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Cuboids",0,0,0,0,0,"Shapemods",0,"Sonstige",0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Relays"]
 	;
 	for(i=0;i<timer.scrambleTypes.length;i++){
 		if(optionbreaks[i]==1)text+="</div><button class='accordion'>"+optiontexts[i]+"</button><div class='panel'>";
@@ -572,6 +640,7 @@ function generateExport(){
 		best=format(minMaxTime(timer.config.results).min),
 		worst=format(minMaxTime(timer.config.results).max),
 		bestao5=format(bestaox(timer.config.results,5)),
+		exportDesign=timer.exportDesign||0,
 
 
 	p="<h2>Export</h2>"+language.globalAverage+": " + globalAverage + "<br>"+language.best+"e: " + best + "<br>"+language.worst+": " + worst + "<br>"+language.best+" Ao5: " + bestao5 + "<br>";
@@ -585,12 +654,19 @@ function generateExport(){
 		p+="<br>"+language.best+" Ao"+timer.customAvg+": "+format(bestaox(timer.config.results,timer.customAvg));
 	}
 
+	p+="<br>";
 	
 	for(i=0;i<timer.config.results.length;i++){
-		i++;
-		p+="<br>"+i+".: ";
-		i--;
-		p+=format(timer.config.results[i].zeit)+" "+timer.config.results[i].scramble+"<br>";
+		if(exportDesign==0){
+			p+="<br>"+(i+1)+".: ";
+			p+=format(timer.config.results[i].zeit)+" "+timer.config.results[i].scramble+"<br>";
+		}else if(exportDesign==1){
+			p+=format(timer.config.results[i].zeit)+",";
+		}else if(exportDesign==2){
+			p+=format(timer.config.results[i].zeit)+"<br>";
+		}else if(exportDesign==3){
+			p+=(i+1)+".: "+format(timer.config.results[i].zeit)+"<br>";
+		}
 	}
 	d = new Date();
 	d=d.toDateString();
@@ -656,7 +732,6 @@ ziel={
 		+"<br>Custom Aox:"+ziel.format(ziel.ziele[timer.currentSession][4],bestocustom)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][4]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][4]--;ziel.display();'>-</button>"
 		+"<br>";
 		text+="<div onclick='hide(\"ziele\")'>"+language.back+"</div>";
-		text+=ziel.vergleich();
 		$("#ziele").html(text);
 	},
 	format:function(ziel,current){
@@ -695,7 +770,7 @@ ziel={
 			}
 			text+="</tr>";
 		}
-		return text+"</table";
+		return text+"</table>";
 	}
 }
 
@@ -850,14 +925,21 @@ musik={
 		}
 	},
 	youtube:{
+		idlist:[],
 		load:function(){
 			var id=prompt("Youtubevideoid hier eingeben:");
-			$("#musik1").html($("#musik1").html()+'<iframe id="ytplayer" type="text/html" width="640" height="390" src="http://www.youtube.com/embed/'+id+'?autoplay=1&fs=0&disablekb=1&loop=1&autohide=0" frameborder="0"/>');
+			musik.youtube.idlist.push(id);
+			musik.youtube.display();	
 		},
 		loadlist:function(){
 			var id=prompt("Youtubevideoid hier eingeben:");
 			var list=prompt("Youtubevideolistenid hier eingeben:");
 			$("#musik2").html($("#musik2").html()+'<iframe id="ytplayer" type="text/html" width="640" height="390" src="http://www.youtube.com/embed/'+id+'?autoplay=1&fs=0&disablekb=1&loop=1&autohide=0&list='+list+'" frameborder="0"/>');
+		},
+		display:function(){
+			for(var i=0;i<musik.youtube.idlist.length;i++){
+				$("#youtubeonevideoload").html($("#youtubeonevideoload").html()+'<iframe id="ytplayer" type="text/html" width="640" height="390" src="http://www.youtube.com/embed/'+musik.youtube.idlist[i]+'?autoplay=1&fs=0&disablekb=1&loop=1&autohide=0" frameborder="0"/>');
+			}
 		}
 	}
 }

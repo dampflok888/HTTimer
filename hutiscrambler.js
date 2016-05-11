@@ -16,7 +16,9 @@ function getScrambles(type,relay){
 	var state5=["UFR+","UFR-","UFL+","UFL-","UDR+","UDR-","UDL+","UDL-","UBR+","UBR-","UBL+","UBL-","BDR+","BDR-","BDL+","BDL-"];
 	var zwei=["R","R'","R2","U'","U","U2","F","F'","F2"];
 	var drei=["R","R'","R2","U'","U","U2","F","F'","F2","B","B'","B2","L'","L","L2","D","D'","D2"];
-	var vier=["R","R'","R2","U'","U","U2","F","F'","F2","B","B'","B2","L'","L","L2","D","D'","D2","r","r'","r2","u'","u","u2","f","f'","f2","b","b'","b2","l'","l","l2","d","d'","d2"];
+	var viersign=["R","R'","R2","U'","U","U2","F","F'","F2","B","B'","B2","L'","L","L2","D","D'","D2","r","r'","r2","u'","u","u2","f","f'","f2","b","b'","b2","l'","l","l2","d","d'","d2"];
+	var vier=["R","R'","R2","U'","U","U2","F","F'","F2","B","B'","B2","L'","L","L2","D","D'","D2","Rw","Rw'","Rw2","Uw'","Uw","Uw2","Fw","Fw'","Fw2","Bw","Bw'","Bw2","Lw'","Lw","Lw2","Dw","Dw'","Dw2"];
+	var vierrruu=["R","R'","R2","U","U'","U2","r","r'","r2","u","u'","u2"];
 	var pyramix=["R","R'","U","U'","L","L'","B","B'"];
 	var pyramixTip=["r","r'","u","u'","l","l'","b","b'"];
 	var mpyramix=["R","R'","U","U'","L","L'","B","B'","r","r'","u","u'","l","l'","b","b'"];
@@ -93,6 +95,7 @@ function getScrambles(type,relay){
 	scrambler["2x2bld"]=generateScramble(zwei,9)+rotationReducer.reduce(generateScramble(eins,3));
 	scrambler["2x24"]=generateScramble(zwei,4);
 	scrambler["3x3"]=generateScramble(drei,22);
+	scrambler["FMC"]="R' U' F'"+generateScramble(drei,23)+"R' U' F'";
 	scrambler["3x3bld"]=generateScramble(drei,22)+generateScramble(bld,2);
 	scrambler["3x3lse"]=generateScramble(rouxlse,17);
 	scrambler["3x3ru"]=generateScramble(ru,16);
@@ -101,11 +104,14 @@ function getScrambles(type,relay){
 	scrambler["3x3co"]=generateScramble(drei,25);
 	scrambler["3x3hco"]=generateScramble(drei,24);
 	scrambler["4x4"]=generateScramble(vier,60);
+	scrambler["4x4sign"]=generateScramble(viersign,55);
 	scrambler["4x4bld"]=generateScramble(vier,48)+generateScramble(bld,2);
 	scrambler["4x4sh"]=generateScramble(vier,42);
+	scrambler["4x4rruu"]=generateScramble(vierrruu,42);
 	scrambler["5x5"]=generateScramble(vier,99);
 	scrambler["5x5bld"]=generateScramble(vier,87)+generateScramble(bld,2);
 	scrambler["5x5sh"]=generateScramble(vier,73);
+	scrambler["5x5sign"]=generateScramble(viersign,63);
 	scrambler["mixup3x3"]=generateScramble(mixup,34);
 	scrambler["mixup4x4"]=generateScramble(mixupvier,73);
 	scrambler["ghost"]=generateScramble(ghostu,1)+generateScramble(ghostd,1)+generateScramble(drei,22);
@@ -119,6 +125,7 @@ function getScrambles(type,relay){
 	scrambler["square-2"]=generateScramble(squan,34);
 	scrambler["square-1"]=genScrambleSq1(42);
 	scrambler["skewb"]=generateScramble(skewb,12);
+	scrambler["clock"]="scrambler type is not available yet";
 	
 	for(var i=0;i<scrambler.length;i++)scrambler[i]=cube.cube.simplify(scrambler[i])||scrambler[i];
 	

@@ -15,6 +15,17 @@ alg trainer
 translate more things (options ...)
 translate into more different languages
 custom scrambler
+cmll, zbll, cll, ell scrambler
+edge-scrambler
+3x3 noobs-scrambler
+insertion finder
+2x2x2 EG-Training scrambler
+LSLL-scrambler
+use small font after decimal point
+name sessions
+custom font (input name)
+Option scramble text align (left,center,right)
+tool time trend rewrite highstock
 
 for version 4.0:
 ----------------

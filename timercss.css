@@ -1,6 +1,7 @@
 body {
 	background-color: #222277;
 	overflow:hidden;
+	font-family:courier;
 }
 #config {
 	position: absolute;
@@ -28,7 +29,7 @@ body {
 	font-size:7pt;
 	margin:0;
 }
-#display {
+#display2 {
 	position: absolute;
 	left: 40%;
 	top: 40%;
@@ -221,13 +222,18 @@ table,td {
 }
 .optionBottomContainer {
 	position:absolute;
-	left:0;
+	left:250px;
 	right:0;
 	bottom:0;
+	top:0;
 	float:right;
 	font-size:20pt;
 	padding:5px;
 	margin:5px;
+}
+.menu-left {
+	width:250px;
+	max-width:250px;
 }
 .helpmsg {
 	font-size:15pt;
@@ -252,6 +258,23 @@ button.accordion {
 }
 
 button.accordion.active, button.accordion:hover {
+    background-color: #ddd;
+}
+
+button.accordion2 {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 13px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 12px !important;
+    transition: 0.2s;
+}
+
+button.accordion2.active, button.accordion2:hover {
     background-color: #ddd;
 }
 
@@ -281,7 +304,76 @@ div.panel.show {
     max-height: 5000px;
 }
 
-a,a:hover,a:link,a:avtive {
+a,a:hover,a:link,a:active {
 	color:black !important;
 	text-decoration:underline;
 }
+
+#hand-left {
+	position:absolute;
+	left:300px;
+	bottom:50px;
+}
+#hand-right {
+	position:absolute;
+	right:50px;
+	bottom:50px;
+}
+#timer-display {
+	position:absolute;
+	left:580px;
+	right:330px;
+	bottom:50px;
+	height:250px;
+	background-color:#3030E0;
+	border:1px solid black;
+}
+#display {
+	position:absolute;
+	top:50px;
+	left:70px;
+	height:80px;
+	width:200px;
+	background-color:white;
+	border:2px solid black;
+	font-size:30pt;
+	text-align:right;
+	font-size:28pt !important;
+}
+#timer-reset {
+	position:absolute;
+	top:75px;
+	left:500px;
+	width:40px;
+	height:40px;
+	border-radius:20px;
+	background-color:yellow;
+}
+#timer-on {
+	position:absolute;
+	top:75px;
+	left:300px;
+	width:40px;
+	height:40px;
+	border-radius:20px;
+	background-color:red;
+}
+#timer-greenled {
+	position:absolute;
+	top:100px;
+	left:400px;
+	width:30px;
+	height:30px;
+	border-radius:15px;
+	background-color:green;
+}
+#timer-redled {
+	position:absolute;
+	top:50px;
+	left:400px;
+	width:30px;
+	height:30px;
+	border-radius:15px;
+	background-color:red;
+}
+/*rgb(64, 248, 19) alternative green try out maybe*/

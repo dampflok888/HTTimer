@@ -309,14 +309,25 @@
 		Es ist m&ouml;glich, f&uuml;r jede Session eigene Ziele zu setzen. Die Zielseite wird mit Knopfdruck auf "Ziele" oben links aufgerufen. Es lassen sich Ziele f&uuml;r Single, Ao5, Ao12, Ao50 und einen selbst in den Optionen definierbaren AoX setzen. Bei erfolgreicher Durchf&uuml;hrung wird die Schrift gr&uuml;n, sonst bleibt sie rot.
 	</div>
 	<div class="optionBottomContainer" id="hilfe5" style="visibility:hidden;">
-		TODO OPTIONEN
+		<h2>Optionen</h2>
+		Die Optionen sind unter Men&uuml;/Optionen erreichbar. In ihnen sind viele Darstellungsm&ouml;glichkeiten und Verhaltensweisen konfigurierbar.<br>
+		Farben: &Auml;ndern der Hauptfarbe ist hier m&ouml;glich.<br>
+		Schrift: Alles um die Schriftart.<br>
+		Scrambler: Hier sind die Scrambler sowie die Scramblerh&ouml;he ausw&auml;hlbar.<br>
+		Sprache: Hier kann die Sprache zwischen Englisch, Deutsch und Chinesisch ausgew&auml;hlt werden.<br>
+		Sonstiges: Der ganze Rest!<br>
+		Start/Stop: Wie der Timer gestartet/gestoppt werden kann.<br>
+		Tools: Hier verstecken sich die Optionen zur Auswahl der n&uuml;tzlichen Helfer.<br>
+		Verstecken/Zeigen: Hier k&ouml;nnen verschiedene Elemente versteckt und gezeigt werden.<br>
 	</div>
 	<div class="optionBottomContainer" id="hilfe6" style="visibility:hidden;">
+		<h2>Frequently Asked Questions</h2>
 		TODO FAQ
-		Getestete Browser:
+		<br>
+		Getestete Browser und Browserversionen:
 		<ul>
-			<li>Firefox 45.0.2</li>
-			<li>Chrome 49.0.2623.112</li>
+			<li>Firefox 45.0.2, Windows 10 und Debian (Linux)</li>
+			<li>Chrome 49.0.2623.112, Windows 10</li>
 		</ul>
 	</div>
 	<div class="optionBottomContainer" id="hilfe7" style="visibility:hidden;">
@@ -352,9 +363,9 @@
 	<img src="https://lh4.ggpht.com/WDeNuUqNfaI5w2GxL2JaMpVJcdZRLA2hPadVbP_d8p4Cwh8qXUveEvVQC9HAVq30zmvS=w300" width="255" id="hand-left" onclick="javascript:if(timer.running){stop();}else{start()};"/>
 	<img src="https://lh4.ggpht.com/WDeNuUqNfaI5w2GxL2JaMpVJcdZRLA2hPadVbP_d8p4Cwh8qXUveEvVQC9HAVq30zmvS=w300" width="255" id="hand-right" onclick="javascript:if(timer.running){stop();}else{start()};"/>
 	<div id="timer-display">
-		<div id="display">0.000</div>
+		<div id="display_out"><span id="display">0.000</span></div>
 		<div id="timer-reset" onclick="javascript:document.getElementById('display').innerHTML='0.000';">&nbsp;</div>
-		<div id="timer-on" onclick="javascript:document.getElementById('display').innerHTML='';">&nbsp;</div>
+		<div id="timer-on" onclick="javascript:$('#display').toggleClass('hid');">&nbsp;</div>
 		<div id="timer-leds">
 			<div id="timer-greenled">&nbsp;</div>
 			<div id="timer-redled">&nbsp;</div>
@@ -367,19 +378,19 @@ drawTool();
 createSession();
 
 function menuworking(){
-var acc = document.getElementsByClassName("accordion"),i;
-
-for (i = 0; i < acc.length; i++) {
-    acc[i].onclick = function(){
-        this.classList.toggle("active");
-        this.nextElementSibling.classList.toggle("show");
-  }
-}
+	var acc = document.getElementsByClassName("accordion"),i;
+	for (i = 0; i < acc.length; i++) {
+		 acc[i].onclick = function(){
+			  this.classList.toggle("active");
+			  this.nextElementSibling.classList.toggle("show");
+	  }
+	}
 }
 menuworking();
 eval(localStorage.hutiexport||"");
 displayTimes();
 displaySessions();
+drawTool();
 setInterval(menuworking,1000);
 </script>
 <noscript>

@@ -141,7 +141,12 @@ function displayScramble(){
 function stop(){
 	time();
 	zeit=(+new Date()-timer.zeit);
-
+	
+	if(zeit-80<0)zeit+=80;
+	
+	document.getElementById("display").innerHTML=format(zeit-80);
+	document.getElementById("display2").innerHTML=format(zeit-80);
+	
 	timer.running=false;
 	var result={
 		zeit:zeit-80,
@@ -261,10 +266,10 @@ function format(s) {
 		if(mins==0){
 			return secs + '.' + addH(ms);
 		}else{
-			return mins + ':' + addZ(secs) + '.' + ms;
+			return mins + ':' + addZ(secs) + '.' + addH(ms);
 		}
 	}else{
-		return hrs + ':' + addZ(mins) + ':' + addZ(secs) + '.' + ms;
+		return hrs + ':' + addZ(mins) + ':' + addZ(secs) + '.' + addH(ms);
 	}
 }
 
@@ -727,6 +732,9 @@ ziel={
 		bestao50=format(bestaox(timer.config.results,50)),
 		bestocustom=format(bestaox(timer.config.results,timer.customAvg));
 		if(typeof ziel.ziele[timer.currentSession]=="undefined")ziel.ziele[timer.currentSession]=[0,0,0,0,0,0];
+		for(var i=0;i<ziel.ziele[timer.currentSession].length;i++){
+			if(ziel.ziele[timer.currentSession][i]<0)ziel.ziele[timer.currentSession][i]=0;
+		}
 		
 		text+="<br>Single:"+ziel.format(ziel.ziele[timer.currentSession][0],best)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][0]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][0]--;ziel.display();'>-</button>"
 		+"<br>Ao5:"+ziel.format(ziel.ziele[timer.currentSession][1],bestao5)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][1]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][1]--;ziel.display();'>-</button>"

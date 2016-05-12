@@ -66,11 +66,19 @@ button {
 	background-color: #99CC29;
 	border: 1px solid #222277;
 	position: absolute;
-	bottom: 500px;
+	bottom: 50%;
 	right: 0;
 	font-size: 25pt;
 	border-radius: 10px;
 	margin: 3px;
+}
+@media (max-height: 800px) {
+	#summ {
+		font-size:19pt;
+	}
+	#scramble {
+		font-size:20pt;
+	}
 }
 #sessions {
 	background-color: #99CC29;
@@ -244,6 +252,10 @@ table,td {
 	max-width:742px;
 }
 
+.hid {
+	visibility:hidden;
+}
+
 button.accordion {
     background-color: #eee;
     color: #444;
@@ -328,12 +340,13 @@ a,a:hover,a:link,a:active {
 	background-color:#3030E0;
 	border:1px solid black;
 }
-#display {
+#display_out {
 	position:absolute;
 	top:50px;
 	left:70px;
 	height:80px;
-	width:200px;
+	min-width:200px;
+	max-width:350px;
 	background-color:white;
 	border:2px solid black;
 	font-size:30pt;
@@ -343,7 +356,7 @@ a,a:hover,a:link,a:active {
 #timer-reset {
 	position:absolute;
 	top:75px;
-	left:500px;
+	left:90%;
 	width:40px;
 	height:40px;
 	border-radius:20px;
@@ -352,7 +365,7 @@ a,a:hover,a:link,a:active {
 #timer-on {
 	position:absolute;
 	top:75px;
-	left:300px;
+	left:70%;
 	width:40px;
 	height:40px;
 	border-radius:20px;
@@ -361,7 +374,7 @@ a,a:hover,a:link,a:active {
 #timer-greenled {
 	position:absolute;
 	top:100px;
-	left:400px;
+	left:80%;
 	width:30px;
 	height:30px;
 	border-radius:15px;
@@ -370,7 +383,7 @@ a,a:hover,a:link,a:active {
 #timer-redled {
 	position:absolute;
 	top:50px;
-	left:400px;
+	left:80%;
 	width:30px;
 	height:30px;
 	border-radius:15px;

@@ -1,15 +1,8 @@
-/*
-hutitimer.js - main timer file
-written by Frederik H.
-*/
-
 uwrs=[],
 colors=[],
 uwrholders=[],
 uwrs["barrel"]=11.636,
-uwrholders["barrel"]="Frederik H.",
 uwrs["ghost"]=33.25,
-uwrholders["ghost"]="Sebastian Haefner",
 colors["W"]="#FFFFFF",
 colors["R"]="#FF0000",
 colors["O"]="#FFA500",
@@ -102,11 +95,11 @@ timer={
 						"barrel","ghost",
 						"heli","helij","curvy","curvyj","curvyp","curvypj","curvypfj","mixup3x3","mixup4x4","mpyra","giga","pyracrystal","sq224","dreidellim","square-2",
 						"relay"],
-	scrambleNames:["1x1x1",rshtml+"2x2x2","3x3x3","4x4x4","5x5x5","6x6x6","7x7x7",rshtml+"Pyraminx","Megaminx",rshtml+"Square-1","Skewb","Clock","Fewest Moves",
-						"2x2x2 kurz","4x4x4 kurz","5x5x5 kurz",rohtml+"2x2x2 Blind",rohtml+"3x3x3 Blind",rohtml+"4x4x4 Blind",rohtml+"5x5x5 Blind","3x3x3 Center Orientation","3x3x3 half center orientation","3x3x3 &lt;RU&gt;","3x3x3 &lt;RUF&gt;","3x3x3 &lt;RUL&gt;","3x3x3 LSE","4x4x4 SiGN","4x4x4 &lt;RrUu&gt;","5x5x5 SiGN",
+	scrambleNames:["1x1x1","2x2x2","3x3x3","4x4x4","5x5x5","6x6x6","7x7x7","Pyraminx","Megaminx","Square-1","Skewb","Clock","Fewest Moves",
+						"2x2x2 kurz","4x4x4 kurz","5x5x5 kurz","2x2x2 Blind","3x3x3 Blind","4x4x4 Blind","5x5x5 Blind","3x3x3 Center Orientation","3x3x3 half center orientation","3x3x3 &lt;RU&gt;","3x3x3 &lt;RUF&gt;","3x3x3 &lt;RUL&gt;","3x3x3 LSE","4x4x4 SiGN","4x4x4 &lt;RrUu&gt;","5x5x5 SiGN",
 						"1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3",
 						"Barrel Cube","Ghost Cube",
-						"Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus",rohtml+"Fully Jumbled Curvy Copter Plus","Mixup 3x3","Mixup 4x4","Master Pyraminx","Gigaminx","Pyraminx Crystal","Square 2x2x4","Dreidel LimCube","Square-2",
+						"Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus","Fully Jumbled Curvy Copter Plus","Mixup 3x3","Mixup 4x4","Master Pyraminx","Gigaminx","Pyraminx Crystal","Square 2x2x4","Dreidel LimCube","Square-2",
 						"Relays"],
 	displayTimeWhenSolving:true
 }
@@ -150,7 +143,7 @@ function stop(){
 	timer.running=false;
 	var result={
 		zeit:zeit-80,
-		scramble:document.getElementById("scramble").innerHTML,
+		scramble:document.getElementById("scramble").innerHTML.split("<")[0],
 		penalty:timer.penalty,
 		datum:+new Date(),
 		kommentar:""
@@ -254,6 +247,12 @@ function format(s) {
 		  return n;
 	  }
   }
+  function subLastDigit(str){
+	  return str.substring(0, str.length - 1);
+  }
+  function sld(str){
+	  return subLastDigit(str);
+  }
 
   var ms = s % 1000;
   s = (s - ms) / 1000;
@@ -261,15 +260,26 @@ function format(s) {
   s = (s - secs) / 60;
   var mins = s % 60;
   var hrs = (s - mins) / 60;
-	
-	if(hrs==0){
-		if(mins==0){
-			return secs + '.' + addH(ms);
+	if(timer.precision){
+		if(hrs==0){
+			if(mins==0){
+				return secs + '.' + addH(ms);
+			}else{
+				return mins + ':' + addZ(secs) + '.' + addH(ms);
+			}
 		}else{
-			return mins + ':' + addZ(secs) + '.' + addH(ms);
+			return hrs + ':' + addZ(mins) + ':' + addZ(secs) + '.' + addH(ms);
 		}
 	}else{
-		return hrs + ':' + addZ(mins) + ':' + addZ(secs) + '.' + addH(ms);
+		if(hrs==0){
+			if(mins==0){
+				return secs + '.' + sld(addH(ms));
+			}else{
+				return mins + ':' + addZ(secs) + '.' + sld(addH(ms));
+			}
+		}else{
+			return hrs + ':' + addZ(mins) + ':' + addZ(secs) + '.' + sld(addH(ms));
+		}
 	}
 }
 
@@ -352,18 +362,35 @@ document.onkeyup = function(event) {
 	return event.returnValue;
 }
 
+document.onkeydown = function(event) {
+	var actionBox = document.getElementById('action');
+	if (event.keyCode==32&&timer.timingMode===1){
+		event.cancelBubble = true;
+		event.returnValue = false;
+		checkKeyAction2();
+	}
+	return event.returnValue;
+}
+
 function checkKeyAction(){
 	if(timer.running){
-		stop();
+		//stop();
 	}else{
 		if(!timer.block){
 			start();
 			timer.block=true;
 			setTimeout(function(){timer.block=false},timer.blockTime);
 		}else{
-			document.getElementById("time_list").innerHTML="Timer blockiert! Warten sie "+timer.blockTime/1000+" Sekunden. <button onclick='javascript:displayTimes();'>"+language.back+" (Auto in "+timer.blockTimeReturn/1000+" Sekunden)</button>";
-			setTimeout(timeListDisplay,timer.blockTimeReturn);
+			//document.getElementById("time_list").innerHTML="Timer blockiert! Warten sie "+timer.blockTime/1000+" Sekunden. <button onclick='javascript:displayTimes();'>"+language.back+" (Auto in "+timer.blockTimeReturn/1000+" Sekunden)</button>";
+			//setTimeout(timeListDisplay,timer.blockTimeReturn);
+			displayTimes();
 		}
+	}
+}
+
+function checkKeyAction2(){
+	if(timer.running){
+		stop();
 	}
 }
 
@@ -613,7 +640,7 @@ function createSession(){
 
 function displaySessions(){
 	for(var i=0,text="<h4>Sessions</h4>";i<timer.sessions.length;i++){
-		text+="<button onclick='javascript:switchSession("+i+")'>"+i+"</button>";
+		text+="<button onclick='javascript:switchSession("+i+")'>"+(i+1)+"</button>";
 		if((i+1)%20==0)text+="<br>";
 	}
 	text+="<button onclick='createSession()'>+</button>";
@@ -688,9 +715,9 @@ function generateExport(){
 
 function exportCode(){
 	var code="timer="+JSON.stringify(timer,null,1)+";algsets.sets="+JSON.stringify(algsets.sets,null,1);
-	document.getElementById("scrambleImage").innerHTML="Success!<button onclick='hideExportCode()'>OK</button>";
-	localStorage.hutiexport=code;
+	localStorage.HTexport=code;
 	alert ("Code wurde in localStorage verschoben und wird bei Neuladen automatisch geladen werden!");
+	document.getElementById("scrambleImage").innerHTML=code+"<button onclick='hideExportCode()'>OK</button>";
 	return code;
 }
 
@@ -736,11 +763,11 @@ ziel={
 			if(ziel.ziele[timer.currentSession][i]<0)ziel.ziele[timer.currentSession][i]=0;
 		}
 		
-		text+="<br>Single:"+ziel.format(ziel.ziele[timer.currentSession][0],best)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][0]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][0]--;ziel.display();'>-</button>"
-		+"<br>Ao5:"+ziel.format(ziel.ziele[timer.currentSession][1],bestao5)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][1]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][1]--;ziel.display();'>-</button>"
-		+"<br>Ao12:"+ziel.format(ziel.ziele[timer.currentSession][2],besto12)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][2]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][2]--;ziel.display();'>-</button>"
-		+"<br>Ao50:"+ziel.format(ziel.ziele[timer.currentSession][3],bestao50)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][3]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][3]--;ziel.display();'>-</button>"
-		+"<br>Custom Aox:"+ziel.format(ziel.ziele[timer.currentSession][4],bestocustom)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][4]++;ziel.display();'>+</button><button onclick='ziel.ziele[timer.currentSession][4]--;ziel.display();'>-</button>"
+		text+="<br>Single:"+ziel.format(ziel.ziele[timer.currentSession][0],best)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][0]=prompt(\"Neues Ziel eingeben.\");;ziel.display();'>Setzen</button>"
+		+"<br>Ao5:"+ziel.format(ziel.ziele[timer.currentSession][1],bestao5)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][1]=prompt(\"Neues Ziel eingeben.\");;ziel.display();'>Setzen</button>"
+		+"<br>Ao12:"+ziel.format(ziel.ziele[timer.currentSession][2],besto12)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][2]=prompt(\"Neues Ziel eingeben.\");;ziel.display();'>Setzen</button>"
+		+"<br>Ao50:"+ziel.format(ziel.ziele[timer.currentSession][3],bestao50)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][3]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Setzen</button>"
+		+"<br>Custom Aox:"+ziel.format(ziel.ziele[timer.currentSession][4],bestocustom)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][4]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Setzen</button>"
 		+"<br>";
 		text+="<div onclick='hide(\"ziele\")'>"+language.back+"</div>";
 		$("#ziele").html(text);
@@ -804,15 +831,17 @@ algsets={
 	},
 	addSet:function(){
 		var a=prompt("Geben Sie Ihren AlgSetNamen hier ein.");
-		algsets.setnames.push(a);
-		if(typeof algsets.registeredSets[a.toUpperCase()]!=="undefined"){
-			if(confirm("Das AlgSet ist schon definiert. Möchten Sie Ihre eigene Definition schreiben (OK) oder die vorgefertigte Verwenden (Abbrechen)?")){
-				algsets.sets[algsets.sets.length]=algsets.registeredSets[a.toUpperCase()];
+		if(a){
+			algsets.setnames.push(a);
+			if(typeof algsets.registeredSets[a.toUpperCase()]!=="undefined"){
+				if(confirm("Das AlgSet ist schon definiert. Möchten Sie Ihre eigene Definition schreiben (OK) oder die vorgefertigte Verwenden (Abbrechen)?")){
+					algsets.sets[algsets.sets.length]=algsets.registeredSets[a.toUpperCase()];
+				}else{
+					algsets.sets[algsets.sets.length]=[];
+				}
 			}else{
 				algsets.sets[algsets.sets.length]=[];
 			}
-		}else{
-			algsets.sets[algsets.sets.length]=[];
 		}
 		algsets.display();
 	},

@@ -1,20 +1,12 @@
 <!doctype html>
 <html>
 <head>
-<title>Hutitimer 2.1.7</title>
+<title>HTtimer 3.0.0</title>
 <link rel="stylesheet" type="text/css" href="timercss.css" media="all"   />
 <link rel="stylesheet" type="text/css" href="scroll.css"   media="all"   />
 <link rel="stylesheet" type="text/css" href="https://cubing.github.io/icons/css/cubing-icons.css" media="all"/>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<!--w&uuml;rde lieber ohne nichtselbstgeschriebenes js auskommen--><!--
-<script type="text/javascript" src="https://raw.githubusercontent.com/dampflok888/Hutitimer/master/display.js"></script>
-<script type="text/javascript" src="https://raw.githubusercontent.com/dampflok888/Hutitimer/master/nxnPosition.js"></script>
-<script type="text/javascript" src="https://raw.githubusercontent.com/dampflok888/Hutitimer/master/hutiscrambler.js"></script>
-<script type="text/javascript" src="https://raw.githubusercontent.com/dampflok888/Hutitimer/master/squanPyraScrambler.js"></script>
-<script type="text/javascript" src="https://raw.githubusercontent.com/dampflok888/Hutitimer/master/language.js"></script>
-<script type="text/javascript" src="https://raw.githubusercontent.com/dampflok888/Hutitimer/master/alg.js"></script>
-<script type="text/javascript" src="https://raw.githubusercontent.com/dampflok888/Hutitimer/master/alg_jison.js"></script>
-<script type="text/javascript" src="https://raw.githubusercontent.com/dampflok888/Hutitimer/master/hutitimer.js"></script></script>-->
+<!--würde lieber ohne nichtselbstgeschriebenes js auskommen-->
 <script type="text/javascript" src="display.js"></script>
 <script type="text/javascript" src="nxnPosition.js"></script>
 <script type="text/javascript" src="hutiscrambler.js"></script>
@@ -27,7 +19,7 @@
 </head>
 <body>
 <div id="context_menu" style="visibility:hidden">
-	<div class="menupnt">HutiTimer 2.2.0</div>
+	<div class="menupnt">HTTimer 2.1.7</div>
 	<div class="menupnt" onclick="javascript:showOptions();">O: Optionen</div>
 	<div class="menupnt" onclick="javascript:generateExport();">E: Export</div>
 	<div class="menupnt" onclick="javascript:importCode();">Import Code</div>
@@ -42,10 +34,10 @@
 		<button class="accordion2" onclick="javascript:toggleMenuActive(0);">Schrift</button>
 		<button class="accordion2" onclick="javascript:toggleMenuActive(5);">Scrambler</button>
 		<button class="accordion2" onclick="javascript:toggleMenuActive(1);">Sprache</button>
-		<button class="accordion2" onclick="javascript:toggleMenuActive(4);">Sonstiges</button>
 		<button class="accordion2" onclick="javascript:toggleMenuActive(2);">Start/Stop</button>
 		<button class="accordion2" onclick="javascript:toggleMenuActive(3);">Tools</button>
 		<button class="accordion2" onclick="javascript:toggleMenuActive(7);">Verstecken/Zeigen</button>
+		<button class="accordion2" onclick="javascript:toggleMenuActive(4);">Sonstiges</button>
 		<button class="accordion2" onclick="javascript:toggleMenuActive(8);setTimeout(hideOptions,10);show('start')">zur&uuml;ck</button>
 	</div>
 	<div class="optionBottomContainer" id="select0" style="visibility:hidden;">
@@ -101,10 +93,10 @@
 		<button class="btn-option" onclick="javascript:timer.tool=5;drawTool()">Zeitenvergleich</button>
 			<span class="helpmsg" onmouseover="$(this).html('Funktioniert noch nicht ganz.')" onmouseout="$(this).html('&nbsp;?&nbsp;')">&nbsp;?&nbsp;</span><br>
 	</div>
-	<div class="optionBottomContainer" id="select4" style="visibility:hidden;">
-		Zeit zwischen Stop und Start: <span id="blocktime"></span>ms&nbsp;<button onclick="javascript:timer.blockTime+=100">+100</button><button onclick="javascript:timer.blockTime-=100">-100</button><br>
+	<div class="optionBottomContainer" id="select4" style="visibility:hidden;overflow:scroll;max-height:99%;">
+		<!--Zeit zwischen Stop und Start: <span id="blocktime"></span>ms&nbsp;<button onclick="javascript:timer.blockTime+=100">+100</button><button onclick="javascript:timer.blockTime-=100">-100</button><br>
 		Popup-R&uuml;ckgangzeit: <span id="blocktimereturn"></span>ms&nbsp;<button onclick="javascript:timer.blockTimeReturn+=100">+100</button><button onclick="javascript:timer.blockTimeReturn-=100">-100</button><br>
-		<br>
+		<br>-->
 		Relays: <button onclick="javascript:show('relays');displayRelayOption();">Puzzles ausw&auml;hlen</button><br>
 		<hr>
 		<button class="btn-option" onclick="javascript:timer.relayWarn=true;">Bei Relays warnen</button>
@@ -131,15 +123,21 @@
 		<button class="btn-option" onclick="javascript:timer.displayTimeWhenSolving=false;">"solving" anzeigen</button><br>
 		<button class="btn-option" onclick="javascript:timer.displayTimeWhenSolving=true;">aktuelle Zeit anzeigen</button>
 		<hr>
-		Custom Avg:
-		<button class="btn-option" onclick="timer.customAvg++;">+1</button><br>
-		<button class="btn-option" onclick="timer.customAvg--;">-1</button><br>
-		<button class="btn-option" onclick="timer.customAvg+=10;">+10</button><br>
-		<button class="btn-option" onclick="timer.customAvg+=10;">-10</button><br>
-		<button class="btn-option" onclick="timer.customAvg+=100;">+100</button><br>
-		<button class="btn-option" onclick="timer.customAvg-=100;">-100</button><br>
+		Custom Avg: <div id="customavganzahl">3</div>
+		<button class="btn-option" onclick="timer.customAvg++;updateOptionsCustomAvg();">+1</button><br>
+		<button class="btn-option" onclick="timer.customAvg--;updateOptionsCustomAvg();">-1</button><br>
+		<button class="btn-option" onclick="timer.customAvg+=10;updateOptionsCustomAvg();">+10</button><br>
+		<button class="btn-option" onclick="timer.customAvg+=10;updateOptionsCustomAvg();">-10</button><br>
+		<button class="btn-option" onclick="timer.customAvg+=100;updateOptionsCustomAvg();">+100</button><br>
+		<button class="btn-option" onclick="timer.customAvg-=100;updateOptionsCustomAvg();">-100</button><br>
+		<script>
+		function updateOptionsCustomAvg(){
+			document.getElementById("customavganzahl").innerHTML=timer.customAvg;
+		}
+		updateOptionsCustomAvg();
+		</script>
 	</div>
-	<div class="optionBottomContainer" id="select5" style="visibility:hidden;max-height:99%;overflow:hidden;">
+	<div class="optionBottomContainer" id="select5" style="visibility:hidden;max-height:99%;overflow:scroll;">
 		Maximale Scramblerh&ouml;he:<br>
 		<button class="btn-option" onclick="javascript:$('#scramble').css('max-height','50px');">50px</button><br>
 		<button class="btn-option" onclick="javascript:$('#scramble').css('max-height','100px');">100px</button><br>
@@ -168,8 +166,8 @@
 		<button class="btn-option" onclick="javascript:show('summ');">Tool anzeigen</button><br>
 		<button class="btn-option" onclick="javascript:hide('summ');">Tool verstecken</button>
 		<hr>
-		<button class="btn-option" onclick="javascript:show('time_liste');">Zeitenliste anzeigen</button><br>
-		<button class="btn-option" onclick="javascript:hide('time_liste');">Zeitenliste verstecken</button>
+		<button class="btn-option" onclick="javascript:show('time_list');">Zeitenliste anzeigen</button><br>
+		<button class="btn-option" onclick="javascript:hide('time_list');">Zeitenliste verstecken</button>
 		<hr>
 		<button class="btn-option" onclick="javascript:show('virtualtimer');">Virtuellen Timer anzeigen</button><br>
 		<button class="btn-option" onclick="javascript:hide('virtualtimer');">Virtuellen Timer verstecken</button>
@@ -213,7 +211,7 @@
 	<button onclick="colors['A']='#808080';showOptions();" style="background-color:#808080;width:80px;">&nbsp;Grau&nbsp;</button><br>
 	<br>//Farben wurden nicht benötigt-->
 	<!--<br>
-	<a href="http://www.github.com/dampflok888/Hutitimer">Code (Github)</a>-->
+	<a href="http://www.github.com/dampflok888/HTtimer">Code (Github)</a>-->
 </div>
 <div class="options" style="visibility:hidden" id="start">
 	<div class="right">
@@ -281,7 +279,7 @@
 		<button class="accordion2" onclick="javascript:toggleMenuActive3(5);">Optionen</button>
 		<button class="accordion2" onclick="javascript:toggleMenuActive3(6);">FAQ</button>
 		<button class="accordion2" onclick="javascript:toggleMenuActive3(7);">Quellen</button>
-		<button class="accordion2" onclick="javascript:toggleMenuActive3(8);hide('hilfe');">zur&uuml;ck</button>
+		<button class="accordion2" onclick="javascript:toggleMenuActive3(8);hide('hilfe');show('start');">zur&uuml;ck</button>
 	</div>
 	<div class="optionBottomContainer" id="hilfe0" style="visibility:hidden;">
 		<h2>Zeiten messen</h2>
@@ -297,7 +295,7 @@
 	</div>
 	<div class="optionBottomContainer" id="hilfe2" style="visibility:hidden;">
 		<h2>Tools</h2>
-		Es gibt verschiedene Zools zur Auswahl. Immer eines wird unten rechts angezeigt; welches ist in den <span onclick='javascript:hide("hilfe");show("options");toggleMenuActive(3);'><u>Optionen</u></span> ausw&auml;hlbar.
+		Es gibt verschiedene Zools zur Auswahl. Immer eines wird unten rechts angezeigt; welches ist in den Optionen ausw&auml;hlbar.
 	</div>
 	<div class="optionBottomContainer" id="hilfe3" style="visibility:hidden;">
 		<h2>AlgSets</h2>
@@ -321,13 +319,34 @@
 		Verstecken/Zeigen: Hier k&ouml;nnen verschiedene Elemente versteckt und gezeigt werden.<br>
 	</div>
 	<div class="optionBottomContainer" id="hilfe6" style="visibility:hidden;">
-		<h2>Frequently Asked Questions</h2>
-		TODO FAQ
+		<h2>Frequently Asked Questions (FAQ)</h2>
+		<b>Q</b>: Wie startet man Inspection?<br>
+		<b>A</b>: Dr&uuml;cke "I" oder Rechtsklick->"I: Inspection starten"<br>
 		<br>
-		Getestete Browser und Browserversionen:
+		<b>Q</b>: Mich nervt der virtuelle Stackmattimer. Was tun?<br>
+		<b>A</b>: Du kannst eine normale Anzeige mit Men&uuml;->Optionen->Verstecken/Anzeigen->Virtuellen Timer verstecken, Normale Anzeige anzeigen umschalten.<br>
+		<br>
+		<b>Q</b>: Gibt es ein Limit in der Anzahl meine Zeiten?<br>
+		<b>A</b>: Ja, bei 4MB von Zeiten+Scrambles. Kommt also auf den Scrambler an, sollte aber f&uuml;r 100000 Solves durchschnittlich reichen.<br>
+		<br>
+		<b>Q</b>: Wann wird die Entwicklungsphase abgeschlossen sein?<br>
+		<b>A</b>: Vielleicht nie, vielleicht in 10 Jahren. Der Timer ist eine Lebenszeitbaustelle, weil fast immer noch etwas hinzugef&uuml;ft werden kann. Das wichtigste wird aber in 3-5 Monaten drin sein.<br>
+		<br><br>
+		<h3>Getestete Browser und Browserversionen:</h3>
 		<ul>
-			<li>Firefox 45.0.2, Windows 10 und Debian (Linux)</li>
-			<li>Chrome 49.0.2623.112, Windows 10</li>
+			<li>Firefox 45.0.2       , Windows 10 und Debian (Linux)</li>
+			<li>Chrome  49.0.2623.112, Windows 10</li>
+		</ul>
+		<br><br>
+		<h3>Bekannte Fehler</h3>
+		<ul>
+		<li>Sprach&auml;nderung nicht konsequent durchgef&uuml;hrt
+		<li>Probleme beim Stoppen mit beiden Ctrl.-Tasten gleichzeitig
+		<li>Farbenauswahl basiert noch auf Zufallsprinzip
+		<li>YouTube-Playlists werden nicht vern&uml;nftig dargestellt
+		<li>Optionen werden bei Neuladen teilweise zur&uuml;ckgesetzt
+		<li>Darstellung auf Linux
+		<li>Sessions brechen nach bestimmter Anzahl der Sessions um, nicht nach Gesamtbreite
 		</ul>
 	</div>
 	<div class="optionBottomContainer" id="hilfe7" style="visibility:hidden;">
@@ -387,7 +406,7 @@ function menuworking(){
 	}
 }
 menuworking();
-eval(localStorage.hutiexport||"");
+eval(localStorage.HTexport||"");
 displayTimes();
 displaySessions();
 drawTool();

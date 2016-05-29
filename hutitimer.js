@@ -26,17 +26,6 @@ rotationReducer={
 	}
 }
 
-if(navigator.userAgent.toLowerCase().search(/(iphone|ipad|opera mini|fennec|palm|blackberry|android|symbian|series60)/)>-1){
-  mobil=true;
-}
-else{
-  mobil=false;
-}
-
-if(mobil&&!isMobile){
-	window.location.href="mobiletimer.html";
-}
-
 Array.prototype.max = function() {
   return Math.max.apply(null, this);
 };
@@ -52,13 +41,6 @@ String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
 };
-function checkBrowserName(name){
-	var agent = navigator.userAgent.toLowerCase();  
-	if (agent.indexOf(name.toLowerCase())>-1) {  
-		return true;  
-	}  
-	return false;  
-}  
 
 var cube=generatealgjscube(alg_jison),
 rshtml='<small><span style="color:red;float:right;" title="Random state"><i>RS</i>&nbsp;</span></small>',
@@ -654,11 +636,12 @@ function switchScrambler(typ){
 	displayScramble();
 }
 
+var optionbreaks=[1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+optiontexts=["WCA",0,0,0,0,0,0,0,0,0,0,0,0,"Special NxNxN",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Cuboids",0,0,0,0,0,"Shapemods",0,"Sonstige",0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Relays"]
+;
 function displayScrambler(a){
-	var text="",i,
-	optionbreaks=[1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-	optiontexts=["WCA",0,0,0,0,0,0,0,0,0,0,0,0,"Special NxNxN",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Cuboids",0,0,0,0,0,"Shapemods",0,"Sonstige",0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Relays"]
-	;
+	var text="",i;
+	
 	for(i=0;i<timer.scrambleTypes.length;i++){
 		if(optionbreaks[i]==1)text+="</div><button class='accordion'>"+optiontexts[i]+"</button><div class='panel'>";
 		text+="<div class='scrambler-div' onclick='switchScrambler(\""+timer.scrambleTypes[i]+"\")'>"+timer.scrambleNames[i]+"</div>";

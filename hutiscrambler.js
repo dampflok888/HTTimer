@@ -7,7 +7,7 @@ function relayScramble(command){
 	out="";
 	cmd=command.split(" ");
 	for(let i=0;i<cmd.length;i++){
-		out+=getScrambles(cmd[i],0)+BR;
+		if(cmd[i]!=="relay")out+=getScrambles(cmd[i],0)+BR;
 	}
 	return out;
 }

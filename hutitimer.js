@@ -1,4 +1,5 @@
-var uwrs,colors,uwrholders,triggers,cube,rshtml,rohtml,remainingInspectionTime;
+var uwrs,colors,uwrholders,triggers,cube,rshtml,rohtml,remainingInspectionTime,optionbreaks,optiontexts;
+//const BR="<br/>";//from hutiscrambler.js
 
 remainingInspectionTime=0;
 rshtml='<small><span style="color:red;float:right;" title="Random state"><i>RS</i>&nbsp;</span></small>',
@@ -176,7 +177,7 @@ function timeInspection(){
 		if(tmw>14000)document.getElementById("scrambleImage").innerHTML="<span style='font-size:40pt;'>Go!</span>";
 		tmw="<span style='color:"+color+"'>"+format(tmw)+"</span>";
 		document.getElementById("display2").innerHTML="Inspect: "+tmw;
-		document.getElementById("display").innerHTML="Inspect:<br>"+tmw;
+		document.getElementById("display").innerHTML="Inspect:"+BR+tmw;
 		setTimeout(timeInspection,100);
 	}
 }
@@ -322,7 +323,7 @@ function displayTimes(){
 			text+="<button onclick='javascript: givePenalty("+i+",\"-2\");'>-2</button>";
 			text+="<button onclick='javascript: givePenalty("+i+",\"-4\");'>-4</button>";
 		}
-		text+="</div><br><br>";
+		text+="</div>"+BR+BR;
 	
 	}
 	document.getElementById("time_list").innerHTML=text;
@@ -487,7 +488,7 @@ function toolTimes(){
 		uwr,fake,p;
 	(best<uwrs[timer.type])?uwr=true:uwr=false;
 	(best<0.3)?fake=true:fake=false;
-	p=language.globalAverage+": " + globalAverage + "<br>"+language.best+": " + best;
+	p=language.globalAverage+": " + globalAverage +BR+language.best+": " + best;
 	if(uwr&&!fake){
 		p+=" <b>UWR!</b>";
 	}
@@ -497,18 +498,18 @@ function toolTimes(){
 	if(fake&&uwr){
 		p+=" <b>FAKED UWR! :(</b>";
 	}
-	p+="<br>"+language.worst+": " + worst + "<br>"+language.best+" Ao5: " + bestao5 + "";
+	p+=BR+language.worst+": " + worst + BR+language.best+" Ao5: " + bestao5 + "";
 	ziel.check(1,timer.type,bestao5);
 	if(timer.config.results.length>11){
-		p+="<br>"+language.best+" Ao12: "+format(bestaox(timer.config.results,12));
+		p+=BR+language.best+" Ao12: "+format(bestaox(timer.config.results,12));
 		if(timer.config.results.length>49){
-			p+="<br>"+language.best+" Ao50: "+format(bestaox(timer.config.results,50));
+			p+=BR+language.best+" Ao50: "+format(bestaox(timer.config.results,50));
 		}
 	}
 	if(timer.config.results.length>timer.customAvg-1){
-		p+="<br>"+language.best+" Ao"+timer.customAvg+": "+format(bestaox(timer.config.results,timer.customAvg));
+		p+=BR+language.best+" Ao"+timer.customAvg+": "+format(bestaox(timer.config.results,timer.customAvg));
 	}
-	return p+"<br><button class='btn-lg' onclick='generateExport();'>Export</button>";
+	return p+BR+"<button class='btn-lg' onclick='generateExport();'>Export</button>";
 }
 
 function toolTimeDistribution(){
@@ -655,7 +656,7 @@ function createSession(){
 function displaySessions(){
 	for(var i=0,text="<h4>Sessions</h4>";i<timer.sessions.length;i++){
 		text+="<button onclick='javascript:switchSession("+i+")'>"+(i+1)+"</button>";
-		if((i+1)%20==0)text+="<br>";
+		if((i+1)%20==0)text+=BR;
 	}
 	text+="<button onclick='createSession()'>+</button>";
 	text+="<button onclick='deleteSession(timer.currentSession)'>-</button>";
@@ -668,7 +669,6 @@ function switchScrambler(typ){
 	displayScramble();
 }
 
-var optionbreaks,optiontexts;
 optionbreaks=[1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1];
 optiontexts=["WCA",0,0,0,0,0,0,0,0,0,0,0,0,"Special NxNxN",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Cuboids",0,0,0,0,0,"Shapemods",0,0,"Sonstige",0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Relays"];
 
@@ -692,36 +692,36 @@ function generateExport(){
 		exportDesign=timer.exportDesign||0,
 
 
-	p="<h2>Export</h2>"+language.globalAverage+": " + globalAverage + "<br>"+language.best+"e: " + best + "<br>"+language.worst+": " + worst + "<br>"+language.best+" Ao5: " + bestao5 + "<br>";
+	p="<h2>Export</h2>"+language.globalAverage+": " + globalAverage + BR+language.best+"e: " + best + BR+language.worst+": " + worst + BR+language.best+" Ao5: " + bestao5 + BR;
 	if(timer.config.results.length>11){
-		p+="<br>"+language.best+" Ao12: "+format(bestaox(timer.config.results,12));
+		p+=BR+language.best+" Ao12: "+format(bestaox(timer.config.results,12));
 		if(timer.config.results.length>49){
-			p+="<br>"+language.best+" Ao50: "+format(bestaox(timer.config.results,50));
+			p+=BR+language.best+" Ao50: "+format(bestaox(timer.config.results,50));
 		}
 	}
 	if(timer.config.results.length>timer.customAvg-1){
-		p+="<br>"+language.best+" Ao"+timer.customAvg+": "+format(bestaox(timer.config.results,timer.customAvg));
+		p+=BR+language.best+" Ao"+timer.customAvg+": "+format(bestaox(timer.config.results,timer.customAvg));
 	}
 
-	p+="<br>";
+	p+=BR;
 	
 	for(let i=0;i<timer.config.results.length;i++){
 		if(exportDesign==0){
-			p+="<br>"+(i+1)+".: ";
-			p+=format(timer.config.results[i].zeit)+" "+timer.config.results[i].scramble+"<br>";
+			p+=BR+(i+1)+".: ";
+			p+=format(timer.config.results[i].zeit)+" "+timer.config.results[i].scramble+BR;
 		}else if(exportDesign==1){
 			p+=format(timer.config.results[i].zeit)+",";
 		}else if(exportDesign==2){
-			p+=format(timer.config.results[i].zeit)+"<br>";
+			p+=format(timer.config.results[i].zeit)+BR;
 		}else if(exportDesign==3){
-			p+=(i+1)+".: "+format(timer.config.results[i].zeit)+"<br>";
+			p+=(i+1)+".: "+format(timer.config.results[i].zeit)+BR;
 		}
 	}
 	d = new Date();
 	d=d.toDateString();
 	i=Math.round((i/256)+.5);
-	p+="<br><br>Export wurde am "+d+" in "+i+"ms generiert.";
-	p+="<br><button onclick='hide(\"export\");'>"+language.back+"</button>";
+	p+=BR+"Export wurde am "+d+" in "+i+"ms generiert.";
+	p+=BR+"<button onclick='hide(\"export\");'>"+language.back+"</button>";
 	show('export');
 	document.getElementById('export').innerHTML=p;
 
@@ -766,7 +766,7 @@ ziel={
 		for(var i=0;i<timer.sessions.length;i++){
 			text+="<button class='btn-option' onclick='javascript:switchSession("+i+");ziel.display();'>"+i+"</button>";
 		}
-		text+="<span class=\"helpmsg\" onmouseover=\"$(this).html('W&auml;hlen Sie die Session aus, f&uuml;r die Sie die Ziele setzen m&ouml;chten.');\" onmouseout=\"$(this).html('&nbsp;?&nbsp;')\">&nbsp;?&nbsp;</span><br>";
+		text+="<span class=\"helpmsg\" onmouseover=\"$(this).html('W&auml;hlen Sie die Session aus, f&uuml;r die Sie die Ziele setzen m&ouml;chten.');\" onmouseout=\"$(this).html('&nbsp;?&nbsp;')\">&nbsp;?&nbsp;</span>"+BR;
 		show('ziele');
 		var
 		globalAverage=format(average(timer.config.results)),
@@ -781,12 +781,12 @@ ziel={
 			if(ziel.ziele[timer.currentSession][i]<0)ziel.ziele[timer.currentSession][i]=0;
 		}
 		
-		text+="<br>Single:"+ziel.format(ziel.ziele[timer.currentSession][0],best)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][0]=prompt(\"Neues Ziel eingeben.\");;ziel.display();'>Setzen</button>"
-		+"<br>Ao5:"+ziel.format(ziel.ziele[timer.currentSession][1],bestao5)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][1]=prompt(\"Neues Ziel eingeben.\");;ziel.display();'>Setzen</button>"
-		+"<br>Ao12:"+ziel.format(ziel.ziele[timer.currentSession][2],besto12)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][2]=prompt(\"Neues Ziel eingeben.\");;ziel.display();'>Setzen</button>"
-		+"<br>Ao50:"+ziel.format(ziel.ziele[timer.currentSession][3],bestao50)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][3]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Setzen</button>"
-		+"<br>Custom Aox:"+ziel.format(ziel.ziele[timer.currentSession][4],bestocustom)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][4]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Setzen</button>"
-		+"<br>";
+		text+="Single:"+ziel.format(ziel.ziele[timer.currentSession][0],best)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][0]=prompt(\"Neues Ziel eingeben.\");;ziel.display();'>Setzen</button>"
+		+BR+"Ao5:"+ziel.format(ziel.ziele[timer.currentSession][1],bestao5)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][1]=prompt(\"Neues Ziel eingeben.\");;ziel.display();'>Setzen</button>"
+		+BR+"Ao12:"+ziel.format(ziel.ziele[timer.currentSession][2],besto12)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][2]=prompt(\"Neues Ziel eingeben.\");;ziel.display();'>Setzen</button>"
+		+BR+"Ao50:"+ziel.format(ziel.ziele[timer.currentSession][3],bestao50)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][3]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Setzen</button>"
+		+BR+"Custom Aox:"+ziel.format(ziel.ziele[timer.currentSession][4],bestocustom)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][4]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Setzen</button>"
+		+BR;
 		text+="<div onclick='hide(\"ziele\")'>"+language.back+"</div>";
 		$("#ziele").html(text);
 	},
@@ -836,14 +836,14 @@ algsets={
 		var text;
 		show('algSets');
 		text="<h2>Algorithmen</h2>";
-		text+="Es sind "+algsets.sets.length+" Sets eingetragen.<br><button onclick='javascript:algsets.addSet()'>+</button><br>";
+		text+="Es sind "+algsets.sets.length+" Sets eingetragen."+BR+"<button onclick='javascript:algsets.addSet()'>+</button>"+BR;
 		for(let i=0;i<algsets.sets.length;i++){
-			text+=algsets.setnames[i]+":<button onclick='javascript:algsets.addAlg("+i+")'>+</button><br>";
+			text+=algsets.setnames[i]+":<button onclick='javascript:algsets.addAlg("+i+")'>+</button>"+BR;
 			for(let j=0;j<algsets.sets[i].length;j++){
-				text+=(j+1)+".: "+algsets.formatAlg(algsets.sets[i][j])+"<button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.turnAlg(algsets.sets["+i+"]["+j+"]);algsets.display();'>Invert</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.mirrorM(algsets.sets["+i+"]["+j+"]);algsets.display();'>Mirror M</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.mirrorS(algsets.sets["+i+"]["+j+"]);algsets.display();'>Mirror S</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.simplify(algsets.sets["+i+"]["+j+"]);algsets.display();'>Simplify</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.viewExecution(algsets.sets["+i+"]["+j+"]);'>View Execution</button><button onclick='javascript:algsets.edit("+i+","+j+");'>Edit</button><br>";
+				text+=(j+1)+".: "+algsets.formatAlg(algsets.sets[i][j])+"<button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.turnAlg(algsets.sets["+i+"]["+j+"]);algsets.display();'>Invert</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.mirrorM(algsets.sets["+i+"]["+j+"]);algsets.display();'>Mirror M</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.mirrorS(algsets.sets["+i+"]["+j+"]);algsets.display();'>Mirror S</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.simplify(algsets.sets["+i+"]["+j+"]);algsets.display();'>Simplify</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.viewExecution(algsets.sets["+i+"]["+j+"]);'>View Execution</button><button onclick='javascript:algsets.edit("+i+","+j+");'>Edit</button>"+BR;
 			}
 		}
-		text+="<br><div onclick='hide(\"algSets\")'>"+language.back+"</div>";
+		text+=BR+"<div onclick='hide(\"algSets\")'>"+language.back+"</div>";
 		$("#algSets").html(text);
 	},
 	addSet:function(){
@@ -897,7 +897,7 @@ relayNumbers=[];
 
 function displayRelayOption(){
 	var text;
-	text="<button onclick='relayNumbers[1]=relayNumbers[5]=relayNumbers[16]=1;displayRelayOption();'>2x2-4x4</button><br><button onclick='relayNumbers[1]=relayNumbers[5]=relayNumbers[16]=relayNumbers[17]=1;displayRelayOption();'>2x2-5x5</button><br><br>";
+	text="<button onclick='relayNumbers[1]=relayNumbers[5]=relayNumbers[16]=1;displayRelayOption();'>2x2-4x4</button>"+BR+"<button onclick='relayNumbers[1]=relayNumbers[5]=relayNumbers[16]=relayNumbers[17]=1;displayRelayOption();'>2x2-5x5</button>"+BR+BR;
 	for(let i=0;i<timer.scrambleTypes.length;i++){
 		if(typeof relayNumbers[i]=="undefined")relayNumbers[i]=0;
 		text+=(i+1)+".: "+timer.scrambleNames[i]+"&nbsp;&nbsp;";
@@ -910,9 +910,9 @@ function displayRelayOption(){
 		if(relayNumbers[i]>0){
 			text+="<button onclick='relayNumbers["+i+"]--;displayRelayOption();'>-</button>";
 		}
-		text+="<br>";
+		text+=BR;
 	}
-	document.getElementById("relays").innerHTML=text+"<br><button onclick='generateRelayCode();hide(\"relays\");'>Finish</button>";
+	document.getElementById("relays").innerHTML=text+BR+"<button onclick='generateRelayCode();hide(\"relays\");'>Finish</button>";
 }
 
 function generateRelayCode(){

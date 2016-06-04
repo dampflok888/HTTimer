@@ -1,8 +1,13 @@
+const BR="<br/>";
+
 function generateScramble(r,a){var e,n,t,o="",f="",h=[];for(h.U="D",h.D="U",h.L="R",h.R="L",h.F="B",h.B="F",t=0;a>t;t++)e=o,o=r[Math.floor(Math.random()*r.length)],e==o||e[0]==o[0]||h[e[0]]==o[0]?t--:n=o,f+=n+" ",n="";return f}
 
 function relayScramble(command){
-	for(var i=0,out="";i<command.split(" ").length;i++){
-		out+=getScrambles(command.split(" ")[i],0)+"<br>";
+	var out,cmd;
+	out="";
+	cmd=command.split(" ");
+	for(let i=0;i<cmd.length;i++){
+		out+=getScrambles(cmd[i],0)+BR;
 	}
 	return out;
 }
@@ -127,7 +132,7 @@ function getScrambles(type,relay){
 	scrambler["skewb"]=generateScramble(skewb,12);
 	scrambler["clock"]="scrambler type is not available yet";
 	
-	for(var i=0;i<scrambler.length;i++)scrambler[i]=cube.cube.simplify(scrambler[i])||scrambler[i];
+	for(let i=0;i<scrambler.length;i++)scrambler[i]=cube.cube.simplify(scrambler[i])||scrambler[i];
 	
 	if(relay!=0){
 		scrambler["relay"]=relayScramble(timer.relayCommand);
@@ -138,5 +143,5 @@ function getScrambles(type,relay){
 	return scrambler[type];
 }
 
-function getScramble(r,e){for(var t="",a=1;e+1>a;a++)t+=a+".: "+getScrambles(r,1)+"<br>";return t}
-function getScrambleLarge(e,t,r,g){g+=r+".: "+getScrambles(e,1)+"<br>",t>r?setTimeout(getScrambleLarge(e,t,++r,g),100):document.getElementById("output").innerHTML=g}
+function getScramble(r,e){for(var t="",a=1;e+1>a;a++)t+=a+".: "+getScrambles(r,1)+BR;return t}
+function getScrambleLarge(e,t,r,g){g+=r+".: "+getScrambles(e,1)+BR,t>r?setTimeout(getScrambleLarge(e,t,++r,g),100):document.getElementById("output").innerHTML=g}

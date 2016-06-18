@@ -2,21 +2,21 @@ var uwrs,colors,uwrholders,triggers,cube,rshtml,rohtml,remainingInspectionTime,o
 //const BR="<br/>";//from hutiscrambler.js
 
 remainingInspectionTime=0;
-rshtml='<small><span style="color:red;float:right;" title="Random state"><i>RS</i>&nbsp;</span></small>',
+rshtml='<small><span style="color:red;float:right;" title="Random state"><i>RS</i>&nbsp;</span></small>';
 rohtml='<small><span style="color:red;float:right;" title="Random orientation"><i>RO</i>&nbsp;</span></small>';
-cube=generatealgjscube(alg_jison),
-uwrs=[],
-colors=[],
-uwrholders=[],
-uwrs["barrel"]=11.636,
-uwrs["ghost"]=33.25,
-colors["W"]="#FFFFFF",
-colors["R"]="#FF0000",
-colors["O"]="#FFA500",
-colors["S"]="#000000",
-colors["G"]="#FFFF00",
-colors["U"]="#FF00FF",
-colors["B"]="#0000FF",
+cube=generatealgjscube(alg_jison);
+uwrs=[];
+colors=[];
+uwrholders=[];
+uwrs["barrel"]=11.636;
+uwrs["ghost"]=33.25;
+colors["W"]="#FFFFFF";
+colors["R"]="#FF0000";
+colors["O"]="#FFA500";
+colors["S"]="#000000";
+colors["G"]="#FFFF00";
+colors["U"]="#FF00FF";
+colors["B"]="#0000FF";
 colors["A"]="#A0A0A0";
 triggers=[[["R","U","R'","U'"],"sexy"],[["R'","F","R","F'"],"sledge"]];
 
@@ -59,9 +59,8 @@ String.prototype.replaceAll = function(search,replacement) {
     var target = this;
     return target.replace(new RegExp(search,'g'),replacement);
 };
-function isUndefined(a){
-	return typeof a=="undefined";
-}
+var isUndefined=function(x){return (function(a,undefined){return a==undefined;})(x)};
+var isUndefinedFast=function(x){return x===void 0;};
 
 function buildArchitecture(){
 	window.timer=timer={
@@ -75,15 +74,15 @@ function buildArchitecture(){
 		penalty:"",
 		type:"3x3",
 		timingMode:1,
-		blockTime:2000,
-		blockTimeReturn:3000,
+		blockTime:2e2,
+		blockTimeReturn:3e3,
 		sessions:[],
 		currentSession:0,
 		defaultScrambler:"3x3",
 		colorScheme:["R","W","U","G","B","O"],
 		relayCommand:"2x2 2x2bld",
 		version:"2.1.7",
-		customAvg:3,
+		customAvg:100,
 		tool:0,
 		precision:true,
 		relayWarn:true,
@@ -109,7 +108,7 @@ function start(){
 	if(!timer.running){
 		timer.running=true;
 		timer.zeit=+new Date();
-		setTimeout(time,2);
+		setTimeout(time,timer.aktualisierungsrate/2);
 		document.getElementById("scrambleImage").innerHTML="";
 	}
 }
@@ -126,11 +125,9 @@ function time(){
 }
 
 function displayScramble(){
-	var Tscramble,text;
-	Tscramble=getScrambles(timer.type,1),
-	text=""+Tscramble+"<div style='float:right;' onclick='javascript:displayScramble();'><small>next</small></div>";
-	document.getElementById("scramble").innerHTML=text;
-	timer.scramble=Tscramble;
+	var Tscramble;
+	timer.scramble=Tscramble=getScrambles(timer.type,1),
+	document.getElementById("scramble").innerHTML=`${Tscramble}<div style='float:right;' onclick='javascript:displayScramble();'><small>next</small></div>`;
 	drawTool();
 }
 
@@ -140,6 +137,7 @@ function stop(){
 	zeit=(+new Date()-timer.zeit);
 	
 	if(zeit-80<0)zeit+=80;
+	if(zeit<80)zeit=80;
 	
 	document.getElementById("display").innerHTML=format(zeit-80);
 	document.getElementById("display2").innerHTML=format(zeit-80);
@@ -172,9 +170,9 @@ function timeInspection(){
 	if(!timer.running){
 		var tmw=+new Date()-remainingInspectionTime;
 		var color="green";
-		if(tmw>8000)color="orange",document.getElementById("scrambleImage").innerHTML="<span style='font-size:40pt;'>8!</span>";
-		if(tmw>12000)color="red",document.getElementById("scrambleImage").innerHTML="<span style='font-size:40pt;'>12!</span>";
-		if(tmw>14000)document.getElementById("scrambleImage").innerHTML="<span style='font-size:40pt;'>Go!</span>";
+		if(tmw>8e3-1)color="orange",document.getElementById("scrambleImage").innerHTML="<span style='font-size:40pt;'>8!</span>";
+		if(tmw>12e3-1)color="red",document.getElementById("scrambleImage").innerHTML="<span style='font-size:40pt;'>12!</span>";
+		if(tmw>14e3-1)document.getElementById("scrambleImage").innerHTML="<span style='font-size:40pt;'>Go!</span>";
 		tmw="<span style='color:"+color+"'>"+format(tmw)+"</span>";
 		document.getElementById("display2").innerHTML="Inspect: "+tmw;
 		document.getElementById("display").innerHTML="Inspect:"+BR+tmw;
@@ -186,50 +184,6 @@ function deletetime(id){
 	timer.config.results.splice(id,1);
 	displayTimes();
 	drawTool();
-}
-
-function formatOld(z){
-	var diff,tag,std,min,sec,mSec,add;
-	diff=timer.zeit,b,c,d,e;
-	if(z){
-		diff=z;
-	}
-	tag = Math.floor(diff / (1000*60*60*24));
-	diff = diff % (1000*60*60*24);
-	std = Math.floor(diff / (1000*60*60));
-	diff = diff % (1000*60*60);
-	min = Math.floor(diff / (1000*60));
-	diff = diff % (1000*60);
-	sec = Math.floor(diff / 1000);
-	mSec = diff % 1000;
-	if(!timer.precision)mSec=mSec%10*(++[[]][+[]]+[+[]]);
-	mSec=Math.round(mSec);
-	add="";
-	if(mSec%10==0){
-		add="0";
-	}
-	if(mSec%100==0){
-		add="0";
-	}
-	if(mSec%1000==0&&timer.precision){
-		add="0";
-	}
-	if(isNaN(mSec)){
-		return "DNF";
-	}
-	if(tag!=0){
-		return tag + ":" + std + ":" + min + ":" + sec + "." + mSec + add;
-	}else{
-		if(std!=0){
-			return std + ":" + min + ":" + sec + "." + mSec + add;
-		}else{
-			if(min!=0){
-				return min + ":" + sec + "." + mSec + add;
-			}else{
-				return sec + "." + mSec + add;
-			}
-		}
-	}
 }
 
 function format(s) {
@@ -259,8 +213,8 @@ function format(s) {
 		return subLastDigit(str);
 	}
 
-  ms = s % 1000;
-  s = (s - ms) / 1000;
+  ms = s % 1e3;
+  s = (s - ms) / 1e3;
   secs = s % 60;
   s = (s - secs) / 60;
   mins = s % 60;
@@ -295,18 +249,19 @@ function displayTimes(){
 		zeit=timer.config.results[i].zeit,
 		scramble=timer.config.results[i].scramble,
 		penalty=timer.config.results[i].penalty;
+		text+="<span onclick='showTime("+i+")'>";
 		if(penalty!=="DNF"){
 			text+=(i+1)+".: "+format(zeit);
-			if(penalty=="+2"){
+			if(penalty==="+2"){
 				text+="+";
 			}
-			if(penalty=="+4"){
+			if(penalty==="+4"){
 				text+="++";
 			}
 		}else{
 			text+=(i+1)+".: DNF";
 		}
-		text+="<div style='float:right;'>";
+		text+="</span><div style='float:right;'>";
 	
 		text+="<button onclick='javascript: deletetime("+i+");'>X</button>";
 		if(!penalty){
@@ -327,6 +282,21 @@ function displayTimes(){
 	
 	}
 	document.getElementById("time_list").innerHTML=text;
+}
+
+function showTime(i){
+	var text,zeit,scramble,penalty,datum,kommentar,fake;
+	text="",
+	zeit=timer.config.results[i].zeit,
+	scramble=timer.config.results[i].scramble,
+	penalty=timer.config.results[i].penalty||"N",
+	datum=timer.config.results[i].datum;
+	fake=zeit<3000?"J":"N";
+	zeit=penalty=="DNF"?"DNF("+zeit+")":zeit;
+	kommentar=timer.config.results[i].kommentar;
+	show('timeDetails');
+	text+="<h3>Solve information</h3>"+BR+"Zeit: "+zeit+BR+"Formatierte Zeit: "+format(zeit)+BR+"Scramble: "+scramble+BR+"Penalty: "+penalty+BR+"Datum: "+datum+BR+"Kommentar: '"+kommentar+"'"+BR+"Fake: "+fake+BR+BR+"<button onclick='javascript:hide(\"timeDetails\");'>"+language.back+"</button>";
+	document.getElementById("timeDetails").innerHTML=text;
 }
 
 document.onkeyup = function(event) {
@@ -353,7 +323,7 @@ document.onkeyup = function(event) {
 		exportCode();
 	}
 	if (event.keyCode==73&&!(timer.config.disableKeysRunning&&timer.running)){//I
-		startInspection();
+		//timer.importCode();
 	}
 	if (event.keyCode==88&&!(timer.config.disableKeysRunning&&timer.running)){//X
 		timer.exportCode(1);
@@ -367,35 +337,18 @@ document.onkeyup = function(event) {
 	return event.returnValue;
 }
 
-document.onkeydown = function(event) {
-	var actionBox = document.getElementById('action');
-	if (event.keyCode==32&&timer.timingMode===1){
-		event.cancelBubble = true;
-		event.returnValue = false;
-		checkKeyAction2();
-	}
-	return event.returnValue;
-}
-
 function checkKeyAction(){
 	if(timer.running){
 		stop();
 	}else{
 		if(!timer.block){
+			start();
 			timer.block=true;
 			setTimeout(function(){timer.block=false},timer.blockTime);
-			start();
 		}else{
-			document.getElementById("time_list").innerHTML="Timer blockiert! Warten sie "+timer.blockTime/1000+" Sekunden. <button onclick='javascript:displayTimes();'>"+language.back+" (Auto in "+timer.blockTimeReturn/1000+" Sekunden)</button>";
+			document.getElementById("time_list").innerHTML="Timer blockiert! Warten sie "+timer.blockTime/1000+" Sekunden. <button onclick='javascript:timer.timeListDisplay();'>"+language.back+" (Auto in "+timer.blockTimeReturn/1000+" Sekunden)</button>";
 			setTimeout(timeListDisplay,timer.blockTimeReturn);
-			displayTimes();
 		}
-	}
-}
-
-function checkKeyAction2(){
-	if(timer.running){
-		stop();
 	}
 }
 
@@ -480,12 +433,12 @@ function bestaox(times,x){
 }
 
 function toolTimes(){
-	var
-		globalAverage=format(Math.floor(average(timer.config.results))),
-		best=format(minMaxTime(timer.config.results).min),
-		worst=format(minMaxTime(timer.config.results).max),
-		bestao5=format(bestaox(timer.config.results,5)),
-		uwr,fake,p;
+	var globalAVerage,best,worst,bestao5,uwr,fake,p;
+	globalAverage=format(Math.floor(average(timer.config.results))),
+	best=format(minMaxTime(timer.config.results).min),
+	worst=format(minMaxTime(timer.config.results).max),
+	bestao5=format(bestaox(timer.config.results,5));
+	
 	(best<uwrs[timer.type])?uwr=true:uwr=false;
 	(best<0.3)?fake=true:fake=false;
 	p=language.globalAverage+": " + globalAverage +BR+language.best+": " + best;
@@ -553,7 +506,7 @@ function toolTimeRatio(){
 }
 
 function toolTimeHistory(){
-	$("#summ").html("<canvas id='pbcanvas' width='200' height='150'></canvas>");
+	document.getElementById("summ").innerHTML="<canvas id='pbcanvas' width='200' height='150'></canvas>";
 	var canvas = document.getElementById('pbcanvas'),
 	ctx = canvas.getContext('2d'),
 	height=150,
@@ -679,8 +632,8 @@ function displayScrambler(a){
 		if(optionbreaks[i]==1)text+="</div><button class='accordion'>"+optiontexts[i]+"</button><div class='panel'>";
 		text+="<div class='scrambler-div' onclick='switchScrambler(\""+timer.scrambleTypes[i]+"\")'>"+timer.scrambleNames[i]+"</div>";
 	}
-	$("#session").html(text+"<div class='scrambler-div'>Auswahl in Men&uuml;/Optionen/Sonstiges/Relays</div>");
-	if(a)$(a).html(text);
+	document.getElementById("session").innerHTML=text+"<div class='scrambler-div'>Auswahl in Men&uuml;/Optionen/Sonstiges/Relays</div>";
+	if(a)document.getElementById(a.replace("#","")).innerHTML=text;
 }
 
 function generateExport(){
@@ -781,14 +734,14 @@ ziel={
 			if(ziel.ziele[timer.currentSession][i]<0)ziel.ziele[timer.currentSession][i]=0;
 		}
 		
-		text+="Single:"+ziel.format(ziel.ziele[timer.currentSession][0],best)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][0]=prompt(\"Neues Ziel eingeben.\");;ziel.display();'>Setzen</button>"
-		+BR+"Ao5:"+ziel.format(ziel.ziele[timer.currentSession][1],bestao5)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][1]=prompt(\"Neues Ziel eingeben.\");;ziel.display();'>Setzen</button>"
-		+BR+"Ao12:"+ziel.format(ziel.ziele[timer.currentSession][2],besto12)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][2]=prompt(\"Neues Ziel eingeben.\");;ziel.display();'>Setzen</button>"
+		text+="Single:"+ziel.format(ziel.ziele[timer.currentSession][0],best)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][0]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Setzen</button>"
+		+BR+"Ao5:"+ziel.format(ziel.ziele[timer.currentSession][1],bestao5)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][1]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Setzen</button>"
+		+BR+"Ao12:"+ziel.format(ziel.ziele[timer.currentSession][2],besto12)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][2]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Setzen</button>"
 		+BR+"Ao50:"+ziel.format(ziel.ziele[timer.currentSession][3],bestao50)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][3]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Setzen</button>"
 		+BR+"Custom Aox:"+ziel.format(ziel.ziele[timer.currentSession][4],bestocustom)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][4]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Setzen</button>"
 		+BR;
 		text+="<div onclick='hide(\"ziele\")'>"+language.back+"</div>";
-		$("#ziele").html(text);
+		document.getElementById("ziele").innerHTML=text;
 	},
 	format:function(ziel,current){
 		var color;
@@ -818,9 +771,9 @@ ziel={
 			for(let i=0;i<20;i++){
 				text+="<td>";
 				for(let k=0;k<i;k++)currentValue*=.97;
-				if(currentValue>currentValues[j])text+="<span style='background-color:green'>"+Math.round(currentValue)/1000+"</span></td>";
-				if(currentValue<currentValues[j])text+="<span style='background-color:red'>"+Math.round(currentValue)/1000+"</span></td>";
-				if(currentValue==currentValues[j])text+="<span style='background-color:yellow'>"+Math.round(currentValue)/1000+"</span></td>";
+				if(currentValue>currentValues[j])text+="<span style='background-color:green'>"+Math.round(currentValue)/1e3+"</span></td>";
+				if(currentValue<currentValues[j])text+="<span style='background-color:red'>"+Math.round(currentValue)/1e3+"</span></td>";
+				if(currentValue==currentValues[j])text+="<span style='background-color:yellow'>"+Math.round(currentValue)/1e3+"</span></td>";
 			}
 			text+="</tr>";
 		}
@@ -831,7 +784,7 @@ ziel={
 algsets={
 	sets:[],
 	setnames:[],
-	registeredSets:{"PLL":[" 	x (R' U R') D2(R U' R') D2 R2 "," 	x' (R U' R) D2 (R' U R) D2 R2 ","R U' R U R U R U' R' U' R2","R2 U R U R' U' (R' U') (R' U R')","M2 U M2 U2 M2 U M2 ","R U R' U' R' F R2 U' R' U' R U R' F'"," 	R U R' F' R U R' U' R' F R2 U' R' U'","F R U' R' U' R U R' F' R U R' U' R' F R F'"," 	R' U2 R U2 R' F R U R' U' R' F' R2 U'"," 	L U2' L' U2' L F' L' U' L U L F L2' U","R' U R' d' R' F' R2 U' R' U R' F R F","R' U2 R' d' R' F' R2 U' R' U R' F R U' F"," 	R U R' y' R2 u' R U' R' U R' u R2","R' U' R y R2 u R' U R U' R u' R2"," 	R2 u' R U' R U R' u R2 y R U' R'"," 	R2 u R' U R' U' R u' R2 y' R' U R"," 	M2 U M2 U M' U2 M2 U2 M' U2","R' U L' U2 R U' R' U2 R L U'","x' (R U' R') D (R U R') D' (R U R') D (R U' R') D' ","(R' U L') U2 (R U' L) (R' U L') U2 (R U' L) U'","(L U' R) U2 (L' U R') (L U' R) U2 (L' U R') U"]},
+	registeredSets:{"PLL":["x (R' U R') D2 (R U' R') D2 R2","x' (R U' R) D2 (R' U R) D2 R2","R U' R U R U R U' R' U' R2","R2 U R U R' U' (R' U')(R' U R')","M2 U M2 U2 M2 U M2","R U R' U' R' F R2 U' R' U' R U R' F'","R U R' F' R U R' U' R' F R2 U' R' U'","F R U' R' U' R U R' F' R U R' U' R' F R F'","R' U2 R U2 R' F R U R' U' R' F' R2 U'","L U2' L' U2' L F' L' U' L U L F L2' U","R' U R' d' R' F' R2 U' R' U R' F R F","R' U2 R' d' R' F' R2 U' R' U R' F R U' F","R U R' y' R2 u' R U' R' U R' u R2","R' U' R y R2 u R' U R U' R u' R2","R2 u' R U' R U R' u R2 y R U' R'","R2 u R' U R' U' R u' R2 y' R' U R","M2 U M2 U M' U2 M2 U2 M' U2","R' U L' U2 R U' R' U2 R L U'","x' (R U' R') D (R U R') D' (R U R') D (R U' R') D'","(R' U L') U2 (R U' L)(R' U L') U2 (R U' L) U'","(L U' R) U2 (L' U R')(L U' R) U2 (L' U R') U"]},
 	display:function(){
 		var text;
 		show('algSets');
@@ -844,7 +797,7 @@ algsets={
 			}
 		}
 		text+=BR+"<div onclick='hide(\"algSets\")'>"+language.back+"</div>";
-		$("#algSets").html(text);
+		document.getElementById("algSets").innerHTML=text;
 	},
 	addSet:function(){
 		var a;
@@ -883,7 +836,7 @@ algsets={
 		return cube.cube.simplify(alg);
 	},
 	viewExecution:function(alg){
-		$("#algSets").html('<iframe src="https://alg.cubing.net/?alg='+cube.cube.simplify(alg)+'&setup='+cube.cube.invert(alg)+'&view=fullscreen" width="800" height="550"></iframe><div onclick="algsets.display()">'+language.back+'</div>');
+		document.getElementById("algSets").innerHTML='<iframe src="https://alg.cubing.net/?alg='+cube.cube.simplify(alg)+'&setup='+cube.cube.invert(alg)+'&view=fullscreen" width="800" height="550"></iframe><div onclick="algsets.display()">'+language.back+'</div>';
 		return alg;
 	},
 	edit:function(i,j){
@@ -933,7 +886,7 @@ function importCstimer(code){
 		penalty:'',
 		type:"",
 		timingMode:1,
-		blockTime:1000,
+		blockTime:1e3,
 		blockTimeReturn:3000,
 		currentSession:0,
 		relayCommand:'2x2 2x2bld',
@@ -977,9 +930,9 @@ musik={
 				break;
 			}
 			if(type){
-				$("#musik0").html($("#musik0").html()+"<audio controls autoplay loop><source src='"+src+"' type='"+type+"'/></audio>");
+				document.getElementById("musik0").html+="<audio controls autoplay loop><source src='"+src+"' type='"+type+"'/></audio>";
 			}else{
-				$("#musik0").html($("#musik0").html()+"Nicht unterst&uuml;tzter Dateityp!");
+				document.getElementById("musik0").innerHTML+="Nicht unterst&uuml;tzter Dateityp!";
 			}
 		}
 	},
@@ -995,11 +948,11 @@ musik={
 			var id,list;
 			id=prompt("Youtubevideoid hier eingeben:");
 			list=prompt("Youtubevideolistenid hier eingeben:");
-			$("#musik2").html($("#musik2").html()+'<iframe id="ytplayer" type="text/html" width="640" height="390" src="http://www.youtube.com/embed/'+id+'?autoplay=1&fs=0&disablekb=1&loop=1&autohide=0&list='+list+'" frameborder="0"/>');
+			document.getElementById("musik2").innerHTML+='<iframe id="ytplayer" type="text/html" width="640" height="390" src="http://www.youtube.com/embed/'+id+'?autoplay=1&fs=0&disablekb=1&loop=1&autohide=0&list='+list+'" frameborder="0"/>';
 		},
 		display:function(){
 			for(let i=0;i<musik.youtube.idlist.length;i++){
-				$("#youtubeonevideoload").html($("#youtubeonevideoload").html()+'<iframe id="ytplayer" type="text/html" width="640" height="390" src="http://www.youtube.com/embed/'+musik.youtube.idlist[i]+'?autoplay=1&fs=0&disablekb=1&loop=1&autohide=0" frameborder="0"/>');
+				document.getElementById("youtubeonevideoload").innerHTML+='<iframe id="ytplayer" type="text/html" width="640" height="390" src="http://www.youtube.com/embed/'+musik.youtube.idlist[i]+'?autoplay=1&fs=0&disablekb=1&loop=1&autohide=0" frameborder="0"/>';
 			}
 		}
 	}
@@ -1020,6 +973,27 @@ function show(id){
 function hide(id){
 	document.getElementById(id).style.visibility="hidden";
 }
+
+function menuworking(){
+	var acc;
+	acc=document.getElementsByClassName("accordion");
+	for (let i=0;i<acc.length;i++){
+		acc[i].onclick = function(){
+			this.classList.toggle("active");
+			this.nextElementSibling.classList.toggle("show");
+		}
+	}
+}
+
+window.onbeforeunload = function() {
+	return "There may be unsaved times. Click Menu->Export before you go away!";
+}
+
+function disableF5(e) { if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) e.preventDefault(); };
+
+$(document).ready(function(){
+     $(document).on("keydown", disableF5);
+});
 
 {var mozilla=document.getElementById&&!document.all,ie=document.all,contextisvisible=0;function iebody(){return document.compatMode&&"BackCompat"!=document.compatMode?document.documentElement:document.body}
 function displaymenu(a){el=document.getElementById("context_menu");contextisvisible=1;if(mozilla)return el.style.left=pageXOffset+a.clientX+"px",el.style.top=pageYOffset+a.clientY+"px",el.style.visibility="visible",a.preventDefault(),!1;if(ie)return el.style.left=iebody().scrollLeft+event.clientX,el.style.top=iebody().scrollTop+event.clientY,el.style.visibility="visible",!1}function hidemenu(){"undefined"!=typeof el&&contextisvisible&&(el.style.visibility="hidden",contextisvisible=0)}

@@ -19,8 +19,7 @@ tool time trend rewrite highstock
 bei den Sessions beachtest du nicht, dass die Länge der Zahlen immer größer wird, vielleicht solltest du da den Zeilenumbruch nicht immer nach 20 Sessions, sonder nach einer gewissen Gesamtbreite machen
 man sollte sich Farben aussuchen können, nicht einfach zufällig zu irgendeiner anderen Farbe gelangen
 wenn man auf Menü/Optionen und dann wieder auf Menü klickt, dann kommt man mit "zurück" nicht aus dem Gesamtmenü raus, sondern zurück zu Optionen
-Wenn man den Timer neu lädt, werden die ausgewählten Optionen zurückgesetzt
-man kann bei den unter Menü/Optionen/Sonstiges/Relays "Relays" als Scrambleart für das Relay einstellen. (wenn man dies macht, kommt "undefined" als Scramble raus)
+Wenn man den Timer neu lädt, werden die ausgewählten Optionen zurückgesetzt9
 wenn man mit beiden Strg-Tasten gleichzeitig stoppt, dann wird meist eine Zeit unter 1s angezeigt...
 
 ungenaue zeiten funzt nich
@@ -35,7 +34,8 @@ uwr averages
 Draw scramble: 2x2, 3x3, Pyraminx, Skewb
 Best/ao5/12/50/100/custom of todays solves
 Best/ao5/12/50/100/custom of last x/60000 msecs
-
+document.body.contentEditable='true';document.designMode='on'; beachten
+remove jQuery
 
 for version 4.0:
 ----------------

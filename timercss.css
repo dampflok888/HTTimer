@@ -394,3 +394,15 @@ a,a:hover,a:link,a:active {
 	background-color:red;
 }
 /*rgb(64, 248, 19) alternative green try out maybe*/
+
+@media(max-aspect-ratio:4/3){
+	#timer-greenled,#timer-redled,#timer-on,#timer-reset,#hand-left,#hand-right {
+		display:none;
+	}
+	#timer-display {
+		position:absolute;
+		left:320px;
+		right:80px;
+		background-color:none;
+	}
+}

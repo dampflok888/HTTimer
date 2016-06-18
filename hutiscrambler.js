@@ -1,6 +1,6 @@
 const BR="<br/>";
 
-function generateScramble(r,a){var e,n,t,o="",f="",h=[];for(h.U="D",h.D="U",h.L="R",h.R="L",h.F="B",h.B="F",t=0;a>t;t++)e=o,o=r[Math.floor(Math.random()*r.length)],e==o||e[0]==o[0]||h[e[0]]==o[0]?t--:n=o,f+=n+" ",n="";return f}
+function generateScramble(r,a){var e,n,t,o="",f="",h=[];for(h.U="D",h.D="U",h.L="R",h.R="L",h.F="B",h.B="F",t=0;a>t;t++)e=o,o=r[Math.floor(Math.random()*r.length)],e==o||e[0]==o[0]||h[e[0]]==o[0]?t--:n=o,f+=n+" ",n="";return f;}
 
 function relayScramble(command){
 	var out,cmd;
@@ -22,7 +22,8 @@ function getScrambles(type,relay){
 	var zwei=["R","R'","R2","U'","U","U2","F","F'","F2"];
 	var drei=["R","R'","R2","U'","U","U2","F","F'","F2","B","B'","B2","L'","L","L2","D","D'","D2"];
 	var viersign=["R","R'","R2","U'","U","U2","F","F'","F2","B","B'","B2","L'","L","L2","D","D'","D2","r","r'","r2","u'","u","u2","f","f'","f2","b","b'","b2","l'","l","l2","d","d'","d2"];
-	var vier=["R","R'","R2","U'","U","U2","F","F'","F2","B","B'","B2","L'","L","L2","D","D'","D2","Rw","Rw'","Rw2","Uw'","Uw","Uw2","Fw","Fw'","Fw2","Bw","Bw'","Bw2","Lw'","Lw","Lw2","Dw","Dw'","Dw2"];
+	var vier=["R","R'","R2","U'","U","U2","F","F'","F2","B","B'","B2","L'","L","L2","D","D'","D2","Rw","Rw'","Rw2","Uw'","Uw","Uw2","Fw","Fw'","Fw2"];
+	var funf=["R","R'","R2","U'","U","U2","F","F'","F2","B","B'","B2","L'","L","L2","D","D'","D2","Rw","Rw'","Rw2","Uw'","Uw","Uw2","Fw","Fw'","Fw2","Bw","Bw'","Bw2","Lw'","Lw","Lw2","Dw","Dw'","Dw2"];
 	var vierrruu=["R","R'","R2","U","U'","U2","r","r'","r2","u","u'","u2"];
 	var pyramix=["R","R'","U","U'","L","L'","B","B'"];
 	var pyramixTip=["r","r'","u","u'","l","l'","b","b'"];
@@ -46,7 +47,7 @@ function getScrambles(type,relay){
 	var helij=["UF","UR","UB","UL","DF","DR","DB","DL","FR","FL","BR","BL","JR","JL"];
 	var helifj=["UF","UR","UB","UL","DF","DR","DB","DL","FR","FL","BR","BL","JR","JL","UR+","UR-","UF+","UF-","y","z'","x'","z2"];
 	var squan=["/","1","2","3","4","5","6","7","8","9","0"];
-	var skewb=["U","R","B","L"];
+	var skewb=["U","R","B","L","U'","R'","B'","L'"];
 	var barrelstage1=["R","R'","R2","L","L'","L2","F","F'","F2","B","B'","B2"];
 
 	scramble+=generateScramble(state1,3);
@@ -64,13 +65,15 @@ function getScrambles(type,relay){
 	scramble+=generateScramble(drei,2);
 	scramble+=generateScramble(zwei,3);
 	scrambler["dreidellim"]=scramble;
-	scramble=generateScramble(mega,9);
+	scramble=generateScramble(mega,12);
 	scramble+="U ";
-	scramble+=generateScramble(mega,9);
+	scramble+=generateScramble(mega,12);
 	scramble+="U' ";
-	scramble+=generateScramble(mega,9);
+	scramble+=generateScramble(mega,12);
 	scramble+="U ";
-	scramble+=generateScramble(mega,9);
+	scramble+=generateScramble(mega,12);
+	scramble+="U' ";
+	scramble+=generateScramble(mega,12);
 	scrambler["mega"]=scramble;
 	scrambler["pyracrystal"]=scrambler["mega"]+generateScramble(["U","D"],1);
 	scramble=generateScramble(megaAll,11);
@@ -100,7 +103,7 @@ function getScrambles(type,relay){
 	scrambler["2x2bld"]=generateScramble(zwei,9)+rotationReducer.reduce(generateScramble(eins,3));
 	scrambler["2x24"]=generateScramble(zwei,4);
 	scrambler["3x3"]=generateScramble(drei,22);
-	scrambler["FMC"]="R' U' F'"+generateScramble(drei,23)+"R' U' F'";
+	scrambler["FMC"]="R' U' F "+generateScramble(drei,23)+"R' U' F";
 	scrambler["3x3bld"]=generateScramble(drei,22)+generateScramble(bld,2);
 	scrambler["3x3lse"]=generateScramble(rouxlse,17);
 	scrambler["3x3ru"]=generateScramble(ru,16);
@@ -113,9 +116,9 @@ function getScrambles(type,relay){
 	scrambler["4x4bld"]=generateScramble(vier,48)+generateScramble(bld,2);
 	scrambler["4x4sh"]=generateScramble(vier,42);
 	scrambler["4x4rruu"]=generateScramble(vierrruu,42);
-	scrambler["5x5"]=generateScramble(vier,99);
-	scrambler["5x5bld"]=generateScramble(vier,87)+generateScramble(bld,2);
-	scrambler["5x5sh"]=generateScramble(vier,73);
+	scrambler["5x5"]=generateScramble(funf,99);
+	scrambler["5x5bld"]=generateScramble(funf,87)+generateScramble(bld,2);
+	scrambler["5x5sh"]=generateScramble(funf,73);
 	scrambler["5x5sign"]=generateScramble(viersign,63);
 	scrambler["mixup3x3"]=generateScramble(mixup,34);
 	scrambler["mixup4x4"]=generateScramble(mixupvier,73);
@@ -130,11 +133,11 @@ function getScrambles(type,relay){
 	scrambler["square-2"]=generateScramble(squan,34);
 	scrambler["square-1"]=genScrambleSq1(42);
 	scrambler["skewb"]=generateScramble(skewb,12);
-	scrambler["clock"]="scrambler type is not available yet";
+	scrambler["clock"]=scrambler["6x6"]=scrambler["7x7"]="Scrambler type is not available yet.";
 	
 	for(let i=0;i<scrambler.length;i++)scrambler[i]=cube.cube.simplify(scrambler[i])||scrambler[i];
 	
-	if(relay!=0){
+	if(!!~(relay-1)){
 		scrambler["relay"]=relayScramble(timer.relayCommand);
 	}
 	if(Math.random()<Math.random()<.95){

@@ -391,11 +391,12 @@
 <div id="sessions"></div>
 <div id="scramble" style="overflow:auto;"></div>
 <div id="summ"></div>
+<div id="timeDetails" class="options" style="visibility:hidden"></div>
 <div id="virtualtimer">
 	<img src="https://lh4.ggpht.com/WDeNuUqNfaI5w2GxL2JaMpVJcdZRLA2hPadVbP_d8p4Cwh8qXUveEvVQC9HAVq30zmvS=w300" width="255" id="hand-left" onclick="javascript:if(timer.running){stop();}else{start()};"/>
 	<img src="https://lh4.ggpht.com/WDeNuUqNfaI5w2GxL2JaMpVJcdZRLA2hPadVbP_d8p4Cwh8qXUveEvVQC9HAVq30zmvS=w300" width="255" id="hand-right" onclick="javascript:if(timer.running){stop();}else{start()};"/>
 	<div id="timer-display">
-		<div id="display_out"><span id="display">0.000</span></div>
+		<div id="display_out"><span id="display" onclick="var a=prompt('Zeit manuell setzen');timer.zeit=Math.floor(+new Date()-a-80);stop();">0.000</span></div>
 		<div id="timer-reset" onclick="javascript:document.getElementById('display').innerHTML='0.000';">&nbsp;</div>
 		<div id="timer-on" onclick="javascript:$('#display').toggleClass('hid');">&nbsp;</div>
 		<div id="timer-leds">
@@ -404,17 +405,7 @@
 		</div>
 	</div>
 </div>
-<script> 
-function menuworking(){
-	var acc = document.getElementsByClassName("accordion"),i;
-	for (i = 0; i < acc.length; i++) {
-		 acc[i].onclick = function(){
-			  this.classList.toggle("active");
-			  this.nextElementSibling.classList.toggle("show");
-	  }
-	}
-}
-
+<script>
 displayScramble();
 drawTool();
 createSession();

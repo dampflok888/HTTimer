@@ -16,20 +16,16 @@ name sessions
 custom font (input name)
 Option scramble text align (left,center,right)
 tool time trend rewrite highstock
-bei den Sessions beachtest du nicht, dass die Länge der Zahlen immer größer wird, vielleicht solltest du da den Zeilenumbruch nicht immer nach 20 Sessions, sonder nach einer gewissen Gesamtbreite machen
 man sollte sich Farben aussuchen können, nicht einfach zufällig zu irgendeiner anderen Farbe gelangen
 wenn man auf Menü/Optionen und dann wieder auf Menü klickt, dann kommt man mit "zurück" nicht aus dem Gesamtmenü raus, sondern zurück zu Optionen
 Wenn man den Timer neu lädt, werden die ausgewählten Optionen zurückgesetzt9
 wenn man mit beiden Strg-Tasten gleichzeitig stoppt, dann wird meist eine Zeit unter 1s angezeigt...
-
 ungenaue zeiten funzt nich
 es ist allgemein eher störend, die beiden "zurück"-Tasten an unterschiedlichen Stellen auf dem Bildschirm zu haben.
-Die Sprachänderung funktioniert nicht
 translate into more different languages
 alg trainer
 Nachricht wenn PB
 Mögliche Ziele: n subx-solves oder averages oder means haben
-Export vom ColorScheme und Puzzles
 uwr averages
 Draw scramble: 2x2, 3x3, Pyraminx, Skewb
 Best/ao5/12/50/100/custom of todays solves

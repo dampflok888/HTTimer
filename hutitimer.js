@@ -44,6 +44,49 @@ rotationReducer={
 	}
 }
 
+rotationReducer2={
+	reduce:function(rots){
+		return rotationReducer2.reduce(rots);
+		/*var out,curState,curState2;
+		out="",
+		curState=[0,1,2,3,4,5];//RUFDBL 012345 R0 U1 F2 D3 B4 L5
+		curState2=curState;
+		rots=rots.split(" ");
+		for(let i=0;i<rots.length;i++){
+			//if(rots[i].match(/[xyz]{1}['2]?/)){
+			if(true){
+				let rep=1;
+				if(rots[i][1]=="2")rep=2;
+				if(rots[i][1]=="'")rep=3;
+				for(let j=0;j<rep;j++){
+					if(rots[i][0]=="x"){
+						curState2[1]=curState[2];
+						curState2[2]=curState[3];
+						curState2[3]=curState[4];
+						curState2[4]=curState[1];
+					}else if(rots[i][0]=="y"){
+						curState2[0]=curState[2];
+						curState2[2]=curState[3];
+						curState2[5]=curState[4];
+						curState2[4]=curState[0];
+					}else if(rots[i][0]=="z"){
+						curState2[1]=curState[0];
+						curState2[0]=curState[3];
+						curState2[3]=curState[5];
+						curState2[5]=curState[1];
+					}else{
+						return false;
+					}
+					curState=curState2;
+					curState2=[0,1,2,3,4,5];
+				}
+			}
+		}
+		out=curState;
+		return out;*/
+	}
+}
+
 Array.prototype.max = function() {
   return Math.max.apply(null, this);
 };
@@ -87,7 +130,7 @@ function buildArchitecture(){
 		precision:true,
 		relayWarn:true,
 		exportDesign:0,
-		scrambleTypes:["1x1","2x2","3x3","4x4","5x5","5x5","5x5","pyra","mega","square-1","skewb","clock","FMC",
+		scrambleTypes:["1x1","2x2","3x3","4x4","5x5","6x6","7x7","pyra","mega","square-1","skewb","clock","FMC",
 							"2x2opt","4x4sh","5x5sh","2x2bld","3x3bld","4x4bld","5x5bld","3x3co","3x3hco","3x3ru","3x3ruf","3x3rul","3x3lse","4x4sign","4x4rruu","5x5sign",
 							"1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3",
 							"barrel","ghost","3x3co",
@@ -103,6 +146,8 @@ function buildArchitecture(){
 	}
 }
 buildArchitecture();
+
+$(document).ready(function(){setTimeout('timer.scrambleTypes=["1x1","2x2","3x3","4x4","5x5","6x6","7x7","pyra","mega","square-1","skewb","clock","FMC",							"2x2opt","4x4sh","5x5sh","2x2bld","3x3bld","4x4bld","5x5bld","3x3co","3x3hco","3x3ru","3x3ruf","3x3rul","3x3lse","4x4sign","4x4rruu","5x5sign",							"1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","barrel","ghost","3x3co","heli","helij","curvy","curvyj","curvyp","curvypj","curvypfj","mixup3x3","mixup4x4","mpyra","giga","pyracrystal","sq224","dreidellim","square-2","relay"];timer.scrambleNames=["1x1x1","2x2x2","3x3x3","4x4x4","5x5x5","6x6x6","7x7x7","Pyraminx","Megaminx","Square-1","Skewb","Clock","Fewest Moves",							"2x2x2 kurz","4x4x4 kurz","5x5x5 kurz","2x2x2 Blind","3x3x3 Blind","4x4x4 Blind","5x5x5 Blind","3x3x3 Center Orientation","3x3x3 half center orientation","3x3x3 &lt;RU&gt;","3x3x3 &lt;RUF&gt;","3x3x3 &lt;RUL&gt;","3x3x3 LSE","4x4x4 SiGN","4x4x4 &lt;RrUu&gt;","5x5x5 SiGN","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","Barrel Cube","Ghost Cube","Fisher Cube","Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus","Fully Jumbled Curvy Copter Plus","Mixup 3x3","Mixup 4x4","Master Pyraminx","Gigaminx","Pyraminx Crystal","Square 2x2x4","Dreidel LimCube","Square-2","Relays"];displayScrambler();',200);});
 
 function start(){
 	if(!timer.running){
@@ -126,13 +171,13 @@ function time(){
 
 function displayScramble(){
 	var Tscramble;
-	timer.scramble=Tscramble=getScrambles(timer.type,1),
+	timer.scramble=Tscramble=getScrambles(timer.type,1)||"",
 	document.getElementById("scramble").innerHTML=`${Tscramble}<div style='float:right;' onclick='javascript:displayScramble();'><small>next</small></div>`;
 	drawTool();
 }
 
 function stop(){
-	var result;
+	var result,zeit;
 	time();
 	zeit=(+new Date()-timer.zeit);
 	
@@ -254,8 +299,7 @@ function displayTimes(){
 			text+=(i+1)+".: "+format(zeit);
 			if(penalty==="+2"){
 				text+="+";
-			}
-			if(penalty==="+4"){
+			}else if(penalty==="+4"){
 				text+="++";
 			}
 		}else{
@@ -268,8 +312,7 @@ function displayTimes(){
 			text+="<button onclick='javascript: givePenalty("+i+",\"+2\");'>+2</button>";
 			text+="<button onclick='javascript: givePenalty("+i+",\"+4\");'>+4</button>";
 			text+="<button onclick='javascript: givePenalty("+i+",\"DNF\");'>DNF</button>";
-		}
-		if(penalty==="+2"){
+		}else if(penalty==="+2"){
 			text+="<button onclick='javascript: givePenalty("+i+",\"+2\");'>+2</button>";
 			text+="<button onclick='javascript: givePenalty("+i+",\"-2\");'>-2</button>";
 		}else if(penalty==="DNF"){
@@ -301,37 +344,29 @@ function showTime(i){
 
 document.onkeyup = function(event) {
 	var actionBox = document.getElementById('action');
-	if ((event.keyCode==86||event.keyCode==32||event.keyCode==66||event.keyCode==78) && timer.timingMode===0){
+	if ((event.keyCode===86||event.keyCode===32||event.keyCode===66||event.keyCode===78) && timer.timingMode===0){
 		event.cancelBubble = true;
 		event.returnValue = false;
 		checkKeyAction();
-	}
-	if (event.keyCode==32&&timer.timingMode===1){
+	}else if(event.keyCode===32&&timer.timingMode===1){
 		event.cancelBubble = true;
 		event.returnValue = false;
 		checkKeyAction();
-	}
-	if (event.keyCode==17&&timer.timingMode===2){
+	}else if(event.keyCode===17&&timer.timingMode===2){
 		event.cancelBubble = true;
 		event.returnValue = false;
 		checkKeyAction();
-	}
-	if (event.keyCode==79&&!(timer.config.disableKeysRunning&&timer.running)){//O
+	}else if(event.keyCode===79&&!(timer.config.disableKeysRunning&&timer.running)){//O
 		showOptions();
-	}
-	if (event.keyCode==69&&!(timer.config.disableKeysRunning&&timer.running)){//E
+	}else if(event.keyCode===69&&!(timer.config.disableKeysRunning&&timer.running)){//E
 		exportCode();
-	}
-	if (event.keyCode==73&&!(timer.config.disableKeysRunning&&timer.running)){//I
+	}else if(event.keyCode===73&&!(timer.config.disableKeysRunning&&timer.running)){//I
 		//timer.importCode();
-	}
-	if (event.keyCode==88&&!(timer.config.disableKeysRunning&&timer.running)){//X
+	}else if(event.keyCode===88&&!(timer.config.disableKeysRunning&&timer.running)){//X
 		timer.exportCode(1);
-	}
-	if (event.keyCode==78&&!(timer.config.disableKeysRunning&&timer.running)){//N //Conflict with timingMode 1
+	}else if(event.keyCode===78&&!(timer.config.disableKeysRunning&&timer.running)){//N //Conflict with timingMode 1
 		//createSession();
-	}
-	if (event.keyCode==83&&!(timer.config.disableKeysRunning&&timer.running)){//S
+	}else if(event.keyCode===83&&!(timer.config.disableKeysRunning&&timer.running)){//S
 		timer.saveSession(timer.config.currentSession);
 	}
 	return event.returnValue;
@@ -444,11 +479,9 @@ function toolTimes(){
 	p=language.globalAverage+": " + globalAverage +BR+language.best+": " + best;
 	if(uwr&&!fake){
 		p+=" <b>UWR!</b>";
-	}
-	if(fake&&!uwr){
+	}else if(fake&&!uwr){
 		p+=" <b>FAKE! :(</b>";
-	}
-	if(fake&&uwr){
+	}else if(fake&&uwr){
 		p+=" <b>FAKED UWR! :(</b>";
 	}
 	p+=BR+language.worst+": " + worst + BR+language.best+" Ao5: " + bestao5 + "";
@@ -482,11 +515,13 @@ function toolDrawScramble(){
 }
 
 function toolTimeRatio(){
-	var
-		globalAverage=format(average(timer.config.results)),
-		best=format(minMaxTime(timer.config.results).min),
-		worst=format(minMaxTime(timer.config.results).max),
-		bestao5=format(bestaox(timer.config.results,5)),text="<table>";
+	var globalAverage,best,worst,bestao5,text;
+	globalAverage=format(average(timer.config.results)),
+	best=format(minMaxTime(timer.config.results).min),
+	worst=format(minMaxTime(timer.config.results).max),
+	bestao5=format(bestaox(timer.config.results,5)),
+	
+	text="<table>";
 	text+="<tr><td><b>A</b></td><td><b>zu B</b></td><td><b>Verh&auml;ltnis</b></td></tr>";
 	text+="<tr><td>Best</td><td>Worst</td><td>"+Math.floor(best/worst*100)/100+"</td></tr>";
 	text+="<tr><td>Single</td><td>Ao5</td><td>"+Math.floor(best/bestao5*100)/100+"</td></tr>";
@@ -544,27 +579,27 @@ function drawTool(){
 function givePenalty(id,penalty){
 	if(timer.config.results[id].penalty===""&&penalty==="+2"){
 		timer.config.results[id].penalty="+2";
-		timer.config.results[id].zeit+=2000;
+		timer.config.results[id].zeit+=2e3;
 	}
 	else if(timer.config.results[id].penalty===""&&penalty==="+4"){
 		timer.config.results[id].penalty="+4";
-		timer.config.results[id].zeit+=4000;
+		timer.config.results[id].zeit+=4e3;
 	}
 	else if(timer.config.results[id].penalty==="+2"&&penalty==="+2"){
 		timer.config.results[id].penalty="+4";
-		timer.config.results[id].zeit+=2000;
+		timer.config.results[id].zeit+=2e3;
 	}
 	else if(timer.config.results[id].penalty==="+2"&&penalty==="-2"){
 		timer.config.results[id].penalty="";
-		timer.config.results[id].zeit-=2000;
+		timer.config.results[id].zeit-=2e3;
 	}
 	else if(timer.config.results[id].penalty==="+4"&&penalty==="-2"){
 		timer.config.results[id].penalty="+2";
-		timer.config.results[id].zeit-=2000;
+		timer.config.results[id].zeit-=2e3;
 	}
 	else if(timer.config.results[id].penalty==="+4"&&penalty==="-4"){
 		timer.config.results[id].penalty="";
-		timer.config.results[id].zeit-=4000;
+		timer.config.results[id].zeit-=4e3;
 	}
 	else if(penalty==="DNF"){
 		timer.config.results[id].penalty="DNF";
@@ -586,15 +621,12 @@ function switchSession(id){
 	timer.type=timer.sessions[timer.currentSession].scrambler;
 	timer.config.results=JSON.parse(JSON.stringify(timer.sessions[timer.currentSession].results));
 	displayTimes();
-	displaySessions();
-	displayScramble();
 }
 
 function deleteSession(id){
 	if(confirm("Session wirklich resetten?")&&confirm("Alle Ihre Zeiten aus der Session werden gelöscht. Ganz sicher?")){
 		timer.sessions[id].results=[];
 	}
-	displaySessions();
 }
 
 function createSession(){
@@ -603,9 +635,9 @@ function createSession(){
 		results:[],
 	}
 	timer.sessions.push(session);
-	displaySessions();
 }
 
+/*
 function displaySessions(){
 	for(var i=0,text="<h4>Sessions</h4>";i<timer.sessions.length;i++){
 		text+="<button onclick='javascript:switchSession("+i+")'>"+(i+1)+"</button>";
@@ -613,8 +645,13 @@ function displaySessions(){
 	}
 	text+="<button onclick='createSession()'>+</button>";
 	text+="<button onclick='deleteSession(timer.currentSession)'>-</button>";
-	document.getElementById("sessions").innerHTML=text;
+	//document.getElementById("sessions").innerHTML=text;
 	displayScrambler();
+}
+*/
+//in case a dumb idiot forgot taking the code for displaySessions out
+function displaySessions(){
+	return false;
 }
 
 function switchScrambler(typ){
@@ -622,11 +659,27 @@ function switchScrambler(typ){
 	displayScramble();
 }
 
+sessionManager={
+	display:function(){
+		var text;
+		text="<span onclick='javascript:sessionManager.display();'><h2>Sessionmanager</h2>";
+		show('session-manager');
+		for(let i=0;i<timer.sessions.length;i++){
+			text+="Session "+(i+1)+"&nbsp;<button onclick='javascript:switchSession("+i+")'>Wechseln</button>&nbsp;<button onclick='deleteSession(timer.currentSession)'>Resetten</button>";
+			text+=BR;
+		}
+		text+=BR+"<button onclick='createSession()'>Neue Session</button>"+BR+BR;
+		text+="</span><button onclick=\"javacript:hide('session-manager');\">"+language.back+"</button>";
+		document.getElementById("session-manager").innerHTML=text;
+	}
+}
+
 optionbreaks=[1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1];
 optiontexts=["WCA",0,0,0,0,0,0,0,0,0,0,0,0,"Special NxNxN",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Cuboids",0,0,0,0,0,"Shapemods",0,0,"Sonstige",0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Relays"];
 
 function displayScrambler(a){
-	var text="";
+	var text;
+	text="";
 	
 	for(let i=0;i<timer.scrambleTypes.length;i++){
 		if(optionbreaks[i]==1)text+="</div><button class='accordion'>"+optiontexts[i]+"</button><div class='panel'>";
@@ -637,13 +690,13 @@ function displayScrambler(a){
 }
 
 function generateExport(){
-	var
-		globalAverage=format(average(timer.config.results)),
-		best=format(minMaxTime(timer.config.results).min),
-		worst=format(minMaxTime(timer.config.results).max),
-		bestao5=format(bestaox(timer.config.results,5)),
-		exportDesign=timer.exportDesign||0,
-
+	var globalAverage,best,worst,bestao5,exportDesign,p,d,i;
+	
+	globalAverage=format(average(timer.config.results)),
+	best=format(minMaxTime(timer.config.results).min),
+	worst=format(minMaxTime(timer.config.results).max),
+	bestao5=format(bestaox(timer.config.results,5)),
+	exportDesign=timer.exportDesign||0,
 
 	p="<h2>Export</h2>"+language.globalAverage+": " + globalAverage + BR+language.best+"e: " + best + BR+language.worst+": " + worst + BR+language.best+" Ao5: " + bestao5 + BR;
 	if(timer.config.results.length>11){
@@ -786,8 +839,9 @@ algsets={
 	setnames:[],
 	registeredSets:{"PLL":["x (R' U R') D2 (R U' R') D2 R2","x' (R U' R) D2 (R' U R) D2 R2","R U' R U R U R U' R' U' R2","R2 U R U R' U' (R' U')(R' U R')","M2 U M2 U2 M2 U M2","R U R' U' R' F R2 U' R' U' R U R' F'","R U R' F' R U R' U' R' F R2 U' R' U'","F R U' R' U' R U R' F' R U R' U' R' F R F'","R' U2 R U2 R' F R U R' U' R' F' R2 U'","L U2' L' U2' L F' L' U' L U L F L2' U","R' U R' d' R' F' R2 U' R' U R' F R F","R' U2 R' d' R' F' R2 U' R' U R' F R U' F","R U R' y' R2 u' R U' R' U R' u R2","R' U' R y R2 u R' U R U' R u' R2","R2 u' R U' R U R' u R2 y R U' R'","R2 u R' U R' U' R u' R2 y' R' U R","M2 U M2 U M' U2 M2 U2 M' U2","R' U L' U2 R U' R' U2 R L U'","x' (R U' R') D (R U R') D' (R U R') D (R U' R') D'","(R' U L') U2 (R U' L)(R' U L') U2 (R U' L) U'","(L U' R) U2 (L' U R')(L U' R) U2 (L' U R') U"]},
 	display:function(){
-		var text;
+		var text,cstate;
 		show('algSets');
+		/*
 		text="<h2>Algorithmen</h2>";
 		text+="Es sind "+algsets.sets.length+" Sets eingetragen."+BR+"<button onclick='javascript:algsets.addSet()'>+</button>"+BR;
 		for(let i=0;i<algsets.sets.length;i++){
@@ -795,23 +849,87 @@ algsets={
 			for(let j=0;j<algsets.sets[i].length;j++){
 				text+=(j+1)+".: "+algsets.formatAlg(algsets.sets[i][j])+"<button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.turnAlg(algsets.sets["+i+"]["+j+"]);algsets.display();'>Invert</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.mirrorM(algsets.sets["+i+"]["+j+"]);algsets.display();'>Mirror M</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.mirrorS(algsets.sets["+i+"]["+j+"]);algsets.display();'>Mirror S</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.simplify(algsets.sets["+i+"]["+j+"]);algsets.display();'>Simplify</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.viewExecution(algsets.sets["+i+"]["+j+"]);'>View Execution</button><button onclick='javascript:algsets.edit("+i+","+j+");'>Edit</button>"+BR;
 			}
+		}*/
+		text="";
+		text="<h2>Algorithmen</h2>";
+		text+="Es sind "+algsets.sets.length+" Sets eingetragen."+BR+"<img onclick='javascript:algsets.addSet()' src='icon_+.png' alt='+'/>"+BR;
+		
+		for(let i=0;i<algsets.sets.length;i++){
+			text+=algsets.setnames[i]+":<img onclick='javascript:algsets.addAlg("+i+")' src='icon_+.png' alt='+'/>"+BR;
+			for(let j=0;j<algsets.sets[i].length;j++){
+				cstate=(function(alg,undefined){
+					var cube,a,b;
+					cube=new Cube();
+					cube.move(alg);
+					a=cube.asString();
+					b=[];
+					b.push(["X"  ,a[47],a[46],a[45],"X"  ]);
+					b.push([a[36],a[0] ,a[1] ,a[2] ,a[11]]);
+					b.push([a[37],a[3] ,a[4] ,a[5] ,a[10]]);
+					b.push([a[38],a[6] ,a[7] ,a[8] , a[9]]);
+					b.push(["X"  ,a[18],a[19],a[20],"X"  ]);
+					return b;
+				}(algsets.invert(algsets.sets[i][j])));
+				text+="<div class='case'>"+algsets.sets[i][j]+algsets.cubeimage(cstate)
+				+"<button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.turnAlg(algsets.sets["+i+"]["+j+"]);algsets.display();'>Invert</button>"
+				+"<button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.mirrorM(algsets.sets["+i+"]["+j+"]);algsets.display();'>Mirror M</button>"
+				+"<button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.mirrorS(algsets.sets["+i+"]["+j+"]);algsets.display();'>Mirror S</button>"
+				+"<button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.simplify(algsets.sets["+i+"]["+j+"]);algsets.display();'>Simplify</button>"
+				+"<button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.viewExecution(algsets.sets["+i+"]["+j+"]);'>View Execution</button>"
+				+"<button onclick='javascript:algsets.edit("+i+","+j+");'>Edit</button></div>";
+
+			}
 		}
 		text+=BR+"<div onclick='hide(\"algSets\")'>"+language.back+"</div>";
 		document.getElementById("algSets").innerHTML=text;
 	},
+	invert:function(){
+		var alg,out;
+		alg=arguments[0].split(" ");
+		out=[];
+		
+		for(var i=0;i<alg.length;i++){
+			if(alg[i].length==0)break;
+			if(alg[i].length==1)out.push(alg[i]+"'");
+			if(alg[i].length==2){
+				if(alg[i][1]=="2")out.push(alg[i]);
+				if(alg[i][1]=="'")out.push(alg[i][0]);
+			}
+			if(alg[i].length>2)break;
+		}
+		return out.reverse().join(" ");
+	},
+	cubeimage:function (state){
+		var text,color;
+		text="<div class='cube'>";
+		for(var i=0;i<state.length;i++){
+			for(var j=0;j<state[i].length;j++){
+				color=algsets.stickerColors[state[i][j]]||"white";
+				text+="<div class='sticker "+color+"'>&nbsp;</div>";
+			}
+		}
+		return text+"</div>";
+	},
+	stickerColors:{
+		"U":"black",
+		"F":"green",
+		"L":"orange",
+		"R":"red",
+		"B":"blue",
+		"D":"yellow",
+		"X":"white"
+	},
 	addSet:function(){
-		var a;
-		a=prompt("Geben Sie Ihren AlgSetNamen hier ein.");
-		if(a){
+		if(prompt("Geben Sie Ihren AlgSetNamen hier ein.")){
 			algsets.setnames.push(a);
 			if(typeof algsets.registeredSets[a.toUpperCase()]!=="undefined"){
 				if(confirm("Das AlgSet ist schon definiert. Möchten Sie Ihre eigene Definition schreiben (OK) oder die vorgefertigte Verwenden (Abbrechen)?")){
-					algsets.sets[algsets.sets.length]=algsets.registeredSets[a.toUpperCase()];
+					algsets.sets.push(algsets.registeredSets[a.toUpperCase()]);
 				}else{
-					algsets.sets[algsets.sets.length]=[];
+					algsets.push([]);
 				}
 			}else{
-				algsets.sets[algsets.sets.length]=[];
+				algsets.push([]);
 			}
 		}
 		algsets.display();
@@ -852,16 +970,16 @@ function displayRelayOption(){
 	var text;
 	text="<button onclick='relayNumbers[1]=relayNumbers[5]=relayNumbers[16]=1;displayRelayOption();'>2x2-4x4</button>"+BR+"<button onclick='relayNumbers[1]=relayNumbers[5]=relayNumbers[16]=relayNumbers[17]=1;displayRelayOption();'>2x2-5x5</button>"+BR+BR;
 	for(let i=0;i<timer.scrambleTypes.length;i++){
-		if(typeof relayNumbers[i]=="undefined")relayNumbers[i]=0;
-		text+=(i+1)+".: "+timer.scrambleNames[i]+"&nbsp;&nbsp;";
+		if(typeof relayNumbers[i]==="undefined")relayNumbers[i]=0;
+		text+=(i+1)+".: "+timer.scrambleNames[i]+"&nbsp;";
 		if(relayNumbers[i]<1<<8){
-			text+="<button onclick='relayNumbers["+i+"]++;displayRelayOption();'>+</button>"
+			text+="<img onclick='relayNumbers["+i+"]++;displayRelayOption();' src='icon_+.png' alt='+'/>"
 		}else{
 			if(timer.relayWarn)text+=language.relayWarnText;
 		}
 		text+="&nbsp;"+relayNumbers[i]+"&nbsp;";
 		if(relayNumbers[i]>0){
-			text+="<button onclick='relayNumbers["+i+"]--;displayRelayOption();'>-</button>";
+			text+="<img onclick='relayNumbers["+i+"]--;displayRelayOption();' src='icon_-.png' alt='-'/>";
 		}
 		text+=BR;
 	}
@@ -998,3 +1116,41 @@ $(document).ready(function(){
 {var mozilla=document.getElementById&&!document.all,ie=document.all,contextisvisible=0;function iebody(){return document.compatMode&&"BackCompat"!=document.compatMode?document.documentElement:document.body}
 function displaymenu(a){el=document.getElementById("context_menu");contextisvisible=1;if(mozilla)return el.style.left=pageXOffset+a.clientX+"px",el.style.top=pageYOffset+a.clientY+"px",el.style.visibility="visible",a.preventDefault(),!1;if(ie)return el.style.left=iebody().scrollLeft+event.clientX,el.style.top=iebody().scrollTop+event.clientY,el.style.visibility="visible",!1}function hidemenu(){"undefined"!=typeof el&&contextisvisible&&(el.style.visibility="hidden",contextisvisible=0)}
 mozilla?(document.addEventListener("contextmenu",displaymenu,!0),document.addEventListener("click",hidemenu,!0)):ie&&(document.attachEvent("oncontextmenu",displaymenu),document.attachEvent("onclick",hidemenu));}
+
+
+
+(function(){
+	var _z = console;
+	Object.defineProperty( window, "console", {
+		get : function(){
+			if( _z._commandLineAPI ){
+				throw "Sorry, Can't execute scripts!";
+			}
+			return _z; 
+		},
+		set : function(val){
+			_z = val;
+		}
+	});
+})();
+
+(function(){
+	var method;
+	var noop = function () {};
+	var methods = [
+	'assert', 'clear', 'count', 'debug', 'dir', 'dirxml',
+	'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+	'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+	'timeStamp', 'trace', 'warn'
+	];
+	var length = methods.length;
+	var console = (window.console = window.console || {});
+
+	while (length--) {
+	method = methods[length];
+
+	if (!console[method]) {
+	  console[method] = noop;
+	}
+	}
+}());

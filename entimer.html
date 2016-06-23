@@ -3,28 +3,29 @@
 <head>
 <title>HTtimer 3.0.0</title>
 <link rel="stylesheet" type="text/css" href="timercss.css" media="all"   />
-<link rel="stylesheet" type="text/css" href="scroll.css"   media="all"   />
-<link rel="stylesheet" type="text/css" href="https://cubing.github.io/icons/css/cubing-icons.css" media="all"/>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="cubing-icons.css" media="all"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="cube.js"></script>-
 <script type="text/javascript" src="display.js"></script>
-<script type="text/javascript" src="nxnPosition.js"></script>
 <script type="text/javascript" src="hutiscrambler.js"></script>
 <script type="text/javascript" src="squanPyraScrambler.js"></script>
 <script type="text/javascript" src="language.js"></script>
 <script type="text/javascript" src="alg.js"></script>
 <script type="text/javascript" src="alg_jison.js"></script>
 <script type="text/javascript" src="hutitimer.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="HTTimer: the best cubing timer!"/>
 </head>
 <body>
 <div id="context_menu" style="visibility:hidden">
 	<div class="menupnt">HTTimer 2.1.7</div>
-	<div class="menupnt" onclick="javascript:showOptions();">O: Options</div>
+	<div class="menupnt" onclick="javascript:showOptions();">O: Optionen</div>
 	<div class="menupnt" onclick="javascript:generateExport();">E: Export</div>
 	<div class="menupnt" onclick="javascript:importCode();">Import Code</div>
 	<div class="menupnt" onclick="javascript:exportCode();">X: Export Code</div>
-	<div class="menupnt" onclick="javascript:createSession();">Create Session</div>
-	<div class="menupnt" onclick="javascript:startInspection();">I: Start Inspection</div>
+	<div class="menupnt" onclick="javascript:createSession();">Erstelle Session</div>
+	<div class="menupnt" onclick="javascript:startInspection();">I: Inspection starten</div>
+	<div class="menupnt" onclick="javascript:timer.saveSession(timer.config.currentSession);">S: Speichere aktuelle Session</div>
 </div>
 <div class="options" style="visibility:hidden" onclick="showOptions()" id="options">
 	<div class="left menu-left">
@@ -178,7 +179,7 @@
 		show("select"+currentMenuActive);
 	}
 	</script>
-	<!--<h4>Colors</h4>
+	<h4>Colors</h4>
 	<button onclick="colors['W']='#FFFFFF';showOptions();" style="background-color:#FFFFFF;width:80px;color:black;">&nbsp;Wei&szlig;&nbsp;</button>
 	<button onclick="colors['W']='#EEEEEE';showOptions();" style="background-color:#EEEEEE;width:80px;color:black;">&nbsp;Wei&szlig;&nbsp;</button><br>
 	<button onclick="colors['R']='#FF0000';showOptions();" style="background-color:#FF0000;width:80px;">&nbsp;Rot&nbsp;</button>
@@ -202,9 +203,7 @@
 	<button onclick="colors['A']='#C0C0C0';showOptions();" style="background-color:#C0C0C0;width:80px;">&nbsp;Grau&nbsp;</button>
 	<button onclick="colors['A']='#909090';showOptions();" style="background-color:#909090;width:80px;">&nbsp;Grau&nbsp;</button>
 	<button onclick="colors['A']='#808080';showOptions();" style="background-color:#808080;width:80px;">&nbsp;Grau&nbsp;</button><br>
-	<br>//Farben wurden nicht benötigt-->
-	<!--<br>
-	<a href="http://www.github.com/dampflok888/HTtimer">Code (Github)</a>-->
+	<br>//Farben wurden nicht benötigt
 </div>
 <div class="options" style="visibility:hidden" id="start">
 	<div class="right">
@@ -342,23 +341,11 @@
 	</div>
 	<div class="optionBottomContainer" id="hilfe9" style="visibility:hidden;">
 		<h3>Known Bugs</h3>
-		<ol>
-		<li>Starting and stopping with both ctrl.-Keys at the same time has problems.
-		<li>Selecting colors is only possible by random
-		<li>Multiple YouTube-Playlists make problems
-		<li>Options reset when reloading
-		<li>Font Linux
-		<li>Random State 3x3 Scrambler
-		<li>Renaming Sessions
-		</ol>
+		look @ speedsolving.com in thead htTimer released for more information
 	</div>
 	<div class="optionBottomContainer" id="hilfe10" style="visibility:hidden;">
 		<h3>TODO-List</h3>
-		<ul>
-			<li>03.06.2016: Fisher Cube Scrambler
-			<li>07.06.2016: Renaming Sessions
-			<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2017: App
-		</ul>
+		look @ speedsolving.com in thead htTimer released for more information
 	</div>
 	<div id="hilfe42"></div>
 	<script>
@@ -379,15 +366,17 @@
 </div>
 <div id="display2" onclick="javascript:if(timer.running){stop();}else{start()};" style="user-select:none;-o-user-select:none;-webkit-touch-callout:none;-webkit-user-select: none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;visibility:hidden;" unselectable="on" onselectstart="return false;" onmousedown="return false;">0.000</div>
 <div id="scrambleImage"></div>
-<div id="sessions"></div>
+<div id="sessions"><button onclick="javascript:sessionManager.display();" class="btn btn-lg">Sessionmanager</button></div>
 <div id="scramble" style="overflow:auto;"></div>
 <div id="summ"></div>
+<div id="tool">Scramble image unavailable for this scrambler type.</div>
 <div id="timeDetails" class="options" style="visibility:hidden"></div>
+<div id="session-manager" class="options" style="visibility:hidden;"></div>
 <div id="virtualtimer">
 	<img src="https://lh4.ggpht.com/WDeNuUqNfaI5w2GxL2JaMpVJcdZRLA2hPadVbP_d8p4Cwh8qXUveEvVQC9HAVq30zmvS=w300" width="255" id="hand-left" onclick="javascript:if(timer.running){stop();}else{start()};"/>
 	<img src="https://lh4.ggpht.com/WDeNuUqNfaI5w2GxL2JaMpVJcdZRLA2hPadVbP_d8p4Cwh8qXUveEvVQC9HAVq30zmvS=w300" width="255" id="hand-right" onclick="javascript:if(timer.running){stop();}else{start()};"/>
 	<div id="timer-display">
-		<div id="display_out"><span id="display" onclick="var a=prompt('Set time manually in ms');timer.zeit=Math.floor(+new Date()-a-80);stop();">0.000</span></div>
+		<div id="display_out"><span id="display" onclick="var a=prompt('Zeit manuell setzen');timer.zeit=Math.floor(+new Date()-a-80);stop();">0.000</span></div>
 		<div id="timer-reset" onclick="javascript:document.getElementById('display').innerHTML='0.000';">&nbsp;</div>
 		<div id="timer-on" onclick="javascript:$('#display').toggleClass('hid');">&nbsp;</div>
 		<div id="timer-leds">
@@ -397,67 +386,25 @@
 	</div>
 </div>
 <script>
-language=english;
-displayScramble();
-drawTool();
-createSession();
-menuworking();
-eval(localStorage.HTexport||"");
-displayTimes();
-displaySessions();
-drawTool();
-setInterval(menuworking,1000);
-
-
-(function(){
-  var _z = console;
-  Object.defineProperty( window, "console", {
-		get : function(){
-		    if( _z._commandLineAPI ){
-			throw "Sorry, Can't execute scripts!";
-		          }
-		    return _z; 
-		},
-		set : function(val){
-		    _z = val;
-		}
-  });
-})();
-
-(function() {
-    var method;
-    var noop = function () {};
-    var methods = [
-      'assert', 'clear', 'count', 'debug', 'dir', 'dirxml',
-      'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
-      'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
-      'timeStamp', 'trace', 'warn'
-    ];
-    var length = methods.length;
-    var console = (window.console = window.console || {});
- 
-    while (length--) {
-      method = methods[length];
-
-      if (!console[method]) {
-        console[method] = noop;
-      }
-    }
-}());
-
-window.console.log = function(){
-	console.error('Sorry, developers tools are blocked here...');
-	window.console.log=function(){
-		return false;
-	}
-}
+$(document).ready(function(){
+	displayScramble();
+	displayScrambler();
+	drawTool();
+	createSession();
+	menuworking();
+	eval(localStorage.HTexport||"");
+	displayTimes();
+	displaySessions();
+	drawTool();
+	setInterval(menuworking,1000);
+});
 </script>
 <style>
 window#JSConsoleWindow {display: none !important;}
 #javascriptConsole {display: none !important;}
 </style>
 <noscript>
-Please enable JavaScript to use this timer.
+Um diesen Timer nutzen zu k&ouml;nnen, m&uuml;ssen Sie Javascript aktivieren!
 </noscript>
 </body>
 </html>

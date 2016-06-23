@@ -39,11 +39,8 @@ function getScrambles(type,relay){
 	rul="R R' R2 U U' U2 L L' L2".split(" "),
 	bld="Uw Uw' Uw'2 Uw2 Rw Rw' Rw'2 Rw2 Fw Fw' Fw'2 Fw2".split(" "),
 	floppy="R2 U2 F2 L2 U U' D D' U2 D2".split(" "),
-	nplus=["R2",
-	"U2"],
-	nplusplus=["R2",
-	"U2",
-	"D2"],
+	nplus=["R2","U2"],
+	nplusplus=["R2","U2","D2"],
 	mixup="R R' R2 U' U U2 F F' F2 B B' B2 L' L L2 D D' D2 M+ M- E+ E- S+ S- M3+ M3- E3+ E3- S3+ S3-".split(" "),
 	mixupvier="R R' R2 U' U U2 F F' F2 B B' B2 L' L L2 D D' D2 r r' r2 u' u u2 f f' f2 b b' b2 l' l l2 d d' d2 M+ M- E+ E- S+ S- M3+ M3- E3+ E3- S3+ S3- u+ u- u3+ u3- r+ r- r3+ r3- f+ f- f3+ f3-".split(" "),
 	ghostu=["U+","U-","U2+","U2-"],
@@ -146,9 +143,6 @@ function getScrambles(type,relay){
 	
 	if(!!~(relay-1)){
 		scrambler["relay"]=relayScramble(timer.relayCommand);
-	}
-	if(Math.random()<Math.random()<.95){
-		scrambler["2x2"]+=generateScramble(zwei,1);
 	}
 	return scrambler[type];
 }

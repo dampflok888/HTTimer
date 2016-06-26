@@ -25,7 +25,7 @@ triggers=[[["R","U","R'","U'"],"sexy"],[["R'","F","R","F'"],"sledge"]];
 	let s=window.location.search.substring(1).split('&');
 	if(!s.length)return; 
 	window.$_GET={};
-	for(let i=0;i<s.length;i++){
+	for(let i=0;i<s.length;++i){
 		parts = s[i].split('=');
 		window.$_GET[unescape(parts[0])] = unescape(parts[1]);
 	}
@@ -35,7 +35,7 @@ rotationReducer={
 	keys:[["x y x'","z"],["x' y x","z'"],["y x y'","z'"],["y x' y'","z"]],
 	reduce:function(rots){
 		rots=rots.toLowerCase();
-		for(let i=0;i<rotationReducer.keys.length;i++){
+		for(let i=0;i<rotationReducer.keys.length;++i){
 			if(rotationReducer.keys[i][0]==rots){
 				rots=rotationReducer.keys[i][1];
 			}
@@ -52,13 +52,13 @@ rotationReducer2={
 		curState=[0,1,2,3,4,5];//RUFDBL 012345 R0 U1 F2 D3 B4 L5
 		curState2=curState;
 		rots=rots.split(" ");
-		for(let i=0;i<rots.length;i++){
+		for(let i=0;i<rots.length;++i){
 			//if(rots[i].match(/[xyz]{1}['2]?/)){
 			if(true){
 				let rep=1;
 				if(rots[i][1]=="2")rep=2;
 				if(rots[i][1]=="'")rep=3;
-				for(let j=0;j<rep;j++){
+				for(let j=0;j<rep;++j){
 					if(rots[i][0]=="x"){
 						curState2[1]=curState[2];
 						curState2[2]=curState[3];
@@ -147,7 +147,7 @@ function buildArchitecture(){
 }
 buildArchitecture();
 
-$(document).ready(function(){setTimeout('timer.scrambleTypes=["1x1","2x2","3x3","4x4","5x5","6x6","7x7","pyra","mega","square-1","skewb","clock","FMC",							"2x2opt","4x4sh","5x5sh","2x2bld","3x3bld","4x4bld","5x5bld","3x3co","3x3hco","3x3ru","3x3ruf","3x3rul","3x3lse","4x4sign","4x4rruu","5x5sign",							"1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","barrel","ghost","3x3co","heli","helij","curvy","curvyj","curvyp","curvypj","curvypfj","mixup3x3","mixup4x4","mpyra","giga","pyracrystal","sq224","dreidellim","square-2","relay"];timer.scrambleNames=["1x1x1","2x2x2","3x3x3","4x4x4","5x5x5","6x6x6","7x7x7","Pyraminx","Megaminx","Square-1","Skewb","Clock","Fewest Moves",							"2x2x2 kurz","4x4x4 kurz","5x5x5 kurz","2x2x2 Blind","3x3x3 Blind","4x4x4 Blind","5x5x5 Blind","3x3x3 Center Orientation","3x3x3 half center orientation","3x3x3 &lt;RU&gt;","3x3x3 &lt;RUF&gt;","3x3x3 &lt;RUL&gt;","3x3x3 LSE","4x4x4 SiGN","4x4x4 &lt;RrUu&gt;","5x5x5 SiGN","1x2x2","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","Barrel Cube","Ghost Cube","Fisher Cube","Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus","Fully Jumbled Curvy Copter Plus","Mixup 3x3","Mixup 4x4","Master Pyraminx","Gigaminx","Pyraminx Crystal","Square 2x2x4","Dreidel LimCube","Square-2","Relays"];displayScrambler();',200);});
+$(document).ready(function(){setTimeout('timer.scrambleTypes=["1x1","2x2","3x3","4x4","5x5","6x6","7x7","pyra","mega","square-1","skewb","clock","FMC",							"2x2opt","4x4sh","5x5sh","2x2bld","3x3bld","4x4bld","5x5bld","3x3co","3x3hco","3x3ru","3x3ruf","3x3rul","3x3lse","void","4x4sign","4x4rruu","5x5sign","1x2x2","2x2x1","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","barrel","ghost","3x3co","heli","helij","curvy","curvyj","curvyp","curvypj","curvypfj","mixup3x3","mixup4x4","mpyra","giga","pyracrystal","sq224","dreidellim","square-2","relay"];timer.scrambleNames=["1x1x1","2x2x2","3x3x3","4x4x4","5x5x5","6x6x6","7x7x7","Pyraminx","Megaminx","Square-1","Skewb","Clock","Fewest Moves",							"2x2x2 kurz","4x4x4 kurz","5x5x5 kurz","2x2x2 Blind","3x3x3 Blind","4x4x4 Blind","5x5x5 Blind","3x3x3 Center Orientation","3x3x3 half center orientation","3x3x3 &lt;RU&gt;","3x3x3 &lt;RUF&gt;","3x3x3 &lt;RUL&gt;","3x3x3 LSE","Void Cube","4x4x4 SiGN","4x4x4 &lt;RrUu&gt;","5x5x5 SiGN","1x2x2","RandomState 2x2x1","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","Barrel Cube","Ghost Cube","Fisher Cube","Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus","Fully Jumbled Curvy Copter Plus","Mixup 3x3","Mixup 4x4","Master Pyraminx","Gigaminx","Pyraminx Crystal","Square 2x2x4","Dreidel LimCube","Square-2","Relays"];displayScrambler();',200);});
 
 function start(){
 	if(!timer.running){
@@ -179,7 +179,7 @@ function displayScramble(){
 function stop(){
 	var result,zeit;
 	time();
-	zeit=(+new Date()-timer.zeit);
+	zeit=+new Date()-timer.zeit;
 	
 	if(zeit-80<0)zeit+=80;
 	if(zeit<80)zeit=80;
@@ -205,10 +205,7 @@ function stop(){
 }
 
 function startInspection(){
-	if(!timer.running){
-		remainingInspectionTime=+new Date();
-		timeInspection();
-	}
+	timer.running||(remainingInspectionTime=+new Date,timeInspection());
 }
 
 function timeInspection(){
@@ -290,7 +287,7 @@ function format(s) {
 function displayTimes(){
 	var text;
 	text="";
-	for(let i=0;i<timer.config.results.length;i++){
+	for(let i=0;i<timer.config.results.length;++i){
 		zeit=timer.config.results[i].zeit,
 		scramble=timer.config.results[i].scramble,
 		penalty=timer.config.results[i].penalty;
@@ -338,7 +335,11 @@ function showTime(i){
 	zeit=penalty=="DNF"?"DNF("+zeit+")":zeit;
 	kommentar=timer.config.results[i].kommentar;
 	show('timeDetails');
-	text+="<h3>Solve information</h3>"+BR+"Zeit: "+zeit+BR+"Formatierte Zeit: "+format(zeit)+BR+"Scramble: "+scramble+BR+"Penalty: "+penalty+BR+"Datum: "+datum+BR+"Kommentar: '"+kommentar+"'"+BR+"Fake: "+fake+BR+BR+"<button onclick='javascript:hide(\"timeDetails\");'>"+language.back+"</button>";
+	function dodate(time){
+		var b=new Date(time);
+		return b.getDate()+"."+b.getMonth()+"."+b.getFullYear()+" "+b.getHours()+":"+b.getMinutes()+":"+b.getSeconds()+"."+b.getMilliseconds();
+	}
+	text+="<h3>Solve information</h3>"+BR+"Zeit: "+zeit+BR+"Formatierte Zeit: "+format(zeit)+BR+"Scramble: "+scramble+BR+"Penalty: "+penalty+BR+"Datum: "+datum+BR+"Formatiertes Datum: "+dodate(datum)+BR+"Kommentar: '"+kommentar+"'"+BR+"Fake: "+fake+BR+BR+"<button onclick='javascript:hide(\"timeDetails\");'>"+language.back+"</button>";
 	document.getElementById("timeDetails").innerHTML=text;
 }
 
@@ -393,7 +394,7 @@ function avg(times){//aox
 	min=+Infinity;
 	max=-Infinity;
 	sum=0;
-	for(let j=0;j<times.length;j++){
+	for(let j=0;j<times.length;++j){
 		if(times[j].zeit<min){
 			min=times[j].zeit;
 			minindex=j;
@@ -404,7 +405,7 @@ function avg(times){//aox
 		}
 	}
 
-	for(let i=0;i<times.length;i++){
+	for(let i=0;i<times.length;++i){
 		if(i!==minindex&&i!==maxindex){
 			sum+=times[i].zeit;
 		}
@@ -417,7 +418,7 @@ function average(times){//mox
 	var sum;
 	sum=0;
 
-	for(let i=0;i<times.length;i++){
+	for(let i=0;i<times.length;++i){
 		sum+=times[i].zeit;	
 	}
 
@@ -429,7 +430,7 @@ function minMaxTime(times){
 	min=+Infinity;
 	max=-Infinity;
 	
-	for(let j=0;j<times.length;j++){
+	for(let j=0;j<times.length;++j){
 		if(times[j].zeit<min){
 			min=times[j].zeit;
 			minindex=j;
@@ -454,9 +455,9 @@ function bestaox(times,x){
 	arr=[];
 	min=+Infinity;
 	
-	for(let i=0;i<times.length-x;i++){
+	for(let i=0;i<times.length-x;++i){
 		arr=[];
-		for(let j=0;j<x;j++){
+		for(let j=0;j<x;++j){
 			arr.push(times[i+j]);
 		}
 		minavg=avg(arr);
@@ -553,7 +554,7 @@ function toolTimeHistory(){
 	
 	times=JSON.parse(JSON.stringify(timer.config.results));
 	var min=0,j,max=minMaxTime(timer.config.results).max,time;
-	for(var j=0;j<times.length;j++){
+	for(var j=0;j<times.length;++j){
 		time=times[j].zeit;
 		ctx.moveTo((j/times.length)*width,height+min-1);
 		ctx.lineTo((j/times.length)*width,height-((time/max)*height)+1);
@@ -639,7 +640,7 @@ function createSession(){
 
 /*
 function displaySessions(){
-	for(var i=0,text="<h4>Sessions</h4>";i<timer.sessions.length;i++){
+	for(var i=0,text="<h4>Sessions</h4>";i<timer.sessions.length;++i){
 		text+="<button onclick='javascript:switchSession("+i+")'>"+(i+1)+"</button>";
 		if((i+1)%20==0)text+=BR;
 	}
@@ -664,7 +665,7 @@ sessionManager={
 		var text;
 		text="<span onclick='javascript:sessionManager.display();'><h2>Sessionmanager</h2>";
 		show('session-manager');
-		for(let i=0;i<timer.sessions.length;i++){
+		for(let i=0;i<timer.sessions.length;++i){
 			text+="Session "+(i+1)+"&nbsp;<button onclick='javascript:switchSession("+i+")'>Wechseln</button>&nbsp;<button onclick='deleteSession(timer.currentSession)'>Resetten</button>";
 			text+=BR;
 		}
@@ -674,14 +675,14 @@ sessionManager={
 	}
 }
 
-optionbreaks=[1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1];
-optiontexts=["WCA",0,0,0,0,0,0,0,0,0,0,0,0,"Special NxNxN",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Cuboids",0,0,0,0,0,"Shapemods",0,0,"Sonstige",0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Relays"];
+optionbreaks=[1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1];
+optiontexts=["WCA",0,0,0,0,0,0,0,0,0,0,0,0,"Special NxNxN",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Cuboids",0,0,0,0,0,0,"Shapemods",0,0,"Sonstige",0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Relays"];
 
 function displayScrambler(a){
 	var text;
 	text="";
 	
-	for(let i=0;i<timer.scrambleTypes.length;i++){
+	for(let i=0;i<timer.scrambleTypes.length;++i){
 		if(optionbreaks[i]==1)text+="</div><button class='accordion'>"+optiontexts[i]+"</button><div class='panel'>";
 		text+="<div class='scrambler-div' onclick='switchScrambler(\""+timer.scrambleTypes[i]+"\")'>"+timer.scrambleNames[i]+"</div>";
 	}
@@ -711,7 +712,7 @@ function generateExport(){
 
 	p+=BR;
 	
-	for(let i=0;i<timer.config.results.length;i++){
+	for(let i=0;i<timer.config.results.length;++i){
 		if(exportDesign==0){
 			p+=BR+(i+1)+".: ";
 			p+=format(timer.config.results[i].zeit)+" "+timer.config.results[i].scramble+BR;
@@ -769,7 +770,7 @@ ziel={
 			ziel.ziele.push([0,0,0,0,0,0]);
 		}
 		text="<h2>"+language.goals+"</h2>";
-		for(var i=0;i<timer.sessions.length;i++){
+		for(var i=0;i<timer.sessions.length;++i){
 			text+="<button class='btn-option' onclick='javascript:switchSession("+i+");ziel.display();'>"+i+"</button>";
 		}
 		text+="<span class=\"helpmsg\" onmouseover=\"$(this).html('W&auml;hlen Sie die Session aus, f&uuml;r die Sie die Ziele setzen m&ouml;chten.');\" onmouseout=\"$(this).html('&nbsp;?&nbsp;')\">&nbsp;?&nbsp;</span>"+BR;
@@ -783,7 +784,7 @@ ziel={
 		bestao50=format(bestaox(timer.config.results,50)),
 		bestocustom=format(bestaox(timer.config.results,timer.customAvg));
 		if(typeof ziel.ziele[timer.currentSession]=="undefined")ziel.ziele[timer.currentSession]=[0,0,0,0,0,0];
-		for(let i=0;i<ziel.ziele[timer.currentSession].length;i++){
+		for(let i=0;i<ziel.ziele[timer.currentSession].length;++i){
 			if(ziel.ziele[timer.currentSession][i]<0)ziel.ziele[timer.currentSession][i]=0;
 		}
 		
@@ -818,10 +819,10 @@ ziel={
 		maxtime=minMaxTime(timer.config.results).min*1.1;
 		startvalues=[maxtime,maxtime*1.1,maxtime*1.2*1.1,maxtime*1.3*1.2*1.1,maxtime*1.4*1.3*1.2*1.1,maxtime*1.4*1.3*1.2*1.1*1.5],
 		currentValue=0;
-		for(let j=0;j<5;j++){
+		for(let j=0;j<5;++j){
 			text+="<tr>";
 			currentValue=startvalues[j];
-			for(let i=0;i<20;i++){
+			for(let i=0;i<20;++i){
 				text+="<td>";
 				for(let k=0;k<i;k++)currentValue*=.97;
 				if(currentValue>currentValues[j])text+="<span style='background-color:green'>"+Math.round(currentValue)/1e3+"</span></td>";
@@ -844,9 +845,9 @@ algsets={
 		/*
 		text="<h2>Algorithmen</h2>";
 		text+="Es sind "+algsets.sets.length+" Sets eingetragen."+BR+"<button onclick='javascript:algsets.addSet()'>+</button>"+BR;
-		for(let i=0;i<algsets.sets.length;i++){
+		for(let i=0;i<algsets.sets.length;++i){
 			text+=algsets.setnames[i]+":<button onclick='javascript:algsets.addAlg("+i+")'>+</button>"+BR;
-			for(let j=0;j<algsets.sets[i].length;j++){
+			for(let j=0;j<algsets.sets[i].length;++j){
 				text+=(j+1)+".: "+algsets.formatAlg(algsets.sets[i][j])+"<button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.turnAlg(algsets.sets["+i+"]["+j+"]);algsets.display();'>Invert</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.mirrorM(algsets.sets["+i+"]["+j+"]);algsets.display();'>Mirror M</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.mirrorS(algsets.sets["+i+"]["+j+"]);algsets.display();'>Mirror S</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.simplify(algsets.sets["+i+"]["+j+"]);algsets.display();'>Simplify</button><button onclick='javascript:algsets.sets["+i+"]["+j+"]=algsets.viewExecution(algsets.sets["+i+"]["+j+"]);'>View Execution</button><button onclick='javascript:algsets.edit("+i+","+j+");'>Edit</button>"+BR;
 			}
 		}*/
@@ -854,9 +855,9 @@ algsets={
 		text="<h2>Algorithmen</h2>";
 		text+="Es sind "+algsets.sets.length+" Sets eingetragen."+BR+"<img onclick='javascript:algsets.addSet()' src='icon_+.png' alt='+'/>"+BR;
 		
-		for(let i=0;i<algsets.sets.length;i++){
+		for(let i=0;i<algsets.sets.length;++i){
 			text+=algsets.setnames[i]+":<img onclick='javascript:algsets.addAlg("+i+")' src='icon_+.png' alt='+'/>"+BR;
-			for(let j=0;j<algsets.sets[i].length;j++){
+			for(let j=0;j<algsets.sets[i].length;++j){
 				cstate=(function(alg,undefined){
 					var cube,a,b;
 					cube=new Cube();
@@ -888,12 +889,12 @@ algsets={
 		alg=arguments[0].split(" ");
 		out=[];
 		
-		for(var i=0;i<alg.length;i++){
-			if(alg[i].length==0)break;
-			if(alg[i].length==1)out.push(alg[i]+"'");
-			if(alg[i].length==2){
-				if(alg[i][1]=="2")out.push(alg[i]);
-				if(alg[i][1]=="'")out.push(alg[i][0]);
+		for(var i=0;i<alg.length;++i){
+			if(alg[i].length===0)break;
+			if(alg[i].length===1)out.push(alg[i]+"'");
+			if(alg[i].length===2){
+				if(alg[i][1]==="2")out.push(alg[i]);
+				if(alg[i][1]==="'")out.push(alg[i][0]);
 			}
 			if(alg[i].length>2)break;
 		}
@@ -902,8 +903,8 @@ algsets={
 	cubeimage:function (state){
 		var text,color;
 		text="<div class='cube'>";
-		for(var i=0;i<state.length;i++){
-			for(var j=0;j<state[i].length;j++){
+		for(let i=0;i<state.length;++i){
+			for(let j=0;j<state[i].length;++j){
 				color=algsets.stickerColors[state[i][j]]||"white";
 				text+="<div class='sticker "+color+"'>&nbsp;</div>";
 			}
@@ -931,8 +932,8 @@ algsets={
 			}else{
 				algsets.push([]);
 			}
+			algsets.display();
 		}
-		algsets.display();
 	},
 	addAlg:function(setid){
 		algsets.sets[setid].push(prompt("Geben Sie Ihren Algorithmus hier ein."));
@@ -969,7 +970,7 @@ relayNumbers=[];
 function displayRelayOption(){
 	var text;
 	text="<button onclick='relayNumbers[1]=relayNumbers[5]=relayNumbers[16]=1;displayRelayOption();'>2x2-4x4</button>"+BR+"<button onclick='relayNumbers[1]=relayNumbers[5]=relayNumbers[16]=relayNumbers[17]=1;displayRelayOption();'>2x2-5x5</button>"+BR+BR;
-	for(let i=0;i<timer.scrambleTypes.length;i++){
+	for(let i=0;i<timer.scrambleTypes.length;++i){
 		if(typeof relayNumbers[i]==="undefined")relayNumbers[i]=0;
 		text+=(i+1)+".: "+timer.scrambleNames[i]+"&nbsp;";
 		if(relayNumbers[i]<1<<8){
@@ -988,9 +989,9 @@ function displayRelayOption(){
 
 function generateRelayCode(){
 	timer.relayCommand="";
-	for(let i=0;i<relayNumbers.length;i++){
+	for(let i=0;i<relayNumbers.length;++i){
 		if(relayNumbers[i]>0){
-			for(let j=0;j<relayNumbers[i];j++){
+			for(let j=0;j<relayNumbers[i];++j){
 				timer.relayCommand+=timer.scrambleTypes[i]+" ";
 			}
 		}
@@ -1020,9 +1021,9 @@ function importCstimer(code){
 	eval("cstimer="+code);
 	eval("csproperties="+cstimer.properties);
 	timer.type=csproperties.scrType;
-	for(var i=1;i<csproperties.sessionN;i++){
+	for(var i=1;i<csproperties.sessionN;++i){
 		timer.sessions[i]={"scrambler":csproperties.scrType,"results":[]};
-		for(var j=0,obj;j<eval("cstimer.session"+i).length;i++){
+		for(var j=0,obj;j<eval("cstimer.session"+i).length;++i){
 			obj={"zeit":eval("cstimer.session"+i)[j][0][1],"scramble":eval("cstimer.session"+i)[j][1],"penalty":'',"datum":0}
 			timer.sessions[i].results.push(obj);
 		}
@@ -1069,11 +1070,19 @@ musik={
 			document.getElementById("musik2").innerHTML+='<iframe id="ytplayer" type="text/html" width="640" height="390" src="http://www.youtube.com/embed/'+id+'?autoplay=1&fs=0&disablekb=1&loop=1&autohide=0&list='+list+'" frameborder="0"/>';
 		},
 		display:function(){
-			for(let i=0;i<musik.youtube.idlist.length;i++){
+			for(let i=0;i<musik.youtube.idlist.length;++i){
 				document.getElementById("youtubeonevideoload").innerHTML+='<iframe id="ytplayer" type="text/html" width="640" height="390" src="http://www.youtube.com/embed/'+musik.youtube.idlist[i]+'?autoplay=1&fs=0&disablekb=1&loop=1&autohide=0" frameborder="0"/>';
 			}
 		}
 	}
+}
+
+function takeabreak(){
+	var time;
+	show('takeabreak');
+	time=prompt("How long? (seconds)");
+	setTimeout("hide('takeabreak');",time*1000);
+	document.getElementById("takeabreak").innerHTML="<h1>Taking a break right now!</h1>"+BR+"For "+time+" seconds.";
 }
 
 function showOptions(){
@@ -1095,7 +1104,7 @@ function hide(id){
 function menuworking(){
 	var acc;
 	acc=document.getElementsByClassName("accordion");
-	for (let i=0;i<acc.length;i++){
+	for (let i=0;i<acc.length;++i){
 		acc[i].onclick = function(){
 			this.classList.toggle("active");
 			this.nextElementSibling.classList.toggle("show");
@@ -1107,10 +1116,25 @@ window.onbeforeunload = function() {
 	return "There may be unsaved times. Click Menu->Export before you go away!";
 }
 
-function disableF5(e) { if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) e.preventDefault(); };
+function disableF5(e){ if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) e.preventDefault();};
 
 $(document).ready(function(){
-     $(document).on("keydown", disableF5);
+	$(document).on("keydown", disableF5);
+});
+
+$(document).ready(function(){
+	var helpbtns,helpbtnslength;
+	helpbtns=document.getElementsByClassName("helpmsg");
+	helpbtnslength=helpbtns.length;
+	for(let i=0;i<helpbtnslength;++i){
+		helpbtns[i].onmouseover=function(){
+			this.innerHTML=this.attributes.title.value;
+		};
+		helpbtns[i].onmouseout=function(){
+			this.innerHTML="&nbsp;?&nbsp;";
+		};
+		helpbtns[i].innerHTML="&nbsp;?&nbsp;";
+	}
 });
 
 {var mozilla=document.getElementById&&!document.all,ie=document.all,contextisvisible=0;function iebody(){return document.compatMode&&"BackCompat"!=document.compatMode?document.documentElement:document.body}

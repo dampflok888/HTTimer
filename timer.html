@@ -40,21 +40,21 @@
 		<button class="accordion2" onclick="javascript:toggleMenuActive(8);setTimeout(hideOptions,10);show('start')">zur&uuml;ck</button>
 	</div>
 	<div class="optionBottomContainer" id="select0" style="visibility:hidden;">
-		<button class="btn-option" onclick="javascript:$('body').css('font-family','lngs725')">default</button>
-		<button class="btn-option" onclick="javascript:$('body').css('font-family','arial')">Arial</button>
-		<button class="btn-option" onclick="javascript:$('body').css('font-family','verdana')">Verdana</button>
-			<span class="helpmsg" onmouseover="$(this).html('&Auml;ndert die Schriftart systemweit.')" onmouseout="$(this).html('&nbsp;?&nbsp;')">&nbsp;?&nbsp;</span>
+		<button class="btn-option" onclick="javascript:$('body').css('font-family','lngs725');">default</button>
+		<button class="btn-option" onclick="javascript:$('body').css('font-family','arial');">Arial</button>
+		<button class="btn-option" onclick="javascript:$('body').css('font-family','verdana');">Verdana</button>
+			<a class="helpmsg" title="&Auml;ndert die Schriftart systemweit."></a>
 		<hr>
-		<button class="btn-option" onclick="javascript:$('body').css('font-family','georgia')">Georgia</button>
-		<button class="btn-option" onclick="javascript:$('body').css('font-family','Palatino Linotype')">Palatino Linotype</button>
-		<button class="btn-option" onclick="javascript:$('body').css('font-family','Book Antiqua')">Book Antiqua</button>
-		<button class="btn-option" onclick="javascript:$('body').css('font-family','Palatino')">Palatino</button>
-			<span class="helpmsg" onmouseover="$(this).html('&Auml;ndert die Schriftart systemweit.')" onmouseout="$(this).html('&nbsp;?&nbsp;')">&nbsp;?&nbsp;</span>
+		<button class="btn-option" onclick="javascript:$('body').css('font-family','georgia');">Georgia</button>
+		<button class="btn-option" onclick="javascript:$('body').css('font-family','Palatino Linotype');">Palatino Linotype</button>
+		<button class="btn-option" onclick="javascript:$('body').css('font-family','Book Antiqua');">Book Antiqua</button>
+		<button class="btn-option" onclick="javascript:$('body').css('font-family','Palatino');">Palatino</button>
+			<a class="helpmsg" title="&Auml;ndert die Schriftart systemweit."></a>
 		<hr>
-		<button class="btn-option" onclick="javascript:$('body').css('font-family','courier')">Courier</button>
-		<button class="btn-option" onclick="javascript:$('body').css('font-family','lucida console')">Lucida Console</button>
-		<button class="btn-option" onclick="javascript:$('body').css('font-family','monaco')">Monaco</button>
-			<span class="helpmsg" onmouseover="$(this).html('&Auml;ndert die Schriftart systemweit.')" onmouseout="$(this).html('&nbsp;?&nbsp;')">&nbsp;?&nbsp;</span>
+		<button class="btn-option" onclick="javascript:$('body').css('font-family','courier');">Courier</button>
+		<button class="btn-option" onclick="javascript:$('body').css('font-family','lucida console');">Lucida Console</button>
+		<button class="btn-option" onclick="javascript:$('body').css('font-family','monaco');">Monaco</button>
+			<a class="helpmsg" title="&Auml;ndert die Schriftart systemweit."></a>
 	</div>
 	<br/>
 	<div class="optionBottomContainer" id="select1" style="visibility:hidden">
@@ -394,12 +394,13 @@
 </div>
 <div id="display2" onclick="javascript:if(timer.running){stop();}else{start()};" style="user-select:none;-o-user-select:none;-webkit-touch-callout:none;-webkit-user-select: none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;visibility:hidden;" unselectable="on" onselectstart="return false;" onmousedown="return false;">0.000</div>
 <div id="scrambleImage"></div>
-<div id="sessions"><button onclick="javascript:sessionManager.display();" class="btn btn-lg">Sessionmanager</button></div>
+<div id="sessions"><button onclick="javascript:sessionManager.display();" class="btn btn-lg">Sessionmanager</button><button class="btn btn-lg" onclick="javascript:takeabreak();">Break</div></div>
 <div id="scramble" style="overflow:auto;"></div>
 <div id="summ"></div>
 <div id="tool">Scramble image unavailable for this scrambler type.</div>
 <div id="timeDetails" class="options" style="visibility:hidden"></div>
 <div id="session-manager" class="options" style="visibility:hidden;"></div>
+<div id="takeabreak" class="options" style="visibility:hidden;"></div>
 <div id="virtualtimer">
 	<img src="https://lh4.ggpht.com/WDeNuUqNfaI5w2GxL2JaMpVJcdZRLA2hPadVbP_d8p4Cwh8qXUveEvVQC9HAVq30zmvS=w300" width="255" id="hand-left" onclick="javascript:if(timer.running){stop();}else{start()};"/>
 	<img src="https://lh4.ggpht.com/WDeNuUqNfaI5w2GxL2JaMpVJcdZRLA2hPadVbP_d8p4Cwh8qXUveEvVQC9HAVq30zmvS=w300" width="255" id="hand-right" onclick="javascript:if(timer.running){stop();}else{start()};"/>

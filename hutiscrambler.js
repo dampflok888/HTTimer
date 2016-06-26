@@ -50,7 +50,8 @@ function getScrambles(type,relay){
 	helifj="UF UR UB UL DF DR DB DL FR FL BR BL JR JL UR+ UR- UF+ UF- y z' x' z2".split(" "),
 	squan="/1234567890".split(""),
 	skewb="U R B L U' R' B' L'".split(" "),
-	barrelstage1="R R' R2 L L' L2 F F' F2 B B' B2".split(" ");
+	barrelstage1="R R' R2 L L' L2 F F' F2 B B' B2".split(" "),
+	zweizweieins=["R2","U2","R2 U2","U2 R2","R2 U2 R2"];
 
 	scramble+=generateScramble(state1,3);
 	scramble+=generateScramble(state2,5);
@@ -105,6 +106,7 @@ function getScrambles(type,relay){
 	scrambler["2x2bld"]=generateScramble(zwei,9)+rotationReducer.reduce(generateScramble(eins,3));
 	scrambler["2x24"]=generateScramble(zwei,4);
 	scrambler["3x3"]=generateScramble(drei,22);
+	scrambler["void"]=generateScramble(drei,21);
 	scrambler["FMC"]="R' U' F "+generateScramble(drei,23)+"R' U' F";
 	scrambler["3x3bld"]=generateScramble(drei,22)+generateScramble(bld,2);
 	scrambler["3x3lse"]=generateScramble(rouxlse,17);
@@ -138,8 +140,9 @@ function getScrambles(type,relay){
 	scrambler["square-1"]=genScrambleSq1(42);
 	scrambler["skewb"]=generateScramble(skewb,12);
 	scrambler["clock"]="Scrambler type is not available yet.";
+	scrambler["2x2x1"]=generateScramble(zweizweieins,1);
 	
-	for(let i=0;i<scrambler.length;i++)scrambler[i]=cube.cube.simplify(scrambler[i])||scrambler[i];
+	for(let i=0;i<scrambler.length;++i)scrambler[i]=cube.cube.simplify(scrambler[i])||scrambler[i];
 	
 	if(!!~(relay-1)){
 		scrambler["relay"]=relayScramble(timer.relayCommand);

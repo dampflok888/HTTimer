@@ -1,13 +1,5 @@
-var uwrs,colors,uwrholders,cube,rshtml,rohtml,remainingInspectionTime,optionbreaks,optiontexts;
-
-//IDs
-const SCRAMBLE="scramble";
-const SCRAMBLER="scrambler";
-const SCRAMBLEIMAGE="scrambleImage";
-const SESSIONS="sessions";
-const TIME="time";
-const TIMES="times";
-const TIMELIST="timelist";
+var uwrs,colors,uwrholders,triggers,cube,rshtml,rohtml,remainingInspectionTime,optionbreaks,optiontexts;
+//const BR="<br/>";//from hutiscrambler.js
 
 remainingInspectionTime=0;
 rshtml='<small><span style="color:red;float:right;" title="Random state"><i>RS</i>&nbsp;</span></small>';
@@ -26,6 +18,7 @@ colors["G"]="#FFFF00";
 colors["U"]="#FF00FF";
 colors["B"]="#0000FF";
 colors["A"]="#A0A0A0";
+triggers=[[["R","U","R'","U'"],"sexy"],[["R'","F","R","F'"],"sledge"]];
 
 (function(){
 	var parts;
@@ -37,10 +30,6 @@ colors["A"]="#A0A0A0";
 		window.$_GET[unescape(parts[0])] = unescape(parts[1]);
 	}
 }());
-
-document.getElementByClass=function(a){
-	return document.getElementsByClassName(a)[0];
-}
 
 rotationReducer={
 	keys:[["x y x'","z"],["x' y x","z'"],["y x y'","z'"],["y x' y'","z"]],
@@ -158,14 +147,14 @@ function buildArchitecture(){
 }
 buildArchitecture();
 
-setTimeout('timer.scrambleTypes=["1x1","2x2","3x3","4x4","5x5","6x6","7x7","pyra","mega","square-1","skewb","clock","FMC",							"2x2opt","4x4sh","5x5sh","2x2bld","3x3bld","4x4bld","5x5bld","3x3co","3x3hco","3x3ru","3x3ruf","3x3rul","3x3lse","void","4x4sign","4x4rruu","5x5sign","1x2x2","2x2x1","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","barrel","ghost","3x3co","heli","helij","curvy","curvyj","curvyp","curvypj","curvypfj","mixup3x3","mixup4x4","mpyra","giga","pyracrystal","sq224","dreidellim","square-2","relay"];timer.scrambleNames=["1x1x1","2x2x2","3x3x3","4x4x4","5x5x5","6x6x6","7x7x7","Pyraminx","Megaminx","Square-1","Skewb","Clock","Fewest Moves",							"2x2x2 kurz","4x4x4 kurz","5x5x5 kurz","2x2x2 Blind","3x3x3 Blind","4x4x4 Blind","5x5x5 Blind","3x3x3 Center Orientation","3x3x3 half center orientation","3x3x3 &lt;RU&gt;","3x3x3 &lt;RUF&gt;","3x3x3 &lt;RUL&gt;","3x3x3 LSE","Void Cube","4x4x4 SiGN","4x4x4 &lt;RrUu&gt;","5x5x5 SiGN","1x2x2","RandomState 2x2x1","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","Barrel Cube","Ghost Cube","Fisher Cube","Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus","Fully Jumbled Curvy Copter Plus","Mixup 3x3","Mixup 4x4","Master Pyraminx","Gigaminx","Pyraminx Crystal","Square 2x2x4","Dreidel LimCube","Square-2","Relays"];displayScrambler();',200);
+$(document).ready(function(){setTimeout('timer.scrambleTypes=["1x1","2x2","3x3","4x4","5x5","6x6","7x7","pyra","mega","square-1","skewb","clock","FMC",							"2x2opt","4x4sh","5x5sh","2x2bld","3x3bld","4x4bld","5x5bld","3x3co","3x3hco","3x3ru","3x3ruf","3x3rul","3x3lse","void","4x4sign","4x4rruu","5x5sign","1x2x2","2x2x1","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","barrel","ghost","3x3co","heli","helij","curvy","curvyj","curvyp","curvypj","curvypfj","mixup3x3","mixup4x4","mpyra","giga","pyracrystal","sq224","dreidellim","square-2","relay"];timer.scrambleNames=["1x1x1","2x2x2","3x3x3","4x4x4","5x5x5","6x6x6","7x7x7","Pyraminx","Megaminx","Square-1","Skewb","Clock","Fewest Moves",							"2x2x2 kurz","4x4x4 kurz","5x5x5 kurz","2x2x2 Blind","3x3x3 Blind","4x4x4 Blind","5x5x5 Blind","3x3x3 Center Orientation","3x3x3 half center orientation","3x3x3 &lt;RU&gt;","3x3x3 &lt;RUF&gt;","3x3x3 &lt;RUL&gt;","3x3x3 LSE","Void Cube","4x4x4 SiGN","4x4x4 &lt;RrUu&gt;","5x5x5 SiGN","1x2x2","RandomState 2x2x1","1x2x3","3x3x2","3x3x4","3x3x5","2x2x3","Barrel Cube","Ghost Cube","Fisher Cube","Helicopter Cube","Jumbled Helicopter Cube","Curvy Copter","Jumbled Curvy Copter","Curvy Copter Plus","Jumbled Curvy Copter Plus","Fully Jumbled Curvy Copter Plus","Mixup 3x3","Mixup 4x4","Master Pyraminx","Gigaminx","Pyraminx Crystal","Square 2x2x4","Dreidel LimCube","Square-2","Relays"];displayScrambler();',200);});
 
 function start(){
 	if(!timer.running){
 		timer.running=true;
 		timer.zeit=+new Date();
 		setTimeout(time,timer.aktualisierungsrate/2);
-		document.getElementById(SCRAMBLEIMAGE).innerHTML="";
+		document.getElementById("scrambleImage").innerHTML="";
 	}
 }
 
@@ -174,17 +163,16 @@ function time(){
 	if(timer.running){
 		tmw=format((+new Date())-timer.zeit);
 		if(!timer.displayTimeWhenSolving)tmw="solving";
-		document.getElementById(TIME).innerHTML=tmw;
-		document.getElementByClass(TIME).innerHTML=tmw;
+		document.getElementById("display").innerHTML=tmw;
+		document.getElementById("display2").innerHTML=tmw;
 		setTimeout(time,timer.aktualisierungsrate);
 	}
 }
 
 function displayScramble(){
 	var Tscramble;
-	timer.scramble=Tscramble=getScrambles(timer.type,1)||"Error.",
-	document.getElementById(SCRAMBLE).innerHTML=Tscramble;
-	document.getElementByClass(SCRAMBLE).innerHTML=Tscramble;
+	timer.scramble=Tscramble=getScrambles(timer.type,1)||"",
+	document.getElementById("scramble").innerHTML=`${Tscramble}<div style='float:right;' onclick='javascript:displayScramble();'><small>next</small></div>`;
 	drawTool();
 }
 
@@ -196,13 +184,13 @@ function stop(){
 	if(zeit-80<0)zeit+=80;
 	if(zeit<80)zeit=80;
 	
-	document.getElementById(TIME).innerHTML=format(zeit-80);
-	document.getElementByClass(TIME).innerHTML=format(zeit-80);
+	document.getElementById("display").innerHTML=format(zeit-80);
+	document.getElementById("display2").innerHTML=format(zeit-80);
 	
 	timer.running=false;
 	result={
 		zeit:zeit-80,
-		scramble:document.getElementById(SCRAMBLE).innerHTML.split("<")[0],
+		scramble:document.getElementById("scramble").innerHTML.split("<")[0],
 		penalty:timer.penalty,
 		datum:+new Date(),
 		kommentar:""
@@ -213,7 +201,7 @@ function stop(){
 	timer.zeit=timer.scramble=timer.penalty=0;
 	displayTimes();
 	drawTool();
-	document.getElementById(TIMELIST).scrollBy(250,250);
+	document.getElementById("time_liste").scrollBy(250,250);
 }
 
 function startInspection(){
@@ -224,11 +212,12 @@ function timeInspection(){
 	if(!timer.running){
 		var tmw=+new Date()-remainingInspectionTime;
 		var color="green";
-		if(tmw>8e3-1)color="orange",document.getElementById(SCRAMBLEIMAGE).innerHTML="<span style='font-size:40pt;'>8!</span>";
-		if(tmw>12e3-1)color="red",document.getElementById(SCRAMBLEIMAGE).innerHTML="<span style='font-size:40pt;'>12!</span>";
-		if(tmw>14e3-1)document.getElementById(SCRAMBLEIMAGE).innerHTML="<span style='font-size:40pt;'>Go!</span>";
+		if(tmw>8e3-1)color="orange",document.getElementById("scrambleImage").innerHTML="<span style='font-size:40pt;'>8!</span>";
+		if(tmw>12e3-1)color="red",document.getElementById("scrambleImage").innerHTML="<span style='font-size:40pt;'>12!</span>";
+		if(tmw>14e3-1)document.getElementById("scrambleImage").innerHTML="<span style='font-size:40pt;'>Go!</span>";
 		tmw="<span style='color:"+color+"'>"+format(tmw)+"</span>";
-		document.getElementById(TIME).innerHTML="Inspect: "+tmw;
+		document.getElementById("display2").innerHTML="Inspect: "+tmw;
+		document.getElementById("display").innerHTML="Inspect:"+BR+tmw;
 		setTimeout(timeInspection,100);
 	}
 }
@@ -297,35 +286,42 @@ function format(s) {
 
 function displayTimes(){
 	var text;
-	text="<table><tr><td colspan='3'>Times</td></tr>";
+	text="";
 	for(let i=0;i<timer.config.results.length;++i){
 		zeit=timer.config.results[i].zeit,
 		scramble=timer.config.results[i].scramble,
 		penalty=timer.config.results[i].penalty;
-		text+="<tr>"
-		     +"<td>"+(i+1)+".:</td><td onclick='javascript:showTime("+i+");'>";
+		text+="<span onclick='showTime("+i+")'>";
 		if(penalty!=="DNF"){
-			text+=format(zeit);
+			text+=(i+1)+".: "+format(zeit);
 			if(penalty==="+2"){
 				text+="+";
 			}else if(penalty==="+4"){
 				text+="++";
 			}
 		}else{
-			text+="DNF";
+			text+=(i+1)+".: DNF";
 		}
+		text+="</span><div style='float:right;'>";
 	
-		text+="</td><td><select>";
-		text+="<option onclick='javascript: setPenalty("+i+",\"\");'>OK</option>";
-		text+="<option onclick='javascript: setPenalty("+i+",\"+2\");'>+2</option>";
-		text+="<option onclick='javascript: setPenalty("+i+",\"+4\");'>+4</option>";
-		text+="<option onclick='javascript: setPenalty("+i+",\"DNF\");'>DNF</option>";
-		text+="<option onclick='javascript: deletetime("+i+");'>Delete</option>";
-		text+="</select></td></tr>";
+		text+="<button onclick='javascript: deletetime("+i+");'>X</button>";
+		if(!penalty){
+			text+="<button onclick='javascript: givePenalty("+i+",\"+2\");'>+2</button>";
+			text+="<button onclick='javascript: givePenalty("+i+",\"+4\");'>+4</button>";
+			text+="<button onclick='javascript: givePenalty("+i+",\"DNF\");'>DNF</button>";
+		}else if(penalty==="+2"){
+			text+="<button onclick='javascript: givePenalty("+i+",\"+2\");'>+2</button>";
+			text+="<button onclick='javascript: givePenalty("+i+",\"-2\");'>-2</button>";
+		}else if(penalty==="DNF"){
+			text+="<button onclick='javascript: givePenalty("+i+",\"-DNF\");'>-DNF</button>";
+		}else if(penalty==="+4"){
+			text+="<button onclick='javascript: givePenalty("+i+",\"-2\");'>-2</button>";
+			text+="<button onclick='javascript: givePenalty("+i+",\"-4\");'>-4</button>";
+		}
+		text+="</div>"+BR+BR;
+	
 	}
-	text+="</table>";
-	document.getElementById(TIMES).innerHTML=text;
-	document.getElementByClass(TIMES).innerHTML=text;
+	document.getElementById("time_list").innerHTML=text;
 }
 
 function showTime(i){
@@ -341,25 +337,28 @@ function showTime(i){
 	show('timeDetails');
 	function dodate(time){
 		var b=new Date(time);
-		return b.getDate()+"."+(b.getMonth()+1)+"."+b.getFullYear()+" "+b.getHours()+":"+b.getMinutes()+":"+b.getSeconds()+"."+b.getMilliseconds();
+		return b.getDate()+"."+b.getMonth()+"."+b.getFullYear()+" "+b.getHours()+":"+b.getMinutes()+":"+b.getSeconds()+"."+b.getMilliseconds();
 	}
 	text+="<h3>Solve information</h3>"+BR+"Zeit: "+zeit+BR+"Formatierte Zeit: "+format(zeit)+BR+"Scramble: "+scramble+BR+"Penalty: "+penalty+BR+"Datum: "+datum+BR+"Formatiertes Datum: "+dodate(datum)+BR+"Kommentar: '"+kommentar+"'"+BR+"Fake: "+fake+BR+BR+"<button onclick='javascript:hide(\"timeDetails\");'>"+language.back+"</button>";
 	document.getElementById("timeDetails").innerHTML=text;
 }
 
 document.onkeyup = function(event) {
-	event.preventDefault();
+	var actionBox = document.getElementById('action');
 	if ((event.keyCode===86||event.keyCode===32||event.keyCode===66||event.keyCode===78) && timer.timingMode===0){
 		event.cancelBubble = true;
+		event.returnValue = false;
 		checkKeyAction();
 	}else if(event.keyCode===32&&timer.timingMode===1){
 		event.cancelBubble = true;
+		event.returnValue = false;
 		checkKeyAction();
 	}else if(event.keyCode===17&&timer.timingMode===2){
 		event.cancelBubble = true;
+		event.returnValue = false;
 		checkKeyAction();
 	}else if(event.keyCode===79&&!(timer.config.disableKeysRunning&&timer.running)){//O
-		show('options');
+		showOptions();
 	}else if(event.keyCode===69&&!(timer.config.disableKeysRunning&&timer.running)){//E
 		exportCode();
 	}else if(event.keyCode===73&&!(timer.config.disableKeysRunning&&timer.running)){//I
@@ -371,7 +370,7 @@ document.onkeyup = function(event) {
 	}else if(event.keyCode===83&&!(timer.config.disableKeysRunning&&timer.running)){//S
 		timer.saveSession(timer.config.currentSession);
 	}
-	return false;
+	return event.returnValue;
 }
 
 function checkKeyAction(){
@@ -383,7 +382,7 @@ function checkKeyAction(){
 			timer.block=true;
 			setTimeout(function(){timer.block=false},timer.blockTime);
 		}else{
-			//document.getElementById(TIMELIST).innerHTML="Timer blockiert! Warten sie "+timer.blockTime/1000+" Sekunden. <button onclick='javascript:timer.timeListDisplay();'>"+language.back+" (Auto in "+timer.blockTimeReturn/1000+" Sekunden)</button>";
+			document.getElementById("time_list").innerHTML="Timer blockiert! Warten sie "+timer.blockTime/1000+" Sekunden. <button onclick='javascript:timer.timeListDisplay();'>"+language.back+" (Auto in "+timer.blockTimeReturn/1000+" Sekunden)</button>";
 			setTimeout(timeListDisplay,timer.blockTimeReturn);
 		}
 	}
@@ -564,7 +563,7 @@ function toolTimeHistory(){
 }
 
 function drawTool(){
-	/*var a=false;
+	var a=false;
 	switch(timer.tool){
 		case 0:a=toolTimes();break;
 		case 1:a=toolTimeDistribution();break;
@@ -573,38 +572,9 @@ function drawTool(){
 		case 4:a=toolTimeHistory();break;
 		case 5:a=ziel.vergleich();break;
 	}
-	if(a&&!a){
+	if(a){
 		document.getElementById("summ").innerHTML=a;
-	}*/
-	var globalAVerage,best,worst,bestao5,uwr,fake,p;
-	globalAverage=format(Math.floor(average(timer.config.results))),
-	best=format(minMaxTime(timer.config.results).min),
-	worst=format(minMaxTime(timer.config.results).max),
-	bestao5=format(bestaox(timer.config.results,5));
-	
-	(best<uwrs[timer.type])?uwr=true:uwr=false;
-	(best<0.3)?fake=true:fake=false;
-	p="<table><tr><td>Type</td><td>Current</td><td>Best</td></tr><tr><td colspan='3'><hr/></td></tr><tr><td>Session Mo"+timer.config.results.length+"</td><td>--</td><td>"+ globalAverage+"</td></tr>";
-	p+="<tr><td>Single</td><td>--</td><td>"+best+"</td></tr>";
-	p+="<tr><td>Ao5</td><td>--</td><td>"+bestao5+"</td></tr>";
-	ziel.check(1,timer.type,bestao5);
-	if(timer.config.results.length>11){
-		p+="<tr><td>Ao12</td><td>--</td><td>"+format(bestaox(timer.config.results,12))+"</td></tr>";
-		if(timer.config.results.length>49){
-			p+="<tr><td>Ao50</td><td>--</td><td>"+format(bestaox(timer.config.results,50))+"</td></tr>";
-			if(timer.config.results.length>99){
-				p+="<tr><td>Ao100</td><td>--</td><td>"+format(bestaox(timer.config.results,100))+"</td></tr>";
-				if(timer.config.results.length>999){
-					p+="<tr><td>Ao1000</td><td>--</td><td>"+format(bestaox(timer.config.results,1000))+"</td></tr>";
-				}
-			}
-		}
 	}
-	if(timer.config.results.length>timer.customAvg-1){
-		p+="<tr><td>"+timer.customAvg+"</td><td>--</td><td>"+format(bestaox(timer.config.results,timer.customAvg))+"</td></tr>";
-	}
-	//return p+BR+"<button class='btn-lg' onclick='generateExport();'>Export</button>";
-	document.getElementByClass("sessionavg").innerHTML=p+"</table>";
 }
 
 function givePenalty(id,penalty){
@@ -646,13 +616,6 @@ function givePenalty(id,penalty){
 	drawTool();
 }
 
-function setPenalty(id,penalty){
-	timer.config.results[id].penalty=penalty;
-	if(penalty=="+2"&&timer.config.results[id].penalty=="")timer.config.results[id].zeit-=2e3;
-	if(penalty=="+4"&&timer.config.results[id].penalty=="")timer.config.results[id].zeit-=4e3;
-	givePenalty(id,penalty);
-}
-
 function switchSession(id){
 	timer.sessions[timer.currentSession].results=JSON.parse(JSON.stringify(timer.config.results));
 	timer.currentSession=id;
@@ -673,26 +636,43 @@ function createSession(){
 		results:[],
 	}
 	timer.sessions.push(session);
-	displaySessions();
 }
 
+/*
 function displaySessions(){
-	var text;
-	text="<select>";
-	for(let i=0;i<timer.sessions.length;++i){
-		text+="<option onclick='javascript:switchSession("+i+")'>Session "+(i+1)+"</option>";
+	for(var i=0,text="<h4>Sessions</h4>";i<timer.sessions.length;++i){
+		text+="<button onclick='javascript:switchSession("+i+")'>"+(i+1)+"</button>";
+		if((i+1)%20==0)text+=BR;
 	}
-	text+="<option onclick='javascript:createSession();'>Add Session</option>";
-	text+="<option onclick='javascript:deleteSession(timer.currentSession);'>Reset Session</option>";
-	document.getElementById(SESSIONS).innerHTML=text+"</select>";
-	document.getElementByClass("sessionlist").innerHTML=text+"</select>";
+	text+="<button onclick='createSession()'>+</button>";
+	text+="<button onclick='deleteSession(timer.currentSession)'>-</button>";
+	//document.getElementById("sessions").innerHTML=text;
 	displayScrambler();
 }
-
+*/
+//in case a dumb idiot forgot taking the code for displaySessions out
+function displaySessions(){
+	return false;
+}
 
 function switchScrambler(typ){
 	timer.sessions[timer.currentSession].scrambler=timer.type=typ;
 	displayScramble();
+}
+
+sessionManager={
+	display:function(){
+		var text;
+		text="<span onclick='javascript:sessionManager.display();'><h2>Sessionmanager</h2>";
+		show('session-manager');
+		for(let i=0;i<timer.sessions.length;++i){
+			text+="Session "+(i+1)+"&nbsp;<button onclick='javascript:switchSession("+i+")'>Wechseln</button>&nbsp;<button onclick='deleteSession(timer.currentSession)'>Resetten</button>";
+			text+=BR;
+		}
+		text+=BR+"<button onclick='createSession()'>Neue Session</button>"+BR+BR;
+		text+="</span><button onclick=\"javacript:hide('session-manager');\">"+language.back+"</button>";
+		document.getElementById("session-manager").innerHTML=text;
+	}
 }
 
 optionbreaks=[1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1];
@@ -703,11 +683,11 @@ function displayScrambler(a){
 	text="";
 	
 	for(let i=0;i<timer.scrambleTypes.length;++i){
-		if(optionbreaks[i]==1)text+="<h3>"+optiontexts[i]+"</h3>";
+		if(optionbreaks[i]==1)text+="</div><button class='accordion'>"+optiontexts[i]+"</button><div class='panel'>";
 		text+="<div class='scrambler-div' onclick='switchScrambler(\""+timer.scrambleTypes[i]+"\")'>"+timer.scrambleNames[i]+"</div>";
 	}
-	document.getElementById(SCRAMBLER).innerHTML=text+"<div class='scrambler-div'>Auswahl in Men&uuml;/Optionen/Sonstiges/Relays</div><div onclick='javascript:hide(\"scrambler\");'>back</div>";
-	a&&(document.getElementById(a.replace("#","")).innerHTML=text);
+	document.getElementById("session").innerHTML=text+"<div class='scrambler-div'>Auswahl in Men&uuml;/Optionen/Sonstiges/Relays</div>";
+	if(a)document.getElementById(a.replace("#","")).innerHTML=text;
 }
 
 function generateExport(){
@@ -760,12 +740,12 @@ function exportCode(){
 	var code="timer="+JSON.stringify(timer,null,1)+";algsets.sets="+JSON.stringify(algsets.sets,null,1);
 	localStorage.HTexport=code;
 	alert ("Code wurde in localStorage verschoben und wird bei Neuladen automatisch geladen werden!");
-	document.getElementById(SCRAMBLEIMAGE).innerHTML=code+"<button onclick='hideExportCode()'>OK</button>";
+	document.getElementById("scrambleImage").innerHTML=code+"<button onclick='hideExportCode()'>OK</button>";
 	return code;
 }
 
 function hideExportCode(){
-	document.getElementById(SCRAMBLEIMAGE).innerHTML="";
+	document.getElementById("scrambleImage").innerHTML="";
 }
 
 function importCode(){
@@ -793,6 +773,7 @@ ziel={
 		for(var i=0;i<timer.sessions.length;++i){
 			text+="<button class='btn-option' onclick='javascript:switchSession("+i+");ziel.display();'>"+i+"</button>";
 		}
+		text+="<span class=\"helpmsg\" onmouseover=\"$(this).html('W&auml;hlen Sie die Session aus, f&uuml;r die Sie die Ziele setzen m&ouml;chten.');\" onmouseout=\"$(this).html('&nbsp;?&nbsp;')\">&nbsp;?&nbsp;</span>"+BR;
 		show('ziele');
 		var
 		globalAverage=format(average(timer.config.results)),
@@ -1104,6 +1085,14 @@ function takeabreak(){
 	document.getElementById("takeabreak").innerHTML="<h1>Taking a break right now!</h1>"+BR+"For "+time+" seconds.";
 }
 
+function showOptions(){
+	show("options");
+}
+
+function hideOptions(){
+	document.getElementById("options").style.visibility="hidden";
+}
+
 function show(id){
 	document.getElementById(id).style.visibility="visible";
 }
@@ -1112,9 +1101,47 @@ function hide(id){
 	document.getElementById(id).style.visibility="hidden";
 }
 
+function menuworking(){
+	var acc;
+	acc=document.getElementsByClassName("accordion");
+	for (let i=0;i<acc.length;++i){
+		acc[i].onclick = function(){
+			this.classList.toggle("active");
+			this.nextElementSibling.classList.toggle("show");
+		}
+	}
+}
+
+window.onbeforeunload = function() {
+	return "There may be unsaved times. Click Menu->Export before you go away!";
+}
+
+function disableF5(e){ if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) e.preventDefault();};
+
+$(document).ready(function(){
+	$(document).on("keydown", disableF5);
+});
+
+$(document).ready(function(){
+	var helpbtns,helpbtnslength;
+	helpbtns=document.getElementsByClassName("helpmsg");
+	helpbtnslength=helpbtns.length;
+	for(let i=0;i<helpbtnslength;++i){
+		helpbtns[i].onmouseover=function(){
+			this.innerHTML=this.attributes.title.value;
+		};
+		helpbtns[i].onmouseout=function(){
+			this.innerHTML="&nbsp;?&nbsp;";
+		};
+		helpbtns[i].innerHTML="&nbsp;?&nbsp;";
+	}
+});
+
 {var mozilla=document.getElementById&&!document.all,ie=document.all,contextisvisible=0;function iebody(){return document.compatMode&&"BackCompat"!=document.compatMode?document.documentElement:document.body}
 function displaymenu(a){el=document.getElementById("context_menu");contextisvisible=1;if(mozilla)return el.style.left=pageXOffset+a.clientX+"px",el.style.top=pageYOffset+a.clientY+"px",el.style.visibility="visible",a.preventDefault(),!1;if(ie)return el.style.left=iebody().scrollLeft+event.clientX,el.style.top=iebody().scrollTop+event.clientY,el.style.visibility="visible",!1}function hidemenu(){"undefined"!=typeof el&&contextisvisible&&(el.style.visibility="hidden",contextisvisible=0)}
 mozilla?(document.addEventListener("contextmenu",displaymenu,!0),document.addEventListener("click",hidemenu,!0)):ie&&(document.attachEvent("oncontextmenu",displaymenu),document.attachEvent("onclick",hidemenu));}
+
+
 
 (function(){
 	var _z = console;
@@ -1131,19 +1158,23 @@ mozilla?(document.addEventListener("contextmenu",displaymenu,!0),document.addEve
 	});
 })();
 
-window['start']=start;
-window['stop']=stop;
-window['timer']=timer;
-window['format']=format;
-window['displayScramble']=displayScramble;
-window['displayScrambler']=displayScrambler;
-window['displaySessions']=displaySessions;
-window['displayTimes']=displayTimes;
-window['show']=show;
-window['hide']=hide;
-window['export']=exportCode;
-window['import']=importCode;
-window['musik']=musik;
-window['algsets']=algsets;
-window['ziel']=ziel;
-window['showTime']=showTime;
+(function(){
+	var method;
+	var noop = function () {};
+	var methods = [
+	'assert', 'clear', 'count', 'debug', 'dir', 'dirxml',
+	'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+	'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+	'timeStamp', 'trace', 'warn'
+	];
+	var length = methods.length;
+	var console = (window.console = window.console || {});
+
+	while (length--) {
+	method = methods[length];
+
+	if (!console[method]) {
+	  console[method] = noop;
+	}
+	}
+}());

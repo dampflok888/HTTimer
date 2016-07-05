@@ -1,3 +1,5 @@
+window.modules.language=true;
+
 deutsch={
 	options:"Optionen",
 	back:"zur&uuml;ck",

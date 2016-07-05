@@ -1,3 +1,5 @@
+window.modules.cube=true;
+
 (function() {
   var BL, BR, Cube, DB, DBL, DF, DFR, DL, DLF, DR, DRB, FL, FR, UB, UBR, UF, UFL, UL, ULB, UR, URF, cornerColor, cornerFacelet, edgeColor, edgeFacelet, ref, ref1, ref2;
 

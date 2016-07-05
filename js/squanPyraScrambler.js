@@ -1,3 +1,5 @@
+window.modules.squanPyraScrambler=true;
+
 function genScrambleSq1(seqlen){
 	var i,j,ls,n,f;
 	seq = new Array(),

@@ -1,3 +1,5 @@
+window.modules.alg=true;
+
 function generatealgjscube(alg_jison) {
 
   var debug = false;

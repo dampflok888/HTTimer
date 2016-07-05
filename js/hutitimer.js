@@ -1,3 +1,5 @@
+window.modules.timer=true;
+
 var uwrs,colors,uwrholders,cube,rshtml,rohtml,remainingInspectionTime,optionbreaks,optiontexts;
 
 //IDs
@@ -110,8 +112,8 @@ Array.prototype.min = function() {
   return Math.min.apply(null, this);
 };
 String.prototype.replaceAll = function(search,replacement) {
-    var target = this;
-    return target.replace(new RegExp(search,'g'),replacement);
+	var target = this;
+	return target.replace(new RegExp(search,'g'),replacement);
 };
 var isUndefined=function(x){return (function(a,undefined){return a==undefined;})(x)};
 var isUndefinedFast=function(x){return x===void 0;};
@@ -790,9 +792,6 @@ ziel={
 			ziel.ziele.push([0,0,0,0,0,0]);
 		}
 		text="<h2>"+language.goals+"</h2>";
-		for(var i=0;i<timer.sessions.length;++i){
-			text+="<button class='btn-option' onclick='javascript:switchSession("+i+");ziel.display();'>"+i+"</button>";
-		}
 		show('ziele');
 		var
 		globalAverage=format(average(timer.config.results)),
@@ -872,10 +871,10 @@ algsets={
 		}*/
 		text="";
 		text="<h2>Algorithmen</h2>";
-		text+="Es sind "+algsets.sets.length+" Sets eingetragen."+BR+"<img onclick='javascript:algsets.addSet()' src='icon_+.png' alt='+'/>"+BR;
+		text+="Es sind "+algsets.sets.length+" Sets eingetragen."+BR+"<img onclick='javascript:algsets.addSet()' src='icon/icon_+.png' alt='+'/>"+BR;
 		
 		for(let i=0;i<algsets.sets.length;++i){
-			text+=algsets.setnames[i]+":<img onclick='javascript:algsets.addAlg("+i+")' src='icon_+.png' alt='+'/>"+BR;
+			text+=algsets.setnames[i]+":<img onclick='javascript:algsets.addAlg("+i+")' src='icon/icon_+.png' alt='+'/>"+BR;
 			for(let j=0;j<algsets.sets[i].length;++j){
 				cstate=(function(alg,undefined){
 					var cube,a,b;
@@ -993,13 +992,13 @@ function displayRelayOption(){
 		if(typeof relayNumbers[i]==="undefined")relayNumbers[i]=0;
 		text+=(i+1)+".: "+timer.scrambleNames[i]+"&nbsp;";
 		if(relayNumbers[i]<1<<8){
-			text+="<img onclick='relayNumbers["+i+"]++;displayRelayOption();' src='icon_+.png' alt='+'/>"
+			text+="<img onclick='relayNumbers["+i+"]++;displayRelayOption();' src='icon/icon_+.png' alt='+'/>"
 		}else{
 			if(timer.relayWarn)text+=language.relayWarnText;
 		}
 		text+="&nbsp;"+relayNumbers[i]+"&nbsp;";
 		if(relayNumbers[i]>0){
-			text+="<img onclick='relayNumbers["+i+"]--;displayRelayOption();' src='icon_-.png' alt='-'/>";
+			text+="<img onclick='relayNumbers["+i+"]--;displayRelayOption();' src='icon/icon_-.png' alt='-'/>";
 		}
 		text+=BR;
 	}
@@ -1117,16 +1116,16 @@ function displaymenu(a){el=document.getElementById("context_menu");contextisvisi
 mozilla?(document.addEventListener("contextmenu",displaymenu,!0),document.addEventListener("click",hidemenu,!0)):ie&&(document.attachEvent("oncontextmenu",displaymenu),document.attachEvent("onclick",hidemenu));}
 
 (function(){
-	var _z = console;
-	Object.defineProperty( window, "console", {
-		get : function(){
-			if( _z._commandLineAPI ){
+	var a=console;
+	Object.defineProperty(window,"console",{
+		get:function(){
+			if (a._commandLineAPI) {
 				throw "Sorry, Can't execute scripts!";
 			}
-			return _z; 
+			return a;
 		},
-		set : function(val){
-			_z = val;
+		set:function(b){
+			a=b;
 		}
 	});
 })();
@@ -1147,3 +1146,4 @@ window['musik']=musik;
 window['algsets']=algsets;
 window['ziel']=ziel;
 window['showTime']=showTime;
+window['switchScrambler']=switchScrambler;

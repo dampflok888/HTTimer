@@ -11,9 +11,46 @@
 	overflow:scroll;
 	border-radius:3px;
 }
-
+.optionBottomContainer {
+	position:absolute;
+	left:250px;
+	right:0;
+	bottom:0;
+	top:0;
+	float:right;
+	font-size:20pt;
+	padding:5px;
+	margin:5px;
+}
+.menu-left {
+	width:250px;
+	max-width:250px;
+}
+button.accordion2 {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 13px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 12px !important;
+    transition: 0.2s;
+}
+button.accordion2.active, button.accordion2:hover {
+    background-color: #ddd;
+}
 body {
 	overflow:hidden;
+}
+.helpmsg {
+	font-size:15pt;
+	background-color:#D2D2D2;
+	border: 1px solid black;
+	min-height:28px;
+	float:right;
+	max-width:742px;
 }
 
 /*Mobile*/
@@ -25,6 +62,7 @@ body {
 		padding:1px;
 		margin:1px;
 		font-family:Futura,sans-serif,Arial;
+		color:#193409;
 	}
 	#top,#timelist,#scrambleImage,#mobilebottom {
 		background-color:#f7f7f7;
@@ -159,7 +197,7 @@ body {
 }
 
 
-/*not Mobile*/
+/*bigger than Mobile*/
 @media only screen and (min-width: 500px) {
 	body,*{
 		box-sizing: border-box;
@@ -239,7 +277,7 @@ body {
 	}
 	.time{
 		font-family:'LiHei Pro',LiHei,'lihei pro',lihei;
-		font-size:20em;
+		font-size:16em;
 		text-align:center;
 	}
 	.next{
@@ -293,7 +331,11 @@ body {
 		text-align:center;
 		margin-bottom: 10px;
 	}
-	#mobile {
+	.startContainer{
+		padding:2px;
+		border:1px solid black;
+	}
+	#mobile{
 		display:none;
 	}
 	.menuopen{

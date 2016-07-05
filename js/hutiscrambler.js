@@ -1,3 +1,5 @@
+window.modules.scrambler=true;
+
 const BR="<br/>";
 
 function generateScramble(r,a){var e,n,t,o="",f="",h=[];for(h.U="D",h.D="U",h.L="R",h.R="L",h.F="B",h.B="F",t=0;a>t;t++)e=o,o=r[Math.floor(Math.random()*r.length)],e==o||e[0]==o[0]||h[e[0]]==o[0]?t--:n=o,f+=n+" ",n="";return f;}

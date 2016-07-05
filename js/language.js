@@ -1,4 +1,4 @@
-window.modules.language=true;
+﻿window.modules.language=true;
 
 deutsch={
 	options:"Optionen",
@@ -42,5 +42,5 @@ chinese={
 	worst:"最差",
 	relayWarnText:"每类256拼图最高超标！"
 }
-//TODO: Spanisch, Französisch, Italienisch
+
 var language=deutsch;

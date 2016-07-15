@@ -34,6 +34,15 @@
 			</div>
 			
 			<div class="options-left" id="menu" style="visibility:hidden;">
+				More functions:
+				<div class="startContainer" onclick="javascript:show('hilfe');">Hilfe</div>
+				<div class="startContainer" onclick="javascript:algsets.display();">AlgSets</div>
+				<div class="startContainer" onclick="javascript:importCode();">Import</div>
+				<div class="startContainer" onclick="javascript:show('options');">Optionen</div>
+				<div class="startContainer" onclick="javascript:ziel.display();">Ziele</div>
+				<div class="startContainer" onclick="javascript:show('musik');">Musik</div>
+				<div class="startContainer" onclick="javascript:exportCode();">Export</div>
+				<div class="startContainer" onclick="javascript:takeabreak();">Take a break</div>
 				<button onclick='hide("menu");'>back</button>
 			</div>
 			<div id="sessions" onclick="hide('sessions');" class="options" style="visibility:hidden;"></div>
@@ -67,14 +76,14 @@
 				</div>
 				<div class="option">
 					More functions:
-					<div class="startContainer yellow" onclick="javascript:show('hilfe');">Hilfe</div>
-					<div class="startContainer green" onclick="javascript:algsets.display();">AlgSets</div>
-					<div class="startContainer white" onclick="javascript:importCode();">Import</div>
-					<div class="startContainer white" onclick="javascript:show('options');">Optionen</div>
-					<div class="startContainer red" onclick="javascript:ziel.display();">Ziele</div>
-					<div class="startContainer green" onclick="javascript:show('musik');">Musik</div>
-					<div class="startContainer orange" onclick="javascript:exportCode();">Export</div>
-					<div class="startContainer orange" onclick="javascript:takeabreak();">Take a break</div>
+					<div class="startContainer" onclick="javascript:show('hilfe');">Help</div>
+					<div class="startContainer" onclick="javascript:algsets.display();">AlgSets</div>
+					<div class="startContainer" onclick="javascript:importCode();">Import</div>
+					<div class="startContainer" onclick="javascript:show('options');">Options</div>
+					<div class="startContainer" onclick="javascript:ziel.display();">Ziele</div>
+					<div class="startContainer" onclick="javascript:show('musik');">Music</div>
+					<div class="startContainer" onclick="javascript:exportCode();">Export</div>
+					<div class="startContainer" onclick="javascript:takeabreak();">Take a break</div>
 				</div>
 			</div>
 			<div class="main">
@@ -95,10 +104,9 @@
 		<div class="options" id="algSets"     style="visibility:hidden;"></div>
 		<div class="options" id="scrambler"   style="visibility:hidden;"></div>
 		<div class="options" id="takeabreak"  style="visibility:hidden;"></div>
-		<div class="options" style="visibility:hidden" id="options">
+		<div class="options" style="visibility:hidden;" id="options">
 			<div class="left menu-left">
-				<button class="accordion2" onclick="javascript:toggleMenuActive(6);">Colors</button>
-				<button class="accordion2" onclick="javascript:toggleMenuActive(0);">Font</button>
+				<button class="accordion2" onclick="javascript:toggleMenuActive(0);">Design</button>
 				<button class="accordion2" onclick="javascript:toggleMenuActive(5);">Scrambler</button>
 				<button class="accordion2" onclick="javascript:toggleMenuActive(1);">Language</button>
 				<button class="accordion2" onclick="javascript:toggleMenuActive(2);">Start/Stop</button>
@@ -107,31 +115,15 @@
 				<button class="accordion2" onclick="javascript:toggleMenuActive(4);">Miscellaneous</button>
 				<button class="accordion2" onclick="javascript:toggleMenuActive(8);hide('options');">back</button>
 			</div>
-			<div class="optionBottomContainer" id="select0" style="visibility:hidden;">
-				<button class="btn-option" onclick="javascript:$('body').css('font-family','lngs725');">default</button>
-				<button class="btn-option" onclick="javascript:$('body').css('font-family','arial');">Arial</button>
-				<button class="btn-option" onclick="javascript:$('body').css('font-family','verdana');">Verdana</button>
-					<a class="helpmsg" title="Changes the font."></a>
-				<hr/>
-				<button class="btn-option" onclick="javascript:$('body').css('font-family','georgia');">Georgia</button>
-				<button class="btn-option" onclick="javascript:$('body').css('font-family','Palatino Linotype');">Palatino Linotype</button>
-				<button class="btn-option" onclick="javascript:$('body').css('font-family','Book Antiqua');">Book Antiqua</button>
-				<button class="btn-option" onclick="javascript:$('body').css('font-family','Palatino');">Palatino</button>
-					<a class="helpmsg" title="Changes the font."></a>
-				<hr/>
-				<button class="btn-option" onclick="javascript:$('body').css('font-family','courier');">Courier</button>
-				<button class="btn-option" onclick="javascript:$('body').css('font-family','lucida console');">Lucida Console</button>
-				<button class="btn-option" onclick="javascript:$('body').css('font-family','monaco');">Monaco</button>
-					<a class="helpmsg" title="Changes the font."></a>
-			</div>
 			<br/>
-			<div class="optionBottomContainer" id="select1" style="visibility:hidden">
+			<div class="optionBottomContainer" id="select1" style="visibility:hidden;">
 				Selecting other languages is still in development. Current Language is English. Save (Export) your times first, then go <a href="langselect.html">here</a> and change if you want. The saved times will get transfered automatically.
 			</div>
 			<div class="optionBottomContainer" id="select2" style="visibility:hidden;">
+				<h3>Start/Stop</h3>
 				<span id="timingmode"></span>
 				
-				<button class="btn-option" onclick="javascript:timer.timingMode=1">Space</button>
+				<button class="btn-option" onclick="javascript:timer.timingMode=1;">Space</button>
 					<a class="helpmsg" title="Start and stop the timer by pressing space. Default-Option."></a><br/>
 				<button class="btn-option" onclick="javascript:timer.timingMode=2">Control, Control</button>
 					<a class="helpmsg" title="Start and stop the timer by pressing one ctrl.-Key."></a><br/>
@@ -142,6 +134,7 @@
 					<a class="helpmsg" title="Start and stop the timer by typing in Javascript. Not recommended. Slow."></a><br/>
 			</div>
 			<div class="optionBottomContainer" id="select3" style="visibility:hidden;">
+				<h3>Tools</h3>
 				<button class="btn-option" onclick="javascript:timer.tool=0;drawTool()">Zeiten-ubersicht</button>
 					<a class="helpmsg" title="Gibt einen uberblick uber die aktuellen Bestzeiten."></a><br/>
 				<button class="btn-option" onclick="javascript:timer.tool=1;drawTool()">Zeitenverteilung</button>
@@ -159,19 +152,18 @@
 				<!--Zeit zwischen Stop und Start: <span id="blocktime"></span>ms&nbsp;<button onclick="javascript:timer.blockTime+=100">+100</button><button onclick="javascript:timer.blockTime-=100">-100</button><br/>
 				Popup-Ruckgangzeit: <span id="blocktimereturn"></span>ms&nbsp;<button onclick="javascript:timer.blockTimeReturn+=100">+100</button><button onclick="javascript:timer.blockTimeReturn-=100">-100</button><br/>
 				<br/>-->
-				Relays: <button onclick="javascript:show('relays');displayRelayOption();">Select puzzles</button><br/>
-				<hr/>
+				<h3>Relays</h3>
+				<button onclick="javascript:show('relays');displayRelayOption();">Select puzzles</button><br/>
 				<button class="btn-option" onclick="javascript:timer.relayWarn=true;">Warn</button>
 					<a class="helpmsg" title="When selecting too many relay puzzles the timer will warn you and block."></a><br/>
 				<button class="btn-option" onclick="javascript:timer.relayWarn=false;">Do not warn</button>
 					<a class="helpmsg" title="When selecting too many relay puzzles the timer will not warn you, but block."></a><br/>
-				<hr/>
+				<h3>Precision</h3>
 				<button class="btn-option" onclick="javascript:timer.precision=true">Precise</button>
 					<a class="helpmsg" title="The timer displays the full saved accuracity down to 1ms."></a><br/>
 				<button class="btn-option" onclick="javascript:timer.precision=false">Unprecise</button>
 					<a class="helpmsg" title="The timer displays in 10ms-Steps, internally the times get saved to max accuracity, so when changing this option later the precision will not remain unprecise."></a><br/>
-				<hr/>
-				ExportDesign:
+				<h3>ExportDesign</h3>
 				<button class="btn-option" onclick="javascript:timer.exportDesign=0;">Id.: Time Scramble</button>
 					<a class="helpmsg" title="Beim Exportieren wird dieses Format verwendet."></a><br/>
 				<button class="btn-option" onclick="javascript:timer.exportDesign=1;">Time, Time</button>
@@ -180,18 +172,26 @@
 					<a class="helpmsg" title="Beim Exportieren wird dieses Format verwendet."></a><br/>
 				<button class="btn-option" onclick="javascript:timer.exportDesign=3;">Id.: Time</button>
 					<a class="helpmsg" title="Beim Exportieren wird dieses Format verwendet."></a><br/>
-				<hr/>
-				While Timing:
+				<h3>While Timing</h3>
 				<button class="btn-option" onclick="javascript:timer.displayTimeWhenSolving=false;">display "solving"</button><br/>
 				<button class="btn-option" onclick="javascript:timer.displayTimeWhenSolving=true;">display current Time</button>
-				<hr/>
-				Custom Avg: <div id="customavganzahl">3</div>
+				<h3>Custom Avg</h3>
+				Current: <div id="customavganzahl">3</div><br/>
 				<button class="btn-option" onclick="timer.customAvg++;updateOptionsCustomAvg();">+1</button><br/>
 				<button class="btn-option" onclick="timer.customAvg--;updateOptionsCustomAvg();">-1</button><br/>
 				<button class="btn-option" onclick="timer.customAvg+=10;updateOptionsCustomAvg();">+10</button><br/>
 				<button class="btn-option" onclick="timer.customAvg+=10;updateOptionsCustomAvg();">-10</button><br/>
 				<button class="btn-option" onclick="timer.customAvg+=100;updateOptionsCustomAvg();">+100</button><br/>
 				<button class="btn-option" onclick="timer.customAvg-=100;updateOptionsCustomAvg();">-100</button><br/>
+			</div>
+			<div class="optionBottomContainer" id="select5" style="visibility:hidden;max-height:99%;overflow:scroll;">
+				Maximum Scramblerheight:<br/>
+				<button class="btn-option" onclick="javascript:$('#scramble').css('max-height','50px');">50px</button><br/>
+				<button class="btn-option" onclick="javascript:$('#scramble').css('max-height','100px');">100px</button><br/>
+				<button class="btn-option" onclick="javascript:$('#scramble').css('max-height','150px');">150px</button><br/>
+				<button class="btn-option" onclick="javascript:$('#scramble').css('max-height','200px');">200px</button><br/>
+				<button class="btn-option" onclick="javascript:$('#scramble').css('max-height','250px');">250px</button>
+				<hr/>
 				<script> 
 				function randomcolor(value){
 					if(typeof value=="undefined")value="#"+Math.random().toString(16).slice(2,8);
@@ -208,24 +208,31 @@
 				function updateOptionsCustomAvg(){
 					document.getElementById("customavganzahl").innerHTML=timer.customAvg;
 				}
+				function toggleMenuActive(id){
+					hide("select"+currentMenuActive);
+					currentMenuActive=id;
+					show("select"+currentMenuActive);
+				}
+				function toggleMenuActive2(id){
+					hide("musik"+currentMenuActive2);
+					currentMenuActive2=id;
+					show("musik"+currentMenuActive2);
+				}
+				function toggleMenuActive3(id){
+					hide("hilfe"+currentMenuActive3);
+					currentMenuActive3=id;
+					show("hilfe"+currentMenuActive3);
+				}
 				updateOptionsCustomAvg();
-				</script>
-			</div>
-			<div class="optionBottomContainer" id="select5" style="visibility:hidden;max-height:99%;overflow:scroll;">
-				Maximum Scramblerheight:<br/>
-				<button class="btn-option" onclick="javascript:$('#scramble').css('max-height','50px');">50px</button><br/>
-				<button class="btn-option" onclick="javascript:$('#scramble').css('max-height','100px');">100px</button><br/>
-				<button class="btn-option" onclick="javascript:$('#scramble').css('max-height','150px');">150px</button><br/>
-				<button class="btn-option" onclick="javascript:$('#scramble').css('max-height','200px');">200px</button><br/>
-				<button class="btn-option" onclick="javascript:$('#scramble').css('max-height','250px');">250px</button>
-				<hr/>
-				<script>var text;text="";
+				var currentMenuActive=currentMenuActive2=currentMenuActive3=0;
+				var text;text="";
 				for(let i=0;i<timer.scrambleTypes.length;++i){
 					text+='<button class="btn-option" onclick="javascript:switchScrambler(\''+timer.scrambleTypes[i]+'\');">'+timer.scrambleNames[i]+'</button><a class="helpmsg" onmouseover="$(this).html(\'Sets the scrambler to '+timer.scrambleNames[i]+'.\" onmouseout="$(this).html(\'&nbsp;?&nbsp;\"></a><br/>';
 				}document.write(text);
 				</script>
 			</div>
-			<div class="optionBottomContainer" id="select6" style="visibility:hidden;">
+			<div class="optionBottomContainer" id="select0" style="visibility:hidden;">
+				<h3>Change individual colors</h3>
 				<button class="btn-option" onclick="javascript:randomcolor();">Change main color</button>
 					<a class="helpmsg" title="Changes the main color to a random hex value."></a><br/>
 				<button class="btn-option" onclick="javascript:randomcolor('#f7f7f7');">Reset main color</button>
@@ -244,8 +251,28 @@
 					<a class="helpmsg" title="Resets the font color to the start value."></a><br/>
 				<button class="btn-option" onclick="javascript:randomftcolor('#'+prompt('HEX Value'));">Set font color to HEX value</button>
 					<a class="helpmsg" title="Resets the font color to a prompted HEX value."></a><br/>
+				<h3>Select Theme</h3>
+				<button class="btn-option" onclick="javascript:randombgcolor('#222277');randomcolor('#99CC29');randomftcolor('#000000');">Old Design</button><br/>
+				<button class="btn-option" onclick="javascript:randombgcolor('#ffffff');randomcolor('#000000');randomftcolor('#808080');">Dark</button><br/>
+				<button class="btn-option" onclick="javascript:randombgcolor('#ffffff');randomcolor('#efef10');randomftcolor('#242424');">Yellow</button><br/>
+				<button class="btn-option" onclick="javascript:randombgcolor('#ffffff');randomcolor('#ffb822');randomftcolor('#234323');">Orange</button><br/>
+				<button class="btn-option" onclick="javascript:randombgcolor('#ffffff');randomcolor('#00dd00');randomftcolor('#202020');">Green</button><br/>
+				<h3>Change Font</h3>
+				<button class="btn-option" onclick="javascript:$('body').css('font-family','lngs725');">default</button>
+				<button class="btn-option" onclick="javascript:$('body').css('font-family','arial');">Arial</button>
+				<button class="btn-option" onclick="javascript:$('body').css('font-family','verdana');">Verdana</button>
+					<a class="helpmsg" title="Changes the font."></a>
 				<br/>
-				<button class="btn-option" onclick="javascript:randombgcolor('#222277');randomcolor('#99CC29');randomftcolor('#000000');">Back to old colors</a>
+				<button class="btn-option" onclick="javascript:$('body').css('font-family','georgia');">Georgia</button>
+				<button class="btn-option" onclick="javascript:$('body').css('font-family','Palatino Linotype');">Palatino Linotype</button>
+				<button class="btn-option" onclick="javascript:$('body').css('font-family','Book Antiqua');">Book Antiqua</button>
+				<button class="btn-option" onclick="javascript:$('body').css('font-family','Palatino');">Palatino</button>
+					<a class="helpmsg" title="Changes the font."></a>
+				<br/>
+				<button class="btn-option" onclick="javascript:$('body').css('font-family','courier');">Courier</button>
+				<button class="btn-option" onclick="javascript:$('body').css('font-family','lucida console');">Lucida Console</button>
+				<button class="btn-option" onclick="javascript:$('body').css('font-family','monaco');">Monaco</button>
+					<a class="helpmsg" title="Changes the font."></a>
 			</div>
 			<div class="optionBottomContainer" id="select7" style="visibility:hidden;">
 				<button class="btn-option" onclick="javascript:show('scramble');">Show Scramble</button><br/>
@@ -263,14 +290,6 @@
 				Currently not working.
 			</div>
 			<div id="select8"></div>
-			<script>
-			var currentMenuActive=0;
-			function toggleMenuActive(id){
-				hide("select"+currentMenuActive);
-				currentMenuActive=id;
-				show("select"+currentMenuActive);
-			}
-			</script>
 		</div>
 		<div class="options" style="visibility:hidden" id="musik">
 			<div class="left menu-left">
@@ -295,14 +314,6 @@
 				The YouTube-ID is the part of the URL after the last "?v=". <small>https://www.youtube.com/watch?v=</small><b>Jyrpx9rEGMI</b>
 			</div>
 			<div id="musik8"></div>
-			<script>
-			var currentMenuActive2=0;
-			function toggleMenuActive2(id){
-				hide("musik"+currentMenuActive2);
-				currentMenuActive2=id;
-				show("musik"+currentMenuActive2);
-			}
-			</script>
 		</div>
 		<div id="hilfe" class="options" style="visibility:hidden;">
 			<div class="left menu-left">
@@ -401,14 +412,6 @@
 				Look @ speedsolving.com in thead htTimer released for more information.
 			</div>
 			<div id="hilfe42"></div>
-			<script>
-			var currentMenuActive3=0;
-			function toggleMenuActive3(id){
-				hide("hilfe"+currentMenuActive3);
-				currentMenuActive3=id;
-				show("hilfe"+currentMenuActive3);
-			}
-			</script>
 		</div>
 		
 		<noscript>Enable JavaScript to use this timer!</noscript>

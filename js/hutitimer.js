@@ -805,14 +805,13 @@ ziel={
 		for(let i=0;i<ziel.ziele[timer.currentSession].length;++i){
 			if(ziel.ziele[timer.currentSession][i]<0)ziel.ziele[timer.currentSession][i]=0;
 		}
-		
-		text+="Single:"+ziel.format(ziel.ziele[timer.currentSession][0],best)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][0]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Setzen</button>"
-		+BR+"Ao5:"+ziel.format(ziel.ziele[timer.currentSession][1],bestao5)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][1]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Setzen</button>"
-		+BR+"Ao12:"+ziel.format(ziel.ziele[timer.currentSession][2],besto12)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][2]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Setzen</button>"
-		+BR+"Ao50:"+ziel.format(ziel.ziele[timer.currentSession][3],bestao50)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][3]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Setzen</button>"
-		+BR+"Custom Aox:"+ziel.format(ziel.ziele[timer.currentSession][4],bestocustom)+"&nbsp;<button onclick='ziel.ziele[timer.currentSession][4]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Setzen</button>"
-		+BR;
-		text+="<div onclick='hide(\"ziele\")'>"+language.back+"</div>";
+		text+="<table style='color:black;'><tr><td>Type</td><td>Goal</td><td>Set</td></tr>"
+		+"<tr><td>Single</td><td>"+ziel.format(ziel.ziele[timer.currentSession][0],best)+"</td><td><button onclick='ziel.ziele[timer.currentSession][0]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Set</button></td></tr>"
+		+"<tr><td>Ao5</td><td>"+ziel.format(ziel.ziele[timer.currentSession][1],bestao5)+"</td><td><button onclick='ziel.ziele[timer.currentSession][1]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Set</button></td></tr>"
+		+"<tr><td>Ao12</td><td>"+ziel.format(ziel.ziele[timer.currentSession][2],besto12)+"</td><td><button onclick='ziel.ziele[timer.currentSession][2]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Set</button></td></tr>"
+		+"<tr><td>Ao50</td><td>"+ziel.format(ziel.ziele[timer.currentSession][3],bestao50)+"</td><td><button onclick='ziel.ziele[timer.currentSession][3]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Set</button></td></tr>"
+		+"<tr><td>Custom Aox</td><td>"+ziel.format(ziel.ziele[timer.currentSession][4],bestocustom)+"</td><td><button onclick='ziel.ziele[timer.currentSession][4]=prompt(\"Neues Ziel eingeben.\");ziel.display();'>Set</button></td></tr>";
+		text+="</table>"+BR+"<div onclick='hide(\"ziele\")'>"+language.back+"</div>";
 		document.getElementById("ziele").innerHTML=text;
 	},
 	format:function(ziel,current){

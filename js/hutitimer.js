@@ -1,4 +1,4 @@
-window.modules.timer=true;
+﻿window.modules.timer=true;
 
 var uwrs,colors,uwrholders,cube,rshtml,rohtml,remainingInspectionTime,optionbreaks,optiontexts;
 
@@ -117,6 +117,8 @@ String.prototype.replaceAll = function(search,replacement) {
 };
 var isUndefined=function(x){return (function(a,undefined){return a==undefined;})(x)};
 var isUndefinedFast=function(x){return x===void 0;};
+
+var digits = function f(a,b){return"\n_ |"[b%4&&b%2+-~a]||"ცᕦဨဢᒦႂႊᅦႪႦ".charCodeAt(a).toString(2).replace(/./g,f)}
 
 function buildArchitecture(){
 	window.timer=timer={
@@ -703,13 +705,13 @@ optiontexts=["WCA",0,0,0,0,0,0,0,0,0,0,0,0,"Special NxNxN",0,0,0,0,0,0,0,0,0,0,0
 function displayScrambler(a){
 	var text;
 	text="";
-	
+	/*
 	for(let i=0;i<timer.scrambleTypes.length;++i){
 		if(optionbreaks[i]==1)text+="<h3>"+optiontexts[i]+"</h3>";
 		text+="<div class='scrambler-div' onclick='switchScrambler(\""+timer.scrambleTypes[i]+"\")'>"+timer.scrambleNames[i]+"</div>";
 	}
 	document.getElementById(SCRAMBLER).innerHTML=text+"<div class='scrambler-div'>Auswahl in Men&uuml;/Optionen/Sonstiges/Relays</div><div onclick='javascript:hide(\"scrambler\");'>back</div>";
-	a&&(document.getElementById(a.replace("#","")).innerHTML=text);
+	a&&(document.getElementById(a.replace("#","")).innerHTML=text);*/
 }
 
 function generateExport(){
